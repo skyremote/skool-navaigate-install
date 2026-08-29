@@ -1,0 +1,20 @@
+{
+  "name": "skool-navaigate-install",
+  "version": "0.1.0",
+  "description": "Your AIOS community plugin \u2014 /aios plus the fifteen-module shelf for Claude Code, Cursor and Codex. Not the chief-of-staff kit.",
+  "author": {
+    "name": "skyremote",
+    "url": "https://github.com/skyremote"
+  },
+  "homepage": "https://github.com/skyremote/skool-navaigate-install",
+  "repository": "https://github.com/skyremote/skool-navaigate-install",
+  "license": "MIT",
+  "keywords": [
+    "aios",
+    "skool",
+    "navaigate",
+    "claude-code",
+    "cursor",
+    "codex"
+  ]
+}
