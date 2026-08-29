@@ -47,8 +47,8 @@ cd skool-navaigate-install
 | `/layer-5` | Build — architect the residue. |
 | `/design-brain` | The 1,119-entry corpus + the 19-chart gallery. Not `/design`. |
 | `/your-voice` | Their voice. Never `daniel-voice`. |
-| `/your-brain` | Their memory. Never `brain-sync`. |
-| `/your-ops` | Their invoice. Never NavAIgate letterhead. |
+| `/your-brain` | Their memory. Public kit: `skyremote/db-sync`. Never `brain-sync`. |
+| `/your-ops` | Their invoice. Public kit: `skyremote/invoice-builder`. Never NavAIgate letterhead. |
 | `/content-coach` | LinkedIn the way we actually run it. |
 | `/hormozi` | Ask Hormozi + the four workbenches. Their books. |
 

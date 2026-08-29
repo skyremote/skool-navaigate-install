@@ -54,7 +54,7 @@ page.
 10. Layer 5 Build → `/layer-5`
 11. Design Brain → `/design-brain`
 12. Chart gallery → `/design-brain`
-13. Don't take mine. Build yours. → `/your-voice` `/your-brain` `/your-ops`
+13. Don't take mine. Build yours. → `/your-voice` (voice-skill-builder) `/your-brain` (`db-sync`, not brain-sync) `/your-ops` (invoice-builder)
 14. Content Coach → `/content-coach`
 15. Hormozi in the terminal → `/hormozi`
 
