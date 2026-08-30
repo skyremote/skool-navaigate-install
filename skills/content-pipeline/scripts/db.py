@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS content_ideas (
     -- Classification (set during capture)
     channel TEXT,                          -- e.g. youtube, linkedin, podcast, newsletter
     format_type TEXT,                      -- e.g. long_form, short_form, tutorial, post, article, carousel
-    source_type TEXT DEFAULT 'manual',     -- how it was captured: manual, telegram, voice, meeting
+    source_type TEXT DEFAULT 'manual',     -- how it was captured: manual, voice, meeting
 
     -- Strategic positioning (set by develop)
     audience_segment TEXT,                 -- which of your defined audience segments

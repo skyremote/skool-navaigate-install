@@ -14,7 +14,7 @@ All commands run from their project folder.
    - `content/strategy.md`: platform, cadence, pillars, competitors
    - `content/brand-and-audience.md`: positioning, segments, proof
    - `content/offers-and-funnels.md`: offers, funnel, CTAs
-   - `content/packaging-strategy.md` if it exists (YouTube)
+   - `content/packaging-strategy.md` if they wrote one (their own titles-and-thumbnails notes)
 3. The last seven days:
    ```bash
    python3 ~/.claude/skills/content-pipeline/scripts/context_aggregator.py --full
@@ -36,9 +36,9 @@ Show it in a few lines. Ask: "Does this positioning feel right?" Wait.
 
 ## Stage 2 — packaging (stop and confirm)
 
-YouTube (packaging-strategy.md exists):
-1. 3-5 title options, each using two or more of the title elements, with
-   the elements named in brackets
+YouTube:
+1. 3-5 title options, each with a curiosity gap or a clear promise, under
+   60 characters, the hook in the first few words
 2. 2-3 thumbnail concepts: emotion, 2-4 word overlay that says something
    the title does not, one visual element, layout
 3. Hook: how title, thumbnail and the first thirty seconds work together

@@ -64,8 +64,10 @@ runs **from their project folder**; that is where `data/content.db` and
    - `content/offers-and-funnels.md` from `templates/offers-and-funnels.md`:
      what they sell from free to top tier, the path from content to
      customer, how they mention offers, anything running right now.
-   - YouTube only: copy `references/packaging-strategy.md` to
-     `content/packaging-strategy.md`. Offer to walk it or trust it.
+   - YouTube only: the titles-and-thumbnails method is taught in the
+     classroom (The shelf), not shipped here. If they have their own
+     packaging notes, save them as `content/packaging-strategy.md` and
+     `develop` reads them.
 5. Test it with one real idea: `capture`, then `develop` on that stub.
    Walk both stops with them.
 6. Notion, only if they have editors or a designer who needs the
@@ -80,11 +82,11 @@ creates them.
 
 ## Known gaps
 
-- Telegram capture (send an idea to a topic, it lands as a stub) needs
-  `/telegram-command-bot` running with a capture topic wired in. Not
-  built here; `capture` from the terminal is the path.
-- `references/packaging-strategy.md` is the title-and-thumbnail method
-  as we received it. Read it before trusting the percentages in it.
+- Capture is from the terminal. An inbox from their phone or a form is
+  a `/new-capability` job that calls `write_content_idea`.
+- No packaging method ships in this repo; `develop` still asks for
+  titles and thumbnails on YouTube and uses `content/packaging-strategy.md`
+  only if they wrote one.
 - Nothing publishes. This is planning and tracking. `/content-coach` and
   their own hands do the posting.
 
