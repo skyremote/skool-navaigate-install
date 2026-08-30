@@ -1,6 +1,3 @@
+requests>=2.31.0
 python-dotenv>=1.0.0
-google-genai>=1.0.0
 matplotlib>=3.8.0
-
-# Optional, only if the brief goes to Telegram (pairs with /telegram-command-bot):
-# aiogram>=3.4.0
