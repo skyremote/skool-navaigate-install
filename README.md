@@ -7,10 +7,11 @@ This is the OS path. It is not Chief of Staff (that is the team —
 [`skyremote/chief-of-staff-kit`](https://github.com/skyremote/chief-of-staff-kit)
 0.4.2). It is not Daniel's private `navaigate-plugins` marketplace.
 
-Fifteen classroom modules. After every one they type `/aios`. The plugin
-asks where they are (empty / halfway / already running) and which lesson
-they are in, then gives one next command. It will not wipe a messy folder
-to make a clean demo.
+The five plates first. After that they type `/aios` and **pick from the
+shelf** — thumbnails, diagrams, Firecrawl, podcasts, writing, new app,
+new capability, the daily brief, and the rest. The plugin asks where they are (empty /
+halfway / already running) and which lesson they are in. It will not wipe
+a messy folder to make a clean demo.
 
 ## Install
 
@@ -38,17 +39,31 @@ cd skool-navaigate-install
 
 | Command | Job |
 |---|---|
-| `/aios` | Status. Where are you. Which lesson. One next step. |
+| `/aios` | Status. Where are you. Then the shelf — they pick. Answers course questions from the pack. |
+| `/aios-coach` | Copy the coach, load the course pack, they put it online. Not GPLS. Not navaigate.dev. |
 | `/install-crew` | Chief of Staff 0.4.2. Does not merge this course into the kit. |
-| `/layer-1` | Context — their CLAUDE.md, not ContextOS. |
+| `/layer-1` | Context — their CLAUDE.md. |
 | `/layer-2` | Data — numbers they can ask. |
-| `/layer-3` | Intelligence — meetings, brief, Grok Bot in the pocket. |
-| `/layer-4` | Automate — task audit. No GTD zip. |
-| `/layer-5` | Build — architect the residue. |
-| `/design-brain` | The 1,119-entry corpus + the 19-chart gallery. Not `/design`. |
+| `/layer-3` | Intelligence — meetings, brief, Grok Bot. Research tools are on the shelf. |
+| `/layer-4` | Automate — task audit. |
+| `/layer-5` | Build — name the leftover job, then pick from the shelf. |
+| `/thumbnails` | Their photos, four concepts, headline composited after. |
+| `/diagrams` | D2, render, look, iterate. |
+| `/web-scrape` | Exa to find, Firecrawl to extract. Reddit, papers, Substack, X. |
+| `/podcasts` | Find the episode, rank it, pull the words. |
+| `/transcripts` | YouTube / TikTok / IG via Supadata. Paid. |
+| `/deep-research` | Multi-source pass. |
+| `/daily-brief` | One-call morning brief from their numbers, meetings and Slack. Any model key they have. |
+| `/ai-landscape-monitor` | Daily leaderboard scan; `update` rewrites `ai-docs/` for what moved. |
+| `/content-pipeline` | Capture, develop, schedule content ideas. Local SQLite, one pipeline.md. |
+| `/writing-style` | Anti-slop. Voice is `/your-voice`. |
+| `/new-app` | Plan, then phases, sequential. |
+| `/new-capability` | Talk to a tool we did not ship. |
+| `/frontend-design` | A page that does not look generated. |
+| `/design-brain` | The 1,119-entry corpus. Not `/design`. |
 | `/your-voice` | Their voice. Never `daniel-voice`. |
-| `/your-brain` | Their memory. Public kit: `skyremote/db-sync`. Never `brain-sync`. |
-| `/your-ops` | Their invoice. Public kit: `skyremote/invoice-builder`. Never NavAIgate letterhead. |
+| `/your-brain` | Their memory. Public kit: `skyremote/db-sync`. |
+| `/your-ops` | Their invoice. Public kit: `skyremote/invoice-builder`. |
 | `/content-coach` | LinkedIn the way we actually run it. |
 | `/hormozi` | Ask Hormozi + the four workbenches. Their books. |
 
