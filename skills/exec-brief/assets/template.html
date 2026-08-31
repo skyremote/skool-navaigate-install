@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NavAIgate Executive Brief — Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --paper:#faf9f5; --paper-raised:#f1efe9; --paper-sunk:#e6e2da; --ink:#1a1c20; --quiet:#5c5a54;
+--faint:#8f887f; --rule:#dedbd1; --rule-strong:#c4bcae; --accent:#8fa9c4; --accent-ink:#3a5573;
+--accent-soft:#e1e8f0; --slate:#25303f; --coral:#c9785a; --green:#5d755f; --page-w:210mm; --page-h:297mm; }
+* { box-sizing:border-box; }
+html { background:var(--paper-sunk); }
+body { margin:0; color:var(--ink); background:var(--paper-sunk);
+font-family:"Poppins","Avenir Next","Helvetica Neue",Arial,sans-serif; font-size:9.2pt; line-height:1.48;
+-webkit-font-smoothing:antialiased; font-variant-numeric:tabular-nums lining-nums; }
+.document { display:grid; gap:18px; justify-content:center; padding:18px 0 36px; }
+.page { position:relative; width:var(--page-w); min-height:var(--page-h); padding:17mm 18mm 15mm; overflow:hidden;
+background:var(--paper); box-shadow:0 12px 40px rgba(26,28,32,.15); break-after:page; page-break-after:always; }
+.page:last-child { break-after:auto; page-break-after:auto; }
+.page::before { content:""; position:absolute; top:0; left:0; right:0; height:3mm; background:var(--slate); }
+.running-head,.eyebrow,.mini-label,th { text-transform:uppercase; letter-spacing:.14em; font-weight:600; }
+.running-head { display:flex; align-items:center; justify-content:space-between; padding-bottom:4.5mm;
+border-bottom:1px solid var(--rule-strong); color:var(--quiet); font-size:6.8pt; }
+.brand-mark { display:inline-flex; align-items:center; gap:8px; color:var(--ink); letter-spacing:.12em; }
+.brand-mark::before { content:""; width:17px; height:2px; background:var(--accent-ink); }
+.eyebrow { margin:8mm 0 3mm; color:var(--accent-ink); font-size:7pt; }
+h1,h2,h3,p { margin-top:0; }
+h1 { max-width:17ch; margin-bottom:2.5mm; font-size:34pt; font-weight:600; line-height:1.02; letter-spacing:-.035em; }
+h2 { margin-bottom:2.5mm; font-size:19pt; font-weight:600; line-height:1.12; letter-spacing:-.025em; }
+h3 { margin-bottom:2mm; font-size:10.2pt; font-weight:600; line-height:1.3; }
+.dek { max-width:58ch; margin-bottom:7mm; color:var(--quiet); font-size:11.5pt; line-height:1.42; }
+.meta { display:grid; grid-template-columns:1fr 1fr; margin:0 0 6mm; border-top:1px solid var(--rule-strong);
+border-bottom:1px solid var(--rule-strong); }
+.meta > div { display:grid; grid-template-columns:23mm 1fr; gap:4mm; padding:2.4mm 0; border-bottom:1px solid var(--rule); }
+.meta > div:nth-last-child(-n+2) { border-bottom:0; }
+.meta > div:nth-child(even) { padding-left:7mm; border-left:1px solid var(--rule); }
+.meta dt { color:var(--faint); font-size:6.8pt; text-transform:uppercase; letter-spacing:.12em; }
+.meta dd { margin:0; font-size:7.8pt; font-weight:500; }
+.meta .wide { grid-column:1 / -1; padding-left:0 !important; border-left:0 !important; }
+.recommendation { position:relative; margin-bottom:6mm; padding:5mm 6mm 5mm 9mm; background:var(--paper-raised);
+border-top:1px solid var(--rule-strong); border-bottom:1px solid var(--rule-strong); break-inside:avoid; }
+.recommendation::before { content:""; position:absolute; left:0; top:0; bottom:0; width:3mm; background:var(--accent); }
+.recommendation p { max-width:72ch; margin:0; font-size:10.1pt; line-height:1.52; }
+.mini-label { display:block; margin-bottom:1.5mm; color:var(--accent-ink); font-size:6.8pt; }
+.intro-grid,.two-col,.three-col { display:grid; gap:7mm; }
+.intro-grid { grid-template-columns:1.08fr .92fr; }
+.two-col { grid-template-columns:1fr 1fr; }
+.three-col { grid-template-columns:repeat(3,1fr); }
+.text-block p { max-width:62ch; color:var(--quiet); }
+.plain-list { margin:0; padding:0; list-style:none; }
+.plain-list li { position:relative; padding:2.1mm 0 2.1mm 5mm; border-top:1px solid var(--rule); color:var(--quiet); }
+.plain-list li::before { content:""; position:absolute; top:4mm; left:0; width:2.2mm; height:2.2mm;
+border-radius:50%; background:var(--accent); }
+.plain-list.risks li::before { border-radius:0; background:var(--coral); }
+.section-head { display:grid; grid-template-columns:1fr auto; align-items:end; gap:8mm; margin:7.5mm 0 5mm; }
+.section-head .eyebrow { margin:0 0 2mm; }
+.section-head h1 { margin:0; font-size:27pt; max-width:22ch; }
+.section-note { max-width:36ch; margin:0 0 .5mm; color:var(--quiet); font-size:7.6pt; }
+table { width:100%; border-collapse:collapse; break-inside:avoid; }
+th { padding:2.4mm 2mm 2.1mm 0; border-top:1.5px solid var(--ink); border-bottom:1px solid var(--rule-strong);
+color:var(--quiet); font-size:6.2pt; text-align:left; vertical-align:bottom; }
+td { padding:2.5mm 2mm 2.5mm 0; border-bottom:1px solid var(--rule); color:var(--quiet); font-size:7.7pt; vertical-align:top; }
+td strong { color:var(--ink); font-weight:600; }
+th.num,td.num { padding-right:0; text-align:right; }
+.table-note { margin:2.5mm 0 0; color:var(--quiet); font-size:6.8pt; line-height:1.5; }
+.chart-card { padding:4mm 5mm 3.5mm; background:var(--paper-raised); border:1px solid var(--rule-strong); break-inside:avoid; }
+.chart-card h3 { margin-bottom:.5mm; }
+.chart-card .chart-sub { margin:0 0 2.5mm; color:var(--quiet); font-size:6.8pt; }
+.chart-card svg { display:block; width:100%; height:auto; overflow:visible; }
+.chart-card text { font-family:"Poppins","Avenir Next",Arial,sans-serif; }
+.formula { margin:5mm 0; padding:5mm; background:var(--slate); color:var(--paper); break-inside:avoid; }
+.formula .mini-label { color:#a9c2da; }
+.formula-main { margin:0; font-size:12pt; line-height:1.45; letter-spacing:-.01em; }
+.formula-main span { color:#a9c2da; }
+.metric-strip { display:grid; grid-template-columns:repeat(4,1fr); margin:5mm 0; border-top:1px solid var(--rule-strong);
+border-bottom:1px solid var(--rule-strong); }
+.metric { padding:3.5mm 3.5mm 3mm 0; }
+.metric + .metric { padding-left:3.5mm; border-left:1px solid var(--rule); }
+.metric .value { display:block; margin-bottom:.5mm; font-size:16pt; font-weight:600; letter-spacing:-.03em; }
+.metric .label { color:var(--quiet); font-size:6.5pt; line-height:1.35; }
+.decision-band { display:grid; grid-template-columns:36mm 1fr; gap:6mm; margin:5mm 0; padding:4mm 0;
+border-top:1.5px solid var(--ink); border-bottom:1px solid var(--rule-strong); }
+.decision-band .label { color:var(--accent-ink); font-size:7pt; font-weight:600; text-transform:uppercase; letter-spacing:.12em; }
+.decision-band p { margin:0; font-size:9.2pt; font-weight:500; }
+.scope-list { display:grid; grid-template-columns:1fr 1fr; gap:0 7mm; margin:0; padding:0; counter-reset:scope; list-style:none; }
+.scope-list li { position:relative; min-height:12mm; padding:3mm 0 3mm 11mm; border-top:1px solid var(--rule);
+color:var(--quiet); font-size:7.2pt; counter-increment:scope; }
+.scope-list li::before { content:"0" counter(scope); position:absolute; left:0; color:var(--faint);
+font-size:6.3pt; letter-spacing:.08em; }
+.blind-spots { display:grid; grid-template-columns:repeat(3,1fr); gap:3.5mm; margin-bottom:5mm; }
+.blind-spot { min-height:27mm; padding:3.5mm; border:1px solid var(--rule-strong); break-inside:avoid; }
+.blind-spot p { margin:0; color:var(--quiet); font-size:6.8pt; line-height:1.45; }
+.work-table td:first-child { width:22mm; color:var(--accent-ink); font-weight:600; white-space:nowrap; }
+.work-table td:nth-child(2) { width:48mm; color:var(--ink); font-weight:500; }
+.footer { position:absolute; left:18mm; right:18mm; bottom:7mm; display:flex; justify-content:space-between;
+padding-top:2mm; border-top:1px solid var(--rule); color:var(--faint); font-size:6.2pt; letter-spacing:.08em;
+text-transform:uppercase; }
+@media screen and (max-width:900px) {
+.document { display:block; padding:0; }
+.page { width:100%; min-height:0; margin:0 0 12px; padding:32px 28px 56px; box-shadow:none; }
+.page::before { height:6px; }
+.footer { left:28px; right:28px; bottom:20px; }
+.intro-grid,.two-col,.three-col,.blind-spots,.scope-list { grid-template-columns:1fr; }
+.meta { grid-template-columns:1fr; }
+.meta > div { padding-left:0 !important; border-left:0 !important; border-bottom:1px solid var(--rule) !important; }
+.meta > div:last-child { border-bottom:0 !important; }
+.section-head { grid-template-columns:1fr; } }
+@page { size:A4; margin:0; }
+@media print {
+html,body { background:var(--paper); print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+.document { display:block; padding:0; }
+.page { margin:0; box-shadow:none; }
+.page,table,.chart-card,.recommendation,.blind-spot { break-inside:avoid; page-break-inside:avoid; } }
+</style>
+</head>
+<body>
+
+<main class="document" aria-label="NavAIgate executive brief template">
+
+<!-- ═══ PAGE 1 — THE DECISION PAGE (always this shape) ═══ -->
+<section class="page">
+  <header class="running-head">
+    <span class="brand-mark">NavAIgate</span>
+    <span>Executive decision brief · 1 January 2027</span>
+  </header>
+
+  <p class="eyebrow">Decision brief</p>
+  <h1>Short punchy title</h1>
+  <p class="dek">One sentence of context: what this document is and why the reader should care.</p>
+
+  <dl class="meta">
+    <div><dt>To</dt><dd>Recipient name(s)</dd></div>
+    <div><dt>From</dt><dd>Sender, role</dd></div>
+    <div><dt>Date</dt><dd>1 January 2027</dd></div>
+    <div><dt>Subject</dt><dd>Project · Client</dd></div>
+    <div class="wide"><dt>Decision</dt><dd>The single sentence stating what is being asked of the reader.</dd></div>
+  </dl>
+
+  <aside class="recommendation">
+    <span class="mini-label">Recommendation</span>
+    <p>The ask, decisively, with the figures in <strong>bold</strong> — the reader knows the ask by the end of page 1.</p>
+  </aside>
+
+  <div class="intro-grid">
+    <section class="text-block">
+      <h2>Why this matters</h2>
+      <p>Two short paragraphs of quiet-coloured body text. Editorial, sober, confident. No hedging, no emojis, British English.</p>
+    </section>
+    <section>
+      <h3>Already proven</h3>
+      <ul class="plain-list">
+        <li>Fact with a measured figure behind it.</li>
+        <li>Second fact — accent dots mark neutral facts.</li>
+      </ul>
+    </section>
+  </div>
+
+  <section style="margin-top:5mm">
+    <h3>Not yet proven</h3>
+    <ul class="plain-list risks" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 5mm">
+      <li>Unknowns are LABELLED, never omitted.</li>
+      <li>Coral squares mark risks.</li>
+      <li>Three across is the canonical layout.</li>
+    </ul>
+  </section>
+
+  <div class="formula">
+    <span class="mini-label">The governing formula / definition</span>
+    <p class="formula-main">result <span>=</span> the one equation or definition the whole document leans on</p>
+  </div>
+
+  <footer class="footer"><span>Project · confidential working brief</span><span>01 / 03</span></footer>
+</section>
+
+<!-- ═══ PAGE 2 — THE MEASUREMENT / EVIDENCE PAGE ═══ -->
+<section class="page">
+  <header class="running-head">
+    <span class="brand-mark">NavAIgate</span>
+    <span>Project · the measurement</span>
+  </header>
+
+  <div class="section-head">
+    <div><p class="eyebrow">Section eyebrow</p><h1>Where things stand</h1></div>
+    <p class="section-note">A one-sentence margin note qualifying the section.</p>
+  </div>
+
+  <div class="metric-strip">
+    <div class="metric"><span class="value">0.545</span><span class="label">headline metric with its unit of meaning</span></div>
+    <div class="metric"><span class="value">7,184</span><span class="label">second headline figure</span></div>
+    <div class="metric"><span class="value">96%</span><span class="label">third figure</span></div>
+    <div class="metric"><span class="value">£25k</span><span class="label">fourth figure</span></div>
+  </div>
+
+  <div class="chart-card">
+    <h3>The before/after chart</h3>
+    <p class="chart-sub">Grey is before · green is after, filled only by re-measured evidence · dashed rails are reference points</p>
+    <svg viewBox="0 -14 700 194" role="img" aria-label="Before and after by subject">
+      <g font-size="11" fill="#5c5a54">
+        <rect x="130" y="-8" width="10" height="10" rx="2" fill="#8f887f"/><text x="145" y="1">before</text>
+        <rect x="260" y="-8" width="10" height="10" rx="2" fill="#5d755f"/><text x="275" y="1">after</text>
+      </g>
+      <line x1="341" y1="6" x2="341" y2="142" stroke="#8f887f" stroke-width="1" stroke-dasharray="3 4"/>
+      <text x="341" y="158" text-anchor="middle" font-size="10.5" fill="#8f887f">reference, 0.34</text>
+      <line x1="551" y1="6" x2="551" y2="142" stroke="#8f887f" stroke-width="1" stroke-dasharray="3 4"/>
+      <text x="551" y="158" text-anchor="middle" font-size="10.5" fill="#8f887f">reference, 0.68</text>
+      <!-- subject with measured after -->
+      <text x="120" y="29" text-anchor="end" font-size="12" font-weight="600" fill="#1a1c20">subject one</text>
+      <rect x="130" y="12" width="496" height="15" rx="4" fill="#e6e2da"/>
+      <rect x="130" y="12" width="430" height="15" rx="4" fill="#8f887f"/>
+      <text x="636" y="23" font-size="11" fill="#5c5a54">0.694</text>
+      <rect x="130" y="32" width="496" height="15" rx="4" fill="#edeae3"/>
+      <rect x="130" y="32" width="358" height="15" rx="4" fill="#5d755f"/>
+      <text x="636" y="44" font-size="11" font-weight="600" fill="#5d755f">0.578</text>
+      <!-- subject at perfect zero: MINIMUM SLIVER + "clean" label (zero-visibility law) -->
+      <text x="120" y="87" text-anchor="end" font-size="12" font-weight="600" fill="#1a1c20">subject two</text>
+      <rect x="130" y="70" width="496" height="15" rx="4" fill="#e6e2da"/>
+      <rect x="130" y="70" width="313" height="15" rx="4" fill="#8f887f"/>
+      <text x="636" y="81" font-size="11" fill="#5c5a54">0.505</text>
+      <rect x="130" y="90" width="496" height="15" rx="4" fill="#edeae3"/>
+      <rect x="130" y="90" width="5" height="15" rx="2" fill="#5d755f"/>
+      <text x="636" y="102" font-size="11" font-weight="600" fill="#5d755f">0.000 — clean</text>
+      <!-- subject not yet measured -->
+      <text x="120" y="127" text-anchor="end" font-size="12" font-weight="600" fill="#1a1c20">subject three</text>
+      <rect x="130" y="110" width="496" height="15" rx="4" fill="#e6e2da"/>
+      <rect x="130" y="110" width="370" height="15" rx="4" fill="#8f887f"/>
+      <text x="636" y="121" font-size="11" fill="#5c5a54">0.598</text>
+      <rect x="130" y="130" width="496" height="15" rx="4" fill="#edeae3"/>
+      <text x="636" y="142" font-size="11" font-weight="600" fill="#8f887f">not yet</text>
+    </svg>
+  </div>
+
+  <table aria-label="Evidence ledger" style="margin-top:4mm">
+    <thead><tr><th>Subject</th><th class="num">Figure</th><th class="num">Count</th><th>Reading</th></tr></thead>
+    <tbody>
+      <tr><td><strong>row one</strong></td><td class="num"><strong>0.578</strong></td><td class="num">5,621</td><td>Plain-English reading of the number.</td></tr>
+      <tr class="recommended"><td><strong>recommended row</strong></td><td class="num"><strong>0.404</strong></td><td class="num">1,839</td><td><strong>Accent bar + tint marks the recommended option.</strong></td></tr>
+    </tbody>
+  </table>
+  <p class="table-note">Provenance note: tool + version, definitions used, what was deliberately not measured.</p>
+
+  <div class="callout-line"><span class="number">£600</span><p>One big number with one supporting sentence — ruled top and bottom.</p></div>
+
+  <footer class="footer"><span>Project · confidential working brief</span><span>02 / 03</span></footer>
+</section>
+
+<!-- ═══ PAGE 3 — THE PLAN / SCOPE PAGE ═══ -->
+<section class="page">
+  <header class="running-head">
+    <span class="brand-mark">NavAIgate</span>
+    <span>Project · the plan</span>
+  </header>
+
+  <div class="section-head">
+    <div><p class="eyebrow">The plan</p><h1>What happens next</h1></div>
+    <p class="section-note">Gates, not promises.</p>
+  </div>
+
+  <div class="decision-band">
+    <span class="label">Working rule</span>
+    <p>The one operating constraint everyone must respect, stated as a rule.</p>
+  </div>
+
+  <h3 style="margin-top:5mm">The protocol</h3>
+  <ol class="scope-list">
+    <li>Numbered steps, two columns, 01/02/03 markers.</li>
+    <li>Each step one to two lines.</li>
+    <li>Each names its gate or proof.</li>
+    <li>Six is the canonical count.</li>
+    <li>Steps are verifiable, not aspirational.</li>
+    <li>The last step names who decides.</li>
+  </ol>
+
+  <h3 style="margin-top:5mm">Blind spots to manage</h3>
+  <div class="blind-spots">
+    <div class="blind-spot"><span class="mini-label">Capability</span><h3>First blind spot</h3><p>What the numbers cannot see, named honestly.</p></div>
+    <div class="blind-spot"><span class="mini-label">Political</span><h3>Second blind spot</h3><p>Decision rights, ownership, implied commitments.</p></div>
+    <div class="blind-spot"><span class="mini-label">Human</span><h3>Third blind spot</h3><p>Behaviour, trust, adoption.</p></div>
+  </div>
+
+  <h3>Work to date</h3>
+  <table class="work-table">
+    <tbody>
+      <tr><td>1 Jan</td><td>Milestone name</td><td>What it establishes — with receipts (test counts, job numbers, SHAs).</td></tr>
+      <tr><td>2 Jan</td><td>Second milestone</td><td>Every row is evidence the reader could check.</td></tr>
+      <tr><td>next</td><td>Pending item</td><td>The next gate and who holds it.</td></tr>
+    </tbody>
+  </table>
+
+  <footer class="footer"><span>Project · confidential working brief</span><span>03 / 03</span></footer>
+</section>
+
+</main>
+
+</body>
+</html>

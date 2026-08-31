@@ -1,0 +1,4 @@
+# Optional extra pages for the pack. One URL per line.
+# Do not add Skool classroom URLs here. The twenty-six lessons are already in
+# your-aios.json. Run /web-scrape on these, drop the markdown in extra/, then:
+# python3 scripts/build-knowledge.py

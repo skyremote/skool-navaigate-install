@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your AIOS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #faf9f5;
+      --paper-raised: #f1efe9;
+      --paper-sunk: #e6e2da;
+      --ink: #1a1c20;
+      --quiet: #5c5a54;
+      --faint: #8f887f;
+      --rule: #dedbd1;
+      --slate: #25303f;
+      --accent: #8fa9c4;
+      --gold: #c4a46a;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Poppins, "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+    header {
+      background: var(--slate);
+      color: #f4efe4;
+      padding: 18px 28px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+    }
+    header p {
+      margin: 0;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    header h1 {
+      margin: 4px 0 0;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    header span {
+      font-size: 12px;
+      color: #c8c2b6;
+      max-width: 280px;
+      text-align: right;
+    }
+    .shell {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      min-height: calc(100% - 72px);
+    }
+    aside {
+      border-right: 1px solid var(--rule);
+      padding: 20px 16px 28px;
+      background: var(--paper-raised);
+    }
+    aside h2 {
+      margin: 0 0 10px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--quiet);
+      font-weight: 600;
+    }
+    aside button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      padding: 7px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    aside button:hover,
+    aside button.is-on {
+      background: #fff;
+    }
+    aside button.is-on {
+      box-shadow: inset 3px 0 0 var(--gold);
+      font-weight: 500;
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 72px);
+    }
+    .thread {
+      flex: 1;
+      overflow: auto;
+      padding: 28px 32px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .bubble {
+      max-width: 46rem;
+      padding: 12px 14px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+    }
+    .bubble.you {
+      align-self: flex-end;
+      background: var(--slate);
+      color: #f4efe4;
+    }
+    .bubble.coach {
+      align-self: flex-start;
+      background: #fff;
+      border: 1px solid var(--rule);
+    }
+    .bubble.quiet {
+      align-self: flex-start;
+      color: var(--quiet);
+      background: transparent;
+      padding-left: 0;
+    }
+    form {
+      display: flex;
+      gap: 8px;
+      padding: 12px 32px 24px;
+      border-top: 1px solid var(--rule);
+      background: var(--paper);
+    }
+    textarea {
+      flex: 1;
+      resize: none;
+      min-height: 52px;
+      max-height: 140px;
+      border: 1px solid var(--rule-strong, #c4bcae);
+      border-radius: 8px;
+      padding: 12px 12px;
+      font: inherit;
+      background: #fff;
+      color: var(--ink);
+    }
+    textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    form button {
+      border: 0;
+      background: var(--gold);
+      color: #111;
+      font: inherit;
+      font-weight: 600;
+      padding: 0 18px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    form button:disabled { opacity: 0.5; cursor: wait; }
+    @media (max-width: 800px) {
+      .shell { grid-template-columns: 1fr; }
+      aside { display: none; }
+      header span { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <p>Annual · Your AIOS</p>
+      <h1>Ask the course</h1>
+    </div>
+    <span>You host this tab. Your key. Twenty-six lessons already in here.</span>
+  </header>
+  <div class="shell">
+    <aside>
+      <h2>Where are you</h2>
+      <button type="button" data-q="I am empty. Where do I start?">Empty machine</button>
+      <button type="button" data-q="I am halfway. Do not wipe what is here. What is the next plate?">Halfway</button>
+      <button type="button" data-q="I am already running. What should I pick from the shelf?">Already running</button>
+      <h2>The path</h2>
+      <button type="button" data-use="what is an aios" data-q="What is an AIOS, in one page?">What is an AIOS?</button>
+      <button type="button" data-use="/aios" data-q="How does /aios ask where I am?">/aios</button>
+      <button type="button" data-use="install the crew" data-q="How do I install the crew?">Install the crew</button>
+      <button type="button" data-use="layer 1" data-q="What does layer 1 actually write?">Layer 1</button>
+      <button type="button" data-use="layer 2" data-q="What does layer 2 connect?">Layer 2</button>
+      <button type="button" data-use="layer 3" data-q="What belongs on layer 3?">Layer 3</button>
+      <button type="button" data-use="layer 4" data-q="How do I run the task audit?">Layer 4</button>
+      <button type="button" data-use="layer 5" data-q="I finished the plates. How do I pick from the shelf?">Layer 5</button>
+      <h2>The shelf</h2>
+      <button type="button" data-use="thumbnails" data-q="How do thumbnails work on the machine today?">Thumbnails</button>
+      <button type="button" data-use="diagrams" data-q="How do I draw the architecture?">Diagrams</button>
+      <button type="button" data-use="web scrape" data-q="When do I use Exa and when Firecrawl?">Web scrape</button>
+      <button type="button" data-use="podcasts" data-q="How do I find and transcribe a podcast?">Podcasts</button>
+      <button type="button" data-use="writing style" data-q="How do I stop slop in a draft?">Writing style</button>
+      <button type="button" data-use="new app" data-q="How do I build an app without improvising the whole thing?">New app</button>
+      <button type="button" data-use="new capability" data-q="How do I add a tool you did not ship?">New capability</button>
+      <button type="button" data-use="design-brain" data-q="What is Design Brain and what is the command?">Design Brain</button>
+      <button type="button" data-use="aios-coach" data-q="How do I put this coach online myself?">This coach</button>
+    </aside>
+    <main>
+      <div class="thread" id="thread">
+        <div class="bubble quiet">Type a question, or pick a use case on the left. I will answer from the course we wrote, and I will name the command.</div>
+      </div>
+      <form id="ask">
+        <textarea id="q" rows="2" placeholder="Where are you, and what is still on you?"></textarea>
+        <button type="submit" id="go">Ask</button>
+      </form>
+    </main>
+  </div>
+  <script>
+    const thread = document.getElementById("thread");
+    const form = document.getElementById("ask");
+    const box = document.getElementById("q");
+    const go = document.getElementById("go");
+    let useCase = "";
+
+    function add(role, text) {
+      const el = document.createElement("div");
+      el.className = "bubble " + role;
+      el.textContent = text;
+      thread.appendChild(el);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    async function ask(question) {
+      const q = (question || "").trim();
+      if (!q) return;
+      add("you", q);
+      box.value = "";
+      go.disabled = true;
+      try {
+        const res = await fetch("/api/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: q, useCase }),
+        });
+        const data = await res.json();
+        add("coach", data.answer || data.error || "No answer.");
+      } catch (err) {
+        add("coach", "The host did not answer. Check OPENAI_API_KEY on this deployment.");
+      } finally {
+        go.disabled = false;
+        box.focus();
+      }
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      ask(box.value);
+    });
+    box.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        ask(box.value);
+      }
+    });
+    document.querySelectorAll("aside button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("aside button").forEach((b) => b.classList.remove("is-on"));
+        btn.classList.add("is-on");
+        useCase = btn.getAttribute("data-use") || "";
+        ask(btn.getAttribute("data-q"));
+      });
+    });
+  </script>
+</body>
+</html>

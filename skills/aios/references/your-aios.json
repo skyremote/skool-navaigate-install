@@ -1,0 +1,320 @@
+{
+  "generated": "2026-08-29",
+  "source": "Authored Your AIOS lessons plus community skill fronts. Not a live Skool scrape.",
+  "classroom": "https://www.skool.com/navaigate/classroom/b1836a1e",
+  "rules": {
+    "hosting": "Members deploy this. It is not on navaigate.dev yet. Do not copy GPLS.",
+    "never_ship": "Never install or copy these. They are Daniel's house stack, not the community shelf.\n\n- daniel-voice\n- brain-sync\n- turso-search / torso-search\n- nav-voiceover\n- navaigate-invoice / KG invoices / Qonto\n- skool-cli\n- Autodesk delivery skills\n- SkyRyd decks\n- social-trio with Daniel's face reference\n- Any file with his register number, his call recordings, or his old chats\n- OpenClaw (historical). Grok Bot is the pocket. Hermes if they like building the bot.\n\nThe shelf **is** ours and **does** ship: thumbnails, diagrams, web-scrape\n(Firecrawl + Exa + Reddit + papers + Substack + X), podcasts, transcripts,\nwriting-style, new-app, new-capability, frontend-design, deep-research,\nexec-brief, Design Brain, your-voice / your-brain / your-ops, Content Coach,\nHormozi.\nMembers put **their** API keys in `~/.claude/.env`.\n\n`/aios-coach` is a member-hosted tab. It is **not** GPLS and it is **not**\na navaigate.dev route. Do not copy GPLS files into it. Do not scrape live\nSkool pages into the pack — the authored lessons already are the pack.\n"
+  },
+  "lessons": [
+    {
+      "id": "305a3401e06f47d9a59e811076669716",
+      "file": "01-what-is-an-aios.html",
+      "title": "What is an AIOS?",
+      "command": "/aios",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nAn AIOS is an operating system for how you run the business with agents, and I want to be precise, because the phrase gets used for a chatbot with a folder next to it.\nWindows runs the computer. Your AIOS runs the work. It is not a clever prompt you saved, and it is not another forty-nine-dollar tab you open twice. It is your context, your numbers, your meetings, the jobs you actually repeat, and the builds you keep — five plates, one thread through them.\nWhat that looks like when it is running\nIt knows the business, so you stop re-explaining yourself every chat.\nIt can see the numbers you actually use, not seven dashboards you assemble in your head.\nIt watches the meetings and the messages and puts a brief where you will read it.\nIt lives in the harness you already open — Claude, Cursor, Codex, or Grok Bot.\nIt does the repeatable jobs so your hours go back to the work that moves something.\nFifteen modules. After every one you type\n/aios\nand it asks where you are — empty, halfway, or already running — and which lesson you are in. That is the gold thread on the cover.\nI run NavAIgate, BluPlai and this classroom on that shape. Chief of Staff 0.4.2 is the crew. Design Brain is 1,119 sourced entries. The chart gallery is 19 charts you actually open. My voice file, my brain search and my invoices stay on my machines. You will build yours.\nType\n/aios\nand tell it you just finished what an AIOS is.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "23c0cc9ace314dcabbf8cd61d3a641cc",
+      "file": "02-operator-trap.html",
+      "title": "The Operator Trap",
+      "command": "/aios",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nYou started a business to be free, and then somewhere along the way it inverted. You check dashboards before you have finished your coffee, and you sit in meetings whose only job is to keep you across things, and you have quietly become the highest-paid administrator in your own company.\nThat is the operator trap. You are the integration layer. Every tool dumps a job back on you, and you call that being across it.\nWe are not going to hire three people to manage the chaos, and we are not going to collect a drawer of downloads and call it a system. Context, numbers, meetings, tasks and builds sit on five plates, and a crew runs the repeatable bits.\nIf you recognise the Tuesday morning, stay on the path. If your week is already a system and you are only missing one plate, type\n/aios\n, say already running, and we fill the gap. We do not wipe a working desk to make a clean demo.\nType\n/aios\nwhen you have named the trap in your own week — one sentence is enough.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "f544344f66784970840a4a93acae1d36",
+      "file": "03-five-layers.html",
+      "title": "Five layers, four harnesses",
+      "command": "/aios",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nLook at the cover. Annual only. Your AIOS. Five layers — Context, Data, Intelligence, Automate, Build — and along the bottom, Grok Bot, Claude, Cursor, Codex.\nThe plates are the course. The icons are how you drive it. Call 55 was the whole point: the harness does not matter, the approach does.\nThe five plates\nContext\n— the machine knows the business. Your rules, your voice start, git if you already have it.\nData\n— numbers you can actually ask, from your sources.\nIntelligence\n— meetings, the brief, Grok Bot in your pocket. Hermes if you like tinkering.\nAutomate\n— a task audit of what you really do, then automate that.\nBuild\n— architect what is left after the first four plates.\nAfter those five, we put Design Brain, the 19-chart gallery, and the lesson where you build your voice, your memory and your invoices. Content Coach and Hormozi sit at the end because that is what we actually run in Inner Circle.\nType\n/aios\nand say which harness you will use for the next plate.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "4c897ec5c52e49e984cf4af6f423203b",
+      "file": "04-aios-where-are-you.html",
+      "title": "/aios — where are you",
+      "command": "/aios",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nAlright. Before we put anything on the five layers, we look at the folder you already have, because most of you are not starting from nothing, and I am not going to wipe a messy project to make a clean demo.\nType\n/aios\nin the harness you actually use and answer the two questions. It asks them at the start, and it asks them again after every layer, and that is deliberate.\nQuestion 1 — where is the machine\nEmpty.\nNew folder. We start at layer 1 and we do not skip.\nHalfway.\nNotes, a half-written CLAUDE.md, a few abandoned folders. We do not delete that. We name what is already there and we fill the gap.\nAlready running.\nYou have a crew, or a voice, or a daily brief. We run status first. Then we only add the missing plate.\nQuestion 2 — which lesson are you in\nYour AIOS, Useful Resources, a recording from 01–55, Inner Circle gold, or one of the Level tracks. Say which, because the next command should open that page on your machine.\nWhat we will not do\nWe will not install my voice, my brain search, or my invoices. Those stay on my machines. Later we build yours.\nWe will not dump a hundred skills into Claude because this Mac’s Cursor only carries five, and that is the honest shelf.\nWhen it has those two answers, it will give you one next command. Do that, then come back here and type\n/aios\nagain. If you ask a real question about the course — not just a pick —\n/aios\nanswers from the twenty-six lessons we wrote. When you want that in a browser tab you host, that is\n/aios-coach\n.\n— Daniel"
+    },
+    {
+      "id": "058db4375b104ffaba7009620487b724",
+      "file": "05-install-the-crew.html",
+      "title": "Install the crew",
+      "command": "/install-crew",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nThe crew is Chief of Staff 0.4.2. That is the team. It is not the operating system. The OS is the five plates. The crew runs on top of them.\nType\n/install-crew\n. The marketplace kit is\nskyremote/chief-of-staff-kit\n. v0.4.2 is the distribution fix after Eric diffed a stale install and the manifest still said 0.2.2. Older CoS posts in Useful Resources stay as history, not as the install path.\nLive lesson if you want the long version: Useful Resources, Chief of Staff v0.4.2.\nIf you are halfway and you already have agents with their own names, we do not wipe them. We put a chief of staff over what exists.\nDo not merge this course into the kit. Type\n/aios\nwhen the crew is on the machine.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "999ad77d5d154fbcba209a49aa956bb4",
+      "file": "06-layer-1-context.html",
+      "title": "Layer 1 — Context",
+      "command": "/layer-1",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nLayer 1 is context. The machine should know the business before it starts guessing.\nWe start with the file you already have —\nCLAUDE.md\n,\nAGENTS.md\n, whatever your harness reads — and a first pass at your voice, not mine.\nType\n/layer-1\n. If the folder is empty, we write the smallest useful context file from what you tell it. If you are halfway, we read what is there and we only fill the holes. If you already have a tight context file, we leave it and we move.\nGit belongs here if you already use it. We do not force a remote on a folder that is not ready.\nWhen the file would make sense to a stranger on your team, type\n/aios\nagain.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "aca33172b2394d10a24e2e885dbae5e0",
+      "file": "07-layer-2-data.html",
+      "title": "Layer 2 — Data",
+      "command": "/layer-2",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nLayer 2 is data. Not a warehouse project. The numbers you can actually ask on a Tuesday.\nYou point\n/layer-2\nat the sources you already have — a sheet, Stripe, a CSV you export every Monday — and we make them askable.\nIf you do not have clean numbers yet, we do not fake a dashboard. We name the three numbers you would check if the wifi dropped, and we wire those first.\nType\n/aios\nand tell it which three.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "63f89f5e076c4fc18f12f79bff8ec585",
+      "file": "08-layer-3-intelligence.html",
+      "title": "Layer 3 — Intelligence",
+      "command": "/layer-3",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nLayer 3 is intelligence, and most of it happens out loud and then vanishes. You had a call on Tuesday where a decision actually got made, and a client said the one sentence that explains why the deal stalled, and by Friday you cannot find it. Memory feels like a system of record because it is free. It is a terrible one.\nWe close that gap in three pieces, and they have to land in order.\n1. Capture the meeting\nI use Granola on calls. You can use Fireflies, Fathom, or a folder of transcripts you already export. I am not fussy about the vendor. I am fussy that the words land in a place the machine can see. If you have nothing, start with Granola or export last week's calls into this project. Type\n/layer-3\nand tell it which one you actually use. If the folder is empty, we write the smallest capture path. If you are halfway, we do not rip out what is there.\n2. A brief you will actually read\nCollection is not thinking. The brief is the \"so what\". It has to sit where you will see it — a file in this project, not a seventh tab you will never open. The rule is simple and it is the whole game: the brief cannot synthesise what it cannot see. Capture first, then the brief.\n3. Something always-on in your pocket\nGrok Bot is the always-on. Call 54 was the operating note: own computer, phone, receipts can run at 04:00, and coding stays in a coding harness. Hermes is the tinkery path if you like building the bot. We do not install OpenClaw.\nIf you want the specialist templates, Useful Resources already has that post — you build a specialist once, you share a pattern, secrets stay out. That is the walk from the community call. Type\n/layer-3\nand say if you want the pocket as well.\nThe research tools sit on this plate too\nReading the live web, pulling a podcast transcript, searching Reddit or papers — that is still intelligence. It is not a separate course. After this lesson you type\n/aios\nand you pick:\n/web-scrape\n,\n/podcasts\n,\n/transcripts\n,\n/deep-research\n. Those modules are on the shelf. They install through Claude Code, with your keys, not a zip.\nType\n/aios\nwhen the brief would make sense to you on a Wednesday morning.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "8342c02181774b148968a95cc8789f2b",
+      "file": "09-layer-4-automate.html",
+      "title": "Layer 4 — Automate",
+      "command": "/layer-4",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nLayer 4 is automate, and the only honest start is a task audit of what you actually did last week.\nWe list the jobs that ate the week, we mark the ones that are real repeats, and we automate those. Everything else stays human for now.\nType\n/layer-4\n. If you already have n8n or a cron, we do not rip it out. We only add what the audit earned.\nType\n/aios\nand tell it the one job you automated.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "125b580d9ba64eb4b5c4de922c88f19e",
+      "file": "10-layer-5-build.html",
+      "title": "Layer 5 — Build",
+      "command": "/layer-5",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nLayer 5 is build. The first four plates ate a lot of the week — context, numbers you can ask, meetings that do not vanish, the jobs you actually repeat. What is still on you after that is the thing we design for.\nThat leftover job is not a mystery word. It is the thumbnail that still holds up every release, or the architecture you keep describing with your hands, or the HubSpot link nobody shipped, or the app you keep opening Claude for and watching it improvise. Name it in one sentence you would recognise.\nType\n/layer-5\n. We name that job. Then we match it to the shelf — the same modules we built for these lessons, rewritten for how we work on the machine today. You pick. You do not download a zip into\nmodule-installs/\n.\nThumbnails →\n/thumbnails\nDiagrams →\n/diagrams\nLive web / Firecrawl →\n/web-scrape\nPodcasts →\n/podcasts\nVideo transcripts →\n/transcripts\nResearch done properly →\n/deep-research\nProse that smells like a model →\n/writing-style\nA new app from a design →\n/new-app\nA tool we did not ship →\n/new-capability\nA page that looks generated →\n/frontend-design\nA coach tab that already knows the course →\n/aios-coach\nIf nothing on that list is the job, that is still\n/new-app\nor\n/new-capability\n. We componentize that, and we stop.\nType\n/aios\nand pick the one that is costing you the most time this week.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "ab848b7b54b44675abbae4bf35abcbf1",
+      "file": "11-design-brain.html",
+      "title": "Design Brain",
+      "command": "/design-brain",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nI sat with a friend and we wrote this down properly — 1,119 design fundamentals, 30 sections, and every entry has a named source. Muller-Brockmann. Rams. WCAG. Tufte. Not “make it pop”. An entry number you can argue with.\nThat is Design Brain, and it is in annual on purpose, because if we only put one extra thing on this course that was not already sitting in Useful Resources, this would be it. You install the corpus. The agent cites it when you build a page, a deck, a chart, a thumbnail. It does not install my taste.\nWhat you actually get\n1,119 entries you can search offline\n30 sections, from first principles through type, grid, colour, accessibility, data viz, and the failure-modes checklist\nEach entry: the rule, why it exists, how to apply it, a pitfall, a number where there is one, and the source\nA critique mode — violation, entry number, the rule, the source, the fix\nExample: body text needs 4.5:1 against its background, large text needs 3:1 — entry #690, WCAG 2.2 SC 1.4.3. WebAIM’s February 2026 scan of a million home pages still found low-contrast text on 83.9 percent of them.\nDownload Design Brain (design-brain_v1.zip)\nInstall the skill from that zip, or let the community plugin put it on the shelf. Take something you are actually shipping this week and ask it to critique against the corpus.\nIf you are on a chart, start in section 13. Graphical excellence is #496, Tufte 1983. We use that next, on the 19-chart gallery.\nThe command is\n/design-brain\n, not\n/design\n— Claude Code already uses that one. When you have one critique with real entry numbers on your own work, type\n/aios\nagain.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "967f3cabb04d48bd90fe6d02146e7233",
+      "file": "12-chart-gallery.html",
+      "title": "Chart gallery",
+      "command": "/design-brain",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nI kept losing a day to the same question — which charting library do we put in this product — and a list of names does not answer it, because you cannot feel the interaction, and you cannot steal the render function.\nSo I built the comparison I wanted. 19 live charts. 8 libraries. Dummy data. Dark and light. Filters for distribution, flow, hierarchy, ranking, real-time, relationship and trend. The code behind every card. Dependencies vendored, so it runs offline.\nDownload the 19-chart gallery (chart-gallery-offline_v1.zip)\nThis lesson is not a post to admire. Download the zip, open\nchart-gallery_v1.html\nin your browser, and click something.\nDo this, in order\nUnzip and open the gallery. Hover, zoom, scrub, open\nCode\non one card.\nPick the chart you would actually ship this month.\nAsk Design Brain to critique that chart against section 13. Start with #496 and #511. If the title names the variables instead of the finding, that is #534.\nChoose one default. My current shortlist: ECharts 6 as the default, shadcn/Recharts when you are already in that React desk, uPlot for dense telemetry, Lightweight Charts when people need to scrub a premium series, D3 only when the chart is the product.\nThe same gallery is in Useful Resources as Steal my chart gallery. Annual puts it on the OS path, next to Design Brain.\nType\n/design-brain\n, then\n/aios\n, and tell it you have a chart open.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "6fa9715c15024e8fb31c9d30959db10b",
+      "file": "13-build-yours.html",
+      "title": "Don't take mine. Build yours.",
+      "command": "/your-voice",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nThere are a few things on my machines that look like magic from the outside, and they are not magic, and you cannot have the files, because they are mine. What you can have is the process, and then a skill that is yours.\nSame pattern as the GrokBot templates Matt walked — you build it once, you can share the pattern, and the secrets stay out of the share.\nYour voice — not mine\nI have a voice skill trained on 54 community calls and then line-edited by me. That file does not leave this desk. What we give you is the builder. You point it at your recordings, your sent mail, the lines you actually rewrote. Type\n/your-voice\n. The public kit is\ngithub.com/skyremote/voice-skill-builder\n. You do not install\ndaniel-voice\n.\nYour memory — not my search\nI can ask an old Claude or Cursor or Codex chat what we decided last week, and I get a short pack back — not a dumped transcript. That database is not a community download. Type\n/your-brain\n. If you already have notes in Obsidian or a folder of transcripts, we start there. We do not make you adopt my cloud.\nYour invoices — not my company\nI have a skill that fills a branded invoice for NavAIgate. You do not get that template. You would be invoicing as the wrong company. Type\n/your-ops\n. Bring one real invoice you sent this year. We componentize that, and we stop.\nIf a skill has my name, my register number, my call recordings, or my old chats in it, it stays here. If it is a process you can run on your material, it belongs in the community system.\nPick one of the three this week. Then type\n/aios\nand say which one you started.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "f263f27d2f6e46f99cd98580c8e31d90",
+      "file": "14-content-coach.html",
+      "title": "Content Coach",
+      "command": "/content-coach",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nContent Coach is how I actually do LinkedIn, and it lives in Inner Circle gold because that is where we first shipped it.\nYou feed it your own posts and the coaching notes you already have. It builds a playbook for your voice. Then it coaches the next post before you publish: two-line mobile hook, slide test, 3-2-1 mix. When a post takes off, it works out why, and it makes your best post your new average. It refuses to post-mortem flops. It does not post.\nType\n/content-coach\n. Repo:\ngithub.com/skyremote/content-coach\n. Inner Circle gold: I paid a professional to rip my LinkedIn apart.\nType\n/aios\nwhen you have pointed it at five of your own posts.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "50b97dbf80b3471ca2bb575132bbaee9",
+      "file": "15-hormozi.html",
+      "title": "Hormozi in the terminal",
+      "command": "/hormozi",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nLast plate on this path is the offer engine I actually run.\nOne agent, five skills: Grand Slam Offer Builder, Offer Enhancer, Lead Engine Planner, Money Model Architect, and\nAsk Hormozi\n, which cites book, chapter and page and refuses to invent. The corpus is yours from the books you own. The zip is the engine, not the pages.\nUseful Resources also has the public-video skill\n/zero-to-million\n— a walkthrough of the $0-to-millionaire video, one-page plan at the end. Different job from Ask Hormozi.\nType\n/hormozi\n. Inner Circle gold: Alex Hormozi that sits in my terminal.\nType\n/aios\nand tell it you are at the end of the fifteen. From here the recordings, Inner Circle gold, and Useful Resources stay open.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "6066b44a5be34986b9edb25254a87781",
+      "file": "16-the-shelf.html",
+      "title": "The shelf",
+      "command": "/aios",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nThe five plates are the path. The shelf is the menu. There is no order on this page, and there is no prize for installing all of it.\nI have watched operators finish the task audit, feel the momentum, and reach for a blank file to build something that already sits on this shelf. Do not be that person. Match the shelf against the job that is still on you, take what fits, and leave the rest.\nHow it works today\nYou already installed the community plugin —\nskyremote/skool-navaigate-install\n— when you did Install the crew, or you clone it and run\n./install.sh\n. The modules are skills on that plugin. You type\n/aios\n, you pick, and the matching command runs in Claude Code, Cursor or Codex.\nYour keys live in\n~/.claude/.env\n. Firecrawl, Exa, Gemini, Supadata — those are yours. We do not ship mine.\nWhat is on the shelf\nThumbnails\n— four concepts from your photos, headline composited after the image.\n/thumbnails\nDiagrams\n— D2 in plain English, render, look, iterate.\n/diagrams\nWeb scrape\n— Exa to find, Firecrawl to extract, plus Reddit, papers, Substack, X.\n/web-scrape\nPodcasts\n— find the episode, rank it, pull the words.\n/podcasts\nTranscripts\n— YouTube, TikTok, IG. Paid, metered.\n/transcripts\nDeep research\n— multi-source pass, not one search box.\n/deep-research\nWriting style\n— anti-slop on the draft. Your voice is\n/your-voice\n.\n/writing-style\nNew app\n— plan, then phases, sequential.\n/new-app\nNew capability\n— talk to a tool we did not ship.\n/new-capability\nFrontend design\n— a page that does not look generated.\n/frontend-design\nYour AIOS coach\n— a tab that already knows this course. You put it online.\n/aios-coach\nDesign Brain, Content Coach and Hormozi are already later in this course. They are on the same\n/aios\npick list.\nType\n/aios\nand name the job. We will not walk you through every module. We will run the one you picked.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "28ea420db9eb4764a0ffd30ccdc555e8",
+      "file": "17-thumbnails.html",
+      "title": "Thumbnail generator",
+      "command": "/thumbnails",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nThe thumbnail is the click. Nobody watches the edit, the script, the three hours in the booth — not until they have clicked — and they decide in less than a second. Get this wrong and the best video you have made dies in the feed.\nThis module takes the thumbnail off your critical path. Four concepts, side by side, in your look. You pick. You say \"the second, warmer, face left.\" We refine. You ship.\nWhat it actually does\nYou build a small catalogue of\nyour\nphotos once — wide-eyed, pointing, arms folded, mid-laugh — tagged by expression, pose and setting. When you ask for a thumbnail on a topic, we pull the photo that fits. Not my face. Not a camera-roll scroll at midnight.\nThen two stages, because this is how it actually works on the machine today.\nStage 1\n— the image model draws the scene. No words. Words come out misspelled if you let it write them.\nStage 2\n— we composite the headline as a real text layer after. That is how it stays spelled correctly.\nFour concepts fire in parallel, different compositions, same brand rules. You judge them against each other. You cannot judge a thumbnail in isolation.\nWhat you need\nA Gemini key in\n~/.claude/.env\nas\nGEMINI_API_KEY\n. Your photo catalogue. Brand colours if you have them. Thirty to forty-five minutes on the catalogue the first time, and that pays back on every video.\nType\n/thumbnails\nwith the video topic. You should get a 2x2. The tell that it is set up: your look holds across all four.\nType\n/aios\nand pick the next job.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "4d02363fee204d978613a8dfb115b71b",
+      "file": "18-diagrams.html",
+      "title": "Diagram engine",
+      "command": "/diagrams",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nYou have spent weeks on the plates, and when someone asks how it actually works you reach for words and lose them around the third sentence. A diagram would have closed that in five seconds. The problem was never that diagrams are hard to read. It is that they were miserable to make.\nThis module installs D2 — a text diagram language — and then we draw in plain English. You describe the system. We write the D2, render a PNG, look at it, and fix the overlapping labels. That look-and-fix loop is the whole point. Plenty of tools can turn text into a diagram. Most of them cannot notice it is ugly.\nFive starting patterns\nMaster overview — the five plates and what talks to what\nData pipeline — source, store, ask\nAutomation schedule — trigger, job, human checkpoint\nCommand system — harness, skill, outcome\nEducation or funnel — attention, lesson, install, result\nNo API key. D2 is free. Five to ten minutes to stand up, and most of that is the install.\nType\n/diagrams\nand point it at\nyour\nAIOS, not a toy. Ask for a one-glance version for a client and an expanded one for you. When you can produce both in a few minutes, you will stop dreading the question.\nType\n/aios\nand pick the next one.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "e28ec09e94324333a409d8a24ea475d1",
+      "file": "19-web-scrape.html",
+      "title": "Firecrawl and web scrape",
+      "command": "/web-scrape",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nAsk Claude to look something up and half the time you get a thin summary, a 403, or a page that was mostly JavaScript and came back empty. The built-in search is fine for a quick fact. It falls over the moment the page is doing anything interesting, and the modern web is doing a lot.\nThis is how we read the web on the machine today. Two providers, one helper.\nExa\n— semantic search. You describe what you want and you get the pages that actually match, with highlights or full text when you need them.\nFirecrawl\n— a real headless scrape. It runs the JavaScript and hands back clean markdown. That is the one for a SPA, a docs portal, a pricing page behind Cloudflare.\nRule of thumb: Exa to find, Firecrawl to extract. If you already have the URL, go straight to scrape.\nThe honest cost\nFirecrawl and Exa run on credits. The default tools are free. If you are occasionally checking a fact, stay on the defaults. The moment you are doing competitor research, pulling a docs section, or reading sites at scale, the defaults cost you more in wrong answers than the keys cost in credits. Both have a free tier. Prove it to yourself.\nWhat else is on the same helper\nSame skill, different sources, because that is how we actually work:\nReddit — what broke in production, what people paid\nAcademic — OpenAlex and Unpaywall, papers and free PDFs\nSubstack — named-author long-form\nX — real-time, if you have an xAI key\nYour keys go in\n~/.claude/.env\n. Type\n/web-scrape\nand give it a URL or a question. Podcasts and a proper multi-source pass are their own picks —\n/podcasts\nand\n/deep-research\n— so we do not pretend one command does every job.\nType\n/aios\nand pick the next one.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "e358d8d3f5c941c08bc1f1317197403d",
+      "file": "20-podcasts.html",
+      "title": "Podcast search",
+      "command": "/podcasts",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nSome of the sharpest thinking never gets written down. It gets said. An operator goes on a two-hour podcast, drops their guard, and tells you how they priced the first deal and where go-to-market broke. You will not find that in a blog post.\nThe problem is finding it. The episode you want is buried across Apple, Spotify, YouTube and a hundred show sites. This module gives the agent a way to find the right interviews, rank them, and pull the full transcript of the best ones.\nTwo nets, because podcasts live in two places\nWide net\n— Exa and Firecrawl search the open web, which is how you catch Apple, Spotify and the long tail of show sites.\nDeep net\n— Supadata searches YouTube, where the metadata actually lives: views, duration, date. You can ask for interviews over forty minutes from the last six months.\nThen we rank. View count, duration, whether the show actually interviews operators. Best three at the top, with why. Then we pull the\nfull\ntranscript, not a summary. A summary decides for you what mattered. The transcript keeps the specifics, and the specifics are why you went looking.\nSupadata is paid and metered. Put\nSUPADATA_API_KEY\nnext to your Firecrawl and Exa keys. Keep the first pass small.\nType\n/podcasts\nand ask for the episodes on the thing you are actually building this week. Type\n/aios\nwhen you have the words.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "2601ab806e6e4281bca94bf8258f9e58",
+      "file": "21-writing-style.html",
+      "title": "Writing style",
+      "command": "/writing-style",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nYou can spot it in a second. The em dash, then another. The word leverage doing work no human would ask it to do. Every paragraph the same height. That texture has a name now — slop — and the reason your AI produces it is simple: a language model wrote it, and left to its own devices a language model writes like a language model.\nThe moment a reader clocks that smell, the thinking underneath does not matter. A strategy memo that reads like a chatbot gets skimmed and binned. If you are going to put the OS in charge of any prose a human will see — and you are — you fix the writing before it leaves the building.\nWhat it enforces\nTwelve core rules: no em dashes, vary the sentence length, start with the content, kill the binary contrasts, have an opinion. A banned-word list — leverage, delve, robust, seamless, transformative, and the rest of the fingerprint. And the structural tells: hedging, dodging a plain \"is\", three caveats on a point that needed none, the model narrating what it is about to do.\nThe self-check is the point. It drafts, it grades its own draft, it rewrites the failures before you see them.\nThis is not my voice\nThis module is the editor. Your rhythm is\n/your-voice\n— recordings, sent mail, the lines you actually rewrote, via\nskyremote/voice-skill-builder\n. You do not get my voice skill. You would be writing as the wrong person.\nType\n/writing-style\non a draft you are about to send. Then\n/your-voice\nif you have not built that yet. Type\n/aios\nand pick the next job.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "6185fe4dfc014e19a46cc6bdb58649b2",
+      "file": "22-new-app.html",
+      "title": "Build a new app",
+      "command": "/new-app",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nYou have a design and the itch to build, so you point Claude at the mockup and say build this. Forty minutes later you have a beautiful login page, half a database, an API that contradicts the frontend, and no idea what is next. The model did not fail. You asked an agent to hold an entire application in its head and improvise. That never holds up.\nThis module is the scoping step. You hand it the design — Pencil, Figma, a screenshot, a sketch — and a sentence about what the app is for. It writes a plan file: stack, data shape, auth, pages, and the build sliced into phases you can actually ship one at a time. The plan is the output. Not code.\nPhases are the whole game\nAn app of any real size is too big for one agent run. The model loses the thread. So we never ask it to build everything at once. Each phase is one honest session — database, then auth, then the core views. You generate a plan per phase, you open a fresh session per plan, you build phase 1 to completion before phase 2.\nIt is tempting to fire all seven sessions at once. Resist it. Later phases assume earlier ones exist. Sequential is slower by an hour and saves a day.\nThere is no\n/prime\n. Context is\n/layer-1\nand the files already in the folder. Type\n/new-app\n, hand it the design, and do not skip the plan file. Type\n/aios\nwhen phase 1 actually runs.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "934e41a7c24447ca8da091df34e92801",
+      "file": "23-new-capability.html",
+      "title": "Create your own integration",
+      "command": "/new-capability",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nSooner or later you hit the edge of the shelf. Content is covered, the brief is running, and then the business asks for HubSpot, or an internal API that only exists inside your company. There is no module for that, and there never will be, because it is yours.\nMost people stop there and assume a new integration means becoming a developer. It does not. This skill walks you through creating the next capability — a standing piece of plumbing the OS can reach for, not a one-off script that rots in a folder.\nFour steps, in order\nInterrogate.\nWhat data do you want out, where does it live, what authenticates you, how often. Most failed integrations fail here, in the vagueness.\nFind the surface.\nOfficial API, unofficial, CLI, or scrape. Pick the one least likely to break in three weeks.\nBuild the wiring.\nA\nSKILL.md\nand the smallest helper. Keys in\n~/.claude/.env\nunder your names. Nothing runs you have not seen.\nInstall it.\nInto your skills folder, the same way the rest of this course landed.\nStart with something you can verify in under a minute — the last ten items on a public feed. Then the CRM link. The first one teaches you the loop. The second one is the same conversation with higher stakes.\nType\n/new-capability\nand describe the gap. Type\n/aios\nwhen you can repeat the command.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "50c63ede037a48a09dbb01a823832980",
+      "file": "24-frontend-design.html",
+      "title": "Frontend design",
+      "command": "/frontend-design",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nA default model page is obvious from across the room. Same card grid, same inter font, same purple gradient, same empty state that says get started. If you are going to ship an interface a client will keep, you have to choose it.\nThis module is that pass. You lock type, colour and layout before you draw, you build in the stack you already use, and if Design Brain is on the machine we critique against the corpus — contrast, type size, grid — with entry numbers you can argue with. Not \"make it pop\".\nIf you are on a chart, start in Design Brain section 13 and use the gallery we already have. Do not invent a nineteenth chart type.\nType\n/frontend-design\nwith the page you are actually shipping this week. Type\n/design-brain\nif you have not installed the corpus yet. Type\n/aios\nwhen the page would survive a screenshot.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "d443efe3aa254ac79bb7b0f668ee4489",
+      "file": "25-deep-research.html",
+      "title": "Deep research",
+      "command": "/deep-research",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nOne search box is not research. You get the first page of whoever paid for it, and you call it done. This module is the pass we actually run when the question is \"research this properly\".\nScope the question in one sentence you agree with. Recon each source as hot, warm or cold — web, Reddit, papers, Substack, YouTube if you asked. Run the live ones. Exa to find, Firecrawl to extract. Academic is keyless. Reddit through Composio if you have it. Supadata only when you want the video evidence, because it is paid. Then a critic pass: recency, source type, specificity, independence. Then a synthesis with confidence labels and quotes, not a flatten.\nSame helper as\n/web-scrape\n. Same keys in\n~/.claude/.env\n. Type\n/deep-research\nwith the question you would actually pay to have answered. Type\n/aios\nwhen the synthesis has sources you can click.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    },
+    {
+      "id": "6dae0735d56146708a54e6c86f94ab0d",
+      "file": "26-transcripts.html",
+      "title": "Transcripts",
+      "command": "/transcripts",
+      "text": "Written by Daniel Wright · NavAIgate\nListen to this lesson in my voice\nSometimes you do not want a search. You have the URL. You want the words — the YouTube talk, the TikTok, the Instagram live, the file sitting on the machine. That is this module.\nIt runs on Supadata. Paid, credit-metered. Put\nSUPADATA_API_KEY\nin\n~/.claude/.env\nand type\n/transcripts\nwith the link. You get the full transcript, not a recap, and then we do the job you asked: decisions, objections, quotes.\nIf you do not have a URL yet and you want episodes found and ranked, that is\n/podcasts\n. If you want the open web, that is\n/web-scrape\n.\nType\n/aios\nand pick the next one.\nWhen you want this in a tab of your own, type\n/aios-coach\n. You build it, you put it online, your key. It already knows this course. It is not on navaigate.dev yet.\n— Daniel"
+    }
+  ],
+  "skills": [
+    {
+      "command": "/aios",
+      "name": "/aios",
+      "description": "Walk the member's machine as an AI operating system. Ask where they are (empty / halfway / already running) and which classroom lesson they are in. After the five plates — or any time they want a tool — show the shelf and let them pick. If they ask a real question about the course, answer from the knowledge pack. If they want that in a browser tab they host, send them to /aios-coach. Use when they type /aios, finish a Your AIOS lesson, or ask where to start."
+    },
+    {
+      "command": "/aios-coach",
+      "name": "/aios-coach",
+      "description": "Copy the Your AIOS coach onto the member's machine, load the course knowledge pack, and put it online on their host. Use when they type /aios-coach, ask for a browser coach, or want the classroom in a tab."
+    },
+    {
+      "command": "/content-coach",
+      "name": "/content-coach",
+      "description": "Coach their next LinkedIn post from THEIR posts using Content Coach. Use when they type /content-coach. Does not post. Does not post-mortem flops."
+    },
+    {
+      "command": "/deep-research",
+      "name": "/deep-research",
+      "description": "Run a multi-source research pass with the web-scrape helper. Use when they type /deep-research or ask to research something properly."
+    },
+    {
+      "command": "/design-brain",
+      "name": "/design-brain",
+      "description": "Query or install Design Brain, the 1,119-entry sourced design corpus, and point at the 19-chart gallery. Use when they type /design-brain. Do not shorten this to /design — Claude Code already owns /design."
+    },
+    {
+      "command": "/diagrams",
+      "name": "/diagrams",
+      "description": "Draw architecture diagrams from plain English with D2. Render, look at the PNG, iterate. Use when they type /diagrams or ask for a system / pipeline / funnel diagram."
+    },
+    {
+      "command": "/exec-brief",
+      "name": "/exec-brief",
+      "description": "Build a cream-paper A4 executive brief as a single HTML file. Use when they type /exec-brief, ask for a decision brief, a board paper, or \"that NavAIgate report style\" about THEIR company."
+    },
+    {
+      "command": "/frontend-design",
+      "name": "/frontend-design",
+      "description": "Build a web or app interface that does not look generated. Use when they type /frontend-design or ask for a page, landing, or UI that has to look finished."
+    },
+    {
+      "command": "/hormozi",
+      "name": "/hormozi",
+      "description": "Run the Hormozi offer engine they own: Grand Slam, Offer Enhancer, Lead Engine, Money Model, Ask Hormozi. Use when they type /hormozi. Cite book, chapter and page. Do not invent. Do not ship Daniel's book files."
+    },
+    {
+      "command": "/install-crew",
+      "name": "/install-crew",
+      "description": "Install Chief of Staff 0.4.2 as the member's agent team. Use when they type /install-crew or say install the crew. Do not merge Your AIOS into the kit. Do not wipe agents they already have."
+    },
+    {
+      "command": "/layer-1",
+      "name": "/layer-1 — Context",
+      "description": "Build layer 1 context: the machine knows their business. Write or tighten CLAUDE.md / AGENTS.md from what they tell you. Use when they type /layer-1 or say they are on the Context plate."
+    },
+    {
+      "command": "/layer-2",
+      "name": "/layer-2 — Data",
+      "description": "Build layer 2 data: make the numbers they already have askable. Use when they type /layer-2 or say they are on the Data plate."
+    },
+    {
+      "command": "/layer-3",
+      "name": "/layer-3 — Intelligence",
+      "description": "Build layer 3 intelligence: meetings, a brief they will read, always-on in the pocket, and the research shelf. Use when they type /layer-3 or mention Grok Bot / Granola / daily brief / Firecrawl / podcasts."
+    },
+    {
+      "command": "/layer-4",
+      "name": "/layer-4 — Automate",
+      "description": "Build layer 4 automate: task-audit last week, then automate only the real repeats. Use when they type /layer-4. Do not install ProductivityOS or a GTD zip."
+    },
+    {
+      "command": "/layer-5",
+      "name": "/layer-5 — Build",
+      "description": "Build layer 5: name the job that is still on them after the first four plates, then send them to /aios to pick the module that does it. Use when they type /layer-5."
+    },
+    {
+      "command": "/new-app",
+      "name": "/new-app",
+      "description": "Turn a design into a phased build plan, then implement one phase at a time. Use when they type /new-app or hand over a mockup and say build this."
+    },
+    {
+      "command": "/new-capability",
+      "name": "/new-capability",
+      "description": "Walk them through building a skill that talks to a tool we did not ship. Use when they type /new-capability or say they need HubSpot / an internal API / a feed we have no module for."
+    },
+    {
+      "command": "/podcasts",
+      "name": "/podcasts",
+      "description": "Find the right podcast episodes, rank them, and pull full transcripts. Use when they type /podcasts or ask for interviews / episode transcripts."
+    },
+    {
+      "command": "/thumbnails",
+      "name": "/thumbnails",
+      "description": "Generate on-brand video thumbnails from THEIR photos. Four concepts, then a composited headline so the text is spelled correctly. Use when they type /thumbnails or ask for a YouTube / Reels thumbnail."
+    },
+    {
+      "command": "/transcripts",
+      "name": "/transcripts",
+      "description": "Pull YouTube, TikTok, Instagram or file transcripts via Supadata. Use when they type /transcripts or paste a video URL and want the words."
+    },
+    {
+      "command": "/web-scrape",
+      "name": "/web-scrape",
+      "description": ">-"
+    },
+    {
+      "command": "/writing-style",
+      "name": "/writing-style",
+      "description": "Scrub AI slop from prose they are about to ship. Use when they type /writing-style, or when they ask to de-slop a draft. Voice itself is /your-voice — this skill is the editor."
+    },
+    {
+      "command": "/your-brain",
+      "name": "/your-brain",
+      "description": "Help them start THEIR memory and keep it in step across machines. Use when they type /your-brain. Never install brain-sync or turso-search."
+    },
+    {
+      "command": "/your-ops",
+      "name": "/your-ops",
+      "description": "Help them componentize THEIR invoice or ops template from a real document they sent. Use when they type /your-ops. Never ship NavAIgate letterhead or KG register facts."
+    },
+    {
+      "command": "/your-voice",
+      "name": "/your-voice",
+      "description": "Help them build THEIR voice skill from their recordings and line edits. Use when they type /your-voice. Never install daniel-voice."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "aios-coach",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Your AIOS in a tab. Members host this. Not GPLS. Not navaigate.dev.",
+  "scripts": {
+    "build-knowledge": "python3 scripts/build-knowledge.py",
+    "dev": "npx --yes vercel dev"
+  }
+}
