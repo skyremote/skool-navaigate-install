@@ -9,7 +9,7 @@ This is the OS path. It is not Chief of Staff (that is the team —
 
 The five plates first. After that they type `/aios` and **pick from the
 shelf** — thumbnails, diagrams, Firecrawl, podcasts, writing, new app,
-new capability, and the rest. The plugin asks where they are (empty /
+new capability, the daily brief, and the rest. The plugin asks where they are (empty /
 halfway / already running) and which lesson they are in. It will not wipe
 a messy folder to make a clean demo.
 
@@ -53,6 +53,9 @@ cd skool-navaigate-install
 | `/podcasts` | Find the episode, rank it, pull the words. |
 | `/transcripts` | YouTube / TikTok / IG via Supadata. Paid. |
 | `/deep-research` | Multi-source pass. |
+| `/daily-brief` | One-call morning brief from their numbers, meetings and Slack. Any model key they have. |
+| `/ai-landscape-monitor` | Daily leaderboard scan; `update` rewrites `ai-docs/` for what moved. |
+| `/content-pipeline` | Capture, develop, schedule content ideas. Local SQLite, one pipeline.md. |
 | `/writing-style` | Anti-slop. Voice is `/your-voice`. |
 | `/new-app` | Plan, then phases, sequential. |
 | `/new-capability` | Talk to a tool we did not ship. |

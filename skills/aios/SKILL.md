@@ -81,6 +81,9 @@ Firecrawl, thumbnails, diagrams or podcasts went away.
 | Podcasts and transcripts | `/podcasts` | Find the episode, rank it, pull the words |
 | Video / social transcripts | `/transcripts` | YouTube, TikTok, IG via Supadata |
 | Research done properly | `/deep-research` | Multi-source pass, not one search box |
+| A brief they will read | `/daily-brief` | Their numbers, meetings and Slack, one model call on any key they have, saved to their project |
+| Which model is best today | `/ai-landscape-monitor` | Daily leaderboard scan; `update` rewrites `ai-docs/` for what moved |
+| Ideas into a pipeline | `/content-pipeline` | Capture, develop, schedule. Local SQLite and one pipeline.md |
 | Writing that does not smell like a model | `/writing-style` | Anti-slop on their prose. Voice is `/your-voice` |
 | A new app from a design | `/new-app` | Plan, then phases, sequential. No `/prime` |
 | Talk to a tool we did not ship | `/new-capability` | Interview, find the API, write the skill, install it |

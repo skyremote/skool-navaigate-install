@@ -16,7 +16,7 @@ The shelf **is** ours and **does** ship: thumbnails, diagrams, web-scrape
 (Firecrawl + Exa + Reddit + papers + Substack + X), podcasts, transcripts,
 writing-style, new-app, new-capability, frontend-design, deep-research,
 exec-brief, Design Brain, your-voice / your-brain / your-ops, Content Coach,
-Hormozi.
+Hormozi, daily-brief, ai-landscape-monitor, content-pipeline.
 Members put **their** API keys in `~/.claude/.env`.
 
 `/aios-coach` is a member-hosted tab. It is **not** GPLS and it is **not**

@@ -21,6 +21,9 @@ They become the architect of what the first four plates did not eat.
    - Podcasts → `/podcasts`
    - Transcripts → `/transcripts`
    - Proper research → `/deep-research`
+   - A morning brief → `/daily-brief`
+   - Which model to use today → `/ai-landscape-monitor`
+   - Content ideas into a pipeline → `/content-pipeline`
    - Prose that smells like a model → `/writing-style`
    - A new app from a design → `/new-app`
    - A tool we did not ship → `/new-capability`
