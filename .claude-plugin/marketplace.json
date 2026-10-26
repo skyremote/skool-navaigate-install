@@ -188,8 +188,8 @@
     {
       "name": "shelf-invoices",
       "source": "./plugins/shelf-invoices",
-      "version": "2.0.0",
-      "description": "The shelf: invoices and credit notes as PDF from your own company details, numbered, filed and verified.",
+      "version": "2.0.1",
+      "description": "The shelf: the invoice NavAIgate sends, in our house design, from your own company settings. Numbered, checked as a PDF, filed.",
       "metadata": {
         "module": 12
       }

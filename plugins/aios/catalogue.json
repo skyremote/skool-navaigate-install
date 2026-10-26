@@ -705,8 +705,8 @@
       "name": "shelf-invoices",
       "kind": "shelf",
       "module": 12,
-      "version": "2.0.0",
-      "description": "The shelf: invoices and credit notes as PDF from your own company details, numbered, filed and verified.",
+      "version": "2.0.1",
+      "description": "The shelf: the invoice NavAIgate sends, in our house design, from your own company settings. Numbered, checked as a PDF, filed.",
       "source": "./plugins/shelf-invoices",
       "dependencies": [
         "aios"
@@ -721,7 +721,13 @@
       ],
       "hooks": [],
       "mcp_servers": [],
-      "user_config": [],
+      "user_config": [
+        {
+          "key": "books_folder",
+          "sensitive": false,
+          "required": false
+        }
+      ],
       "tour": true,
       "capabilities": [
         "invoice",
