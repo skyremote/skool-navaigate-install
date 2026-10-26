@@ -1,0 +1,9 @@
+{
+  "name": "tools-offers",
+  "source": "./plugins/tools-offers",
+  "version": "2.0.0",
+  "description": "Tools: the Hormozi Growth Engine on the books you own, with cited answers, and the James Smith second view.",
+  "metadata": {
+    "module": 12
+  }
+}
