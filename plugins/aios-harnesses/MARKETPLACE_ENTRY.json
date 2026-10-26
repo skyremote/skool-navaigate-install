@@ -1,0 +1,6 @@
+{
+  "name": "aios-harnesses",
+  "source": "./plugins/aios-harnesses",
+  "version": "2.0.0",
+  "description": "Module 3: set up Claude Code, Codex, Cursor and Grok Bot on one folder, and check they match."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "aios-bb",
+  "source": "./plugins/aios-bb",
+  "version": "2.0.0",
+  "description": "Module 4: bb as the cockpit - project setup, the board and the daily loop."
+}

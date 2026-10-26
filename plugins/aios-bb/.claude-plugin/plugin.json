@@ -1,0 +1,15 @@
+{
+  "name": "aios-bb",
+  "version": "2.0.0",
+  "description": "Module 4: run your AIOS from bb - a project for your folder, a four-lane board, threads per job in their own worktrees, and a daily loop.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 4
+  }
+}
