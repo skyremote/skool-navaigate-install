@@ -1,0 +1,41 @@
+{
+  "name": "shelf-web-scrape",
+  "version": "2.0.0",
+  "description": "Search the web by meaning and read any page, including JavaScript-heavy ones, with your own Exa and Firecrawl keys.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "web",
+    "scraping",
+    "search",
+    "exa",
+    "firecrawl",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  },
+  "userConfig": {
+    "exa_api_key": {
+      "type": "string",
+      "title": "Exa API key",
+      "description": "Finds pages by meaning. Get one at exa.ai. The helper reads EXA_API_KEY from ~/.claude/.env or your shell.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    },
+    "firecrawl_api_key": {
+      "type": "string",
+      "title": "Firecrawl API key",
+      "description": "Reads JavaScript-heavy pages. Get one at firecrawl.dev. The helper reads FIRECRAWL_API_KEY from ~/.claude/.env or your shell.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    }
+  }
+}

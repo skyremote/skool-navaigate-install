@@ -1,0 +1,6 @@
+{
+  "name": "shelf-web-scrape",
+  "source": "./plugins/shelf-web-scrape",
+  "version": "2.0.0",
+  "description": "The shelf: search the web by meaning and read any page, including JavaScript-heavy ones, with your own Exa and Firecrawl keys."
+}
