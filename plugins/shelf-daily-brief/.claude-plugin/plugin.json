@@ -1,0 +1,56 @@
+{
+  "name": "shelf-daily-brief",
+  "version": "2.0.0",
+  "description": "A morning brief you will actually read: your numbers, yesterday's meetings and Slack, and what needs attention, written by one model call and saved to your project.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "daily brief",
+    "reporting",
+    "automation",
+    "metrics",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  },
+  "userConfig": {
+    "openai_api_key": {
+      "type": "string",
+      "title": "OpenAI API key (any one provider)",
+      "description": "One model key writes the brief. Use this or one of the other three. The script reads it from ~/.claude/.env.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    },
+    "anthropic_api_key": {
+      "type": "string",
+      "title": "Anthropic API key (any one provider)",
+      "description": "One model key writes the brief. Use this or one of the other three. The script reads it from ~/.claude/.env.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    },
+    "openrouter_api_key": {
+      "type": "string",
+      "title": "OpenRouter API key (any one provider)",
+      "description": "One model key writes the brief. Use this or one of the other three. The script reads it from ~/.claude/.env.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    },
+    "gemini_api_key": {
+      "type": "string",
+      "title": "Gemini API key (any one provider)",
+      "description": "One model key writes the brief. Use this or one of the other three. The script reads it from ~/.claude/.env.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    }
+  }
+}
