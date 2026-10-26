@@ -1,0 +1,9 @@
+{
+  "name": "tools-narration",
+  "source": "./plugins/tools-narration",
+  "version": "2.0.0",
+  "description": "Tools: narration in your own cloned voice on your own ElevenLabs account, one consistent take per deck.",
+  "metadata": {
+    "module": 12
+  }
+}
