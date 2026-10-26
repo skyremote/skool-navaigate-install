@@ -1,19 +1,23 @@
 # shelf-decks (AIOS 2.0, module 12: the shelf)
 
-Build a presentation in your own brand. You write one Markdown file, the pack turns it into an HTML deck,
-reviews every slide in a real browser, and then exports an editable PowerPoint and a PDF that match it.
+Decks in your own brand. You (or Claude) write one deck spec, and it renders two matching outputs: an animated
+reveal.js HTML deck that you review slide by slide, and an editable PowerPoint. The PDF comes from the HTML.
 
-- **Your brand.** Colours, fonts, logo and footer live in one settings file. No house brand is included.
-- **HTML first.** A browser shows exactly what each slide looks like and measures whether the text fits.
-- **Editable PowerPoint.** Every word is real text in your fonts, not a picture of a slide.
-- **Checked.** Export refuses until review passes. Verify reads the PowerPoint back against your deck.
+- **HTML first.** Review the real deck in a browser: arrow keys to move, `T` for the talk track, `S` for the
+  speaker view. `shelf-decks shots` screenshots every slide at 1920x1080 plus a contact sheet.
+- **Your brand.** Colours, fonts (with web fonts for the HTML), logo, footer label and image style live in one
+  `brand.json`. No house brand is included; the neutral default is `editorial-light`.
+- **Sixteen builders, chosen on purpose.** Cover, statement, big numbers, timeline, split, before-and-after bars,
+  calculator, compare, live diagrams and more, with rules that stop a deck going samey.
+- **Editable PowerPoint.** Every word is real text. Live diagrams are baked to a picture for the PPTX.
+- **Never overwrites.** Every render is a new `_vN`.
 
 ## Install
 
-Install the start plugin `aios` first.
+Install the start plugin `aios` first. You need Node 18 or newer (https://nodejs.org/) and Google Chrome (or
+Edge, Brave or Chromium) for screenshots and the PDF.
 
-Claude Code: type `/aios install shelf-decks` (it runs `aios-guide --harness claude install shelf-decks`), then `/reload-plugins`.
-Or install it directly:
+Claude Code: type `/aios install shelf-decks`, then `/reload-plugins`. Or directly:
 ```
 /plugin install shelf-decks@navaigate-aios
 ```
@@ -24,29 +28,44 @@ Codex and Cursor, from your checkout of this repository:
 ./install.sh shelf-decks --check
 ```
 
-Then the tools, once:
+Then, once:
 ```
-python3 -m pip install --user python-pptx Pillow playwright
-python3 -m playwright install chromium
+shelf-decks setup     # installs pptxgenjs, puppeteer-core and pdf-lib (no browser download)
+shelf-decks check
 ```
+In Claude Code the command is `"${CLAUDE_PLUGIN_ROOT}/bin/shelf-decks"` if `shelf-decks` is not on your PATH.
 
 ## Use
 
 ```
-shelf-decks brand set name="Acme Studio"
-shelf-decks brand set colours.accent=#C2410C
-shelf-decks brand set logo=~/Brand/acme-logo.png
-shelf-decks new ~/Decks/q3-review --title "Q3 client review"
-shelf-decks build ~/Decks/q3-review
-shelf-decks review ~/Decks/q3-review
-shelf-decks export ~/Decks/q3-review --pdf
-shelf-decks verify ~/Decks/q3-review
+shelf-decks init --name "Acme Studio" --accent C2410C --ink 1C1917 --bg FAF7F2 \
+  --display "Fraunces" --body "Inter" --logo ~/Brand/acme-logo.png \
+  --image-style "warm documentary photography, no text in the image"
+shelf-decks new ~/Decks/q3-review              # a starting spec in your brand
+shelf-decks render ~/Decks/q3-review/deck.js    # q3-review_v1.html + q3-review_v1.pptx
+shelf-decks shots ~/Decks/q3-review/q3-review_v1.html
+shelf-decks pdf ~/Decks/q3-review/q3-review_v1.html
 ```
 
-`shelf-decks sample ~/Decks/acme-sample` makes a ten-slide practice deck for the fictional Acme Studio.
+Practise first on the fictional Northwind Bakery deck (10 slides, its own brand):
+```
+shelf-decks sample ~/Decks/northwind
+shelf-decks render ~/Decks/northwind/deck.js --pdf
+```
 
-The deck format, every layout, the brand keys and the fixes: [skills/shelf-decks/references/deck-format.md](skills/shelf-decks/references/deck-format.md).
+Prompts to paste into Claude: [prompts.md](prompts.md). The method, the builders and the house rules:
+[skills/shelf-decks/SKILL.md](skills/shelf-decks/SKILL.md). Every builder option:
+[skills/shelf-decks/references/builders.md](skills/shelf-decks/references/builders.md).
+
+## Fonts
+
+The HTML and the PDF load your web fonts, so they look right anywhere. The PowerPoint uses the font names in
+`brand.json` and shows them only where those fonts are installed. Set `fonts.displayPptx` and `fonts.bodyPptx`
+to installed fonts if your web fonts are not on the machines that open the file, and send the PDF outside your
+team.
 
 ## Licence
 
-MIT. Dependencies are installed by you: python-pptx (MIT), Pillow (MIT-CMU), Playwright (Apache-2.0).
+MIT. The vendored reveal.js 5.1.0 runtime in `reveal-runtime/` is MIT (Hakim El Hattab), see
+`reveal-runtime/LICENSE`. Installed by `shelf-decks setup`: pptxgenjs (MIT), puppeteer-core (Apache-2.0),
+pdf-lib (MIT). The Northwind Bakery sample, its logo and its illustrations are fictional and made for this pack.

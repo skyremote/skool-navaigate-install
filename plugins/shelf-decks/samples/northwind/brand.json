@@ -1,0 +1,31 @@
+{
+  "label": "NORTHWIND BAKERY",
+  "colours": {
+    "bg": "F6F0E6",
+    "paper": "FFFBF4",
+    "card": "EDE3D3",
+    "line": "E2D6C2",
+    "ink": "2A1F17",
+    "body": "4A3F35",
+    "body2": "5C5045",
+    "slate": "2F4A3F",
+    "slate2": "3F5C50",
+    "accent": "B4532A",
+    "accentD": "8E3E1E",
+    "accentL": "E3A27C",
+    "coral": "C8743A",
+    "muted": "7A6E62",
+    "mutedL": "A89B8C"
+  },
+  "fonts": {
+    "display": "Fraunces",
+    "body": "Work Sans",
+    "href": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap",
+    "displayPptx": "Georgia",
+    "bodyPptx": "Arial",
+    "displayWeight": 700,
+    "displaySemiWeight": 600
+  },
+  "logo": "logo.png",
+  "imageStyle": "Flat editorial illustration of a neighbourhood bakery in the brand colours: cream ground, terracotta, deep green and wheat. Simple shapes, warm morning light, no people's faces, no text or lettering in the image, calm empty space where the slide puts its words."
+}
