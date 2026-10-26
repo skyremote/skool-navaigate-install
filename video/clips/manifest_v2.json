@@ -1,0 +1,92 @@
+[
+  {
+    "file": "video/clips/01_install-aios_v2.mp4",
+    "seconds": 27.8,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/02_install-brain_v2.mp4",
+    "seconds": 23.52,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/03_install-aios-codex-cursor_v2.mp4",
+    "seconds": 15.12,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/04_install-brain-codex-cursor_v2.mp4",
+    "seconds": 28.52,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/05_init-brain_v2.mp4",
+    "seconds": 16.48,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/06_prepare-demo-sessions_v2.mp4",
+    "seconds": 17.68,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/07_capture-sessions_v2.mp4",
+    "seconds": 20.64,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/08_repeat-capture_v2.mp4",
+    "seconds": 16.72,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/09_search-memory_v2.mp4",
+    "seconds": 22.24,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/10_read-memory_v2.mp4",
+    "seconds": 25.48,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/11_check-health_v2.mp4",
+    "seconds": 45.64,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/12_verify-claude-code_v2.mp4",
+    "seconds": 23.0,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/13_verify-codex_v2.mp4",
+    "seconds": 22.64,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/14_verify-cursor-config_v2.mp4",
+    "seconds": 21.88,
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "file": "video/clips/15_check-all-harnesses_v2.mp4",
+    "seconds": 81.04,
+    "width": 1920,
+    "height": 1080
+  }
+]

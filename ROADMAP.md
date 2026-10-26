@@ -84,24 +84,27 @@ retire that skill. No live lesson or member installation has been changed.
 
 ## Version and migration boundary
 
-The new manifests are 2.0.0 under plugins/aios and plugins/aios-brain. The archived
-first-generation files remain in legacy/v1. Their original manifest actually
-says **0.1.0** in this checkout; "1.x" in the brief names the old generation,
-not an invented historical release. Original source commit: f305917.
+The new manifests are 2.0.0 under plugins/aios and plugins/aios-brain. The old
+first-generation files remain at their original skills/, lessons/, references/
+and templates/ paths. The marketplace retains skool-navaigate-install at ./,
+using its original 0.1.0 manifest version. Existing symlinks remain valid after
+pulling this branch. There is no legacy/v1 directory.
 
-2.0 uses new plugin IDs. It never runs an automatic old-to-new installer, removes
-old user skills or edits an existing member's data. Old cached installations
-remain as installed. A future public release must decide how long to retain the
-old marketplace entry or point legacy members to a pinned ref; changing the
-marketplace on the default branch is deliberately outside phase 1.
+V1 stays installable for six months, until **26 April 2027**, with fixes only.
+The root installer with no arguments retains the v1 behaviour. The 2.0 /aios
+inventory detects v1 links and offers a guided move; it never migrates merely
+because v1 was detected. An explicitly reviewed `./install.sh aios --migrate-v1`
+preserves conflicting start links in member-owned backups and links the 2.0 start
+pack. All other v1 skills, the Claude v1 link and old marketplace ID remain.
 
-## Three decisions before phase 2
+The code-review acceptance report is proof/review-fixes_v2.md. All 16 findings
+have dedicated regression cases, including the v1 link survival contract.
 
-1. Confirm the next build order: rules, harnesses and bb before the remaining core
-   modules, or bring skills/verify forward. Only start and brain are built now.
-2. Confirm the old-generation support and release policy: keep a separate legacy
-   catalogue/ref, set its support period, and decide how members opt into 2.0.
-   Also approve folding the standalone hosted coach into the path.
-3. Choose the first shelf releases and their order: video, decks and invoices
-   as proposed, or a different priority. Scheduled capture and managed two-machine
-   onboarding remain separate future proposals to scope; local memory stays the default.
+## Next scope decisions
+
+1. Confirm the next core-pack build order: rules, harnesses and bb, or bring
+   skills and verification forward.
+2. Review the remaining planned skill merges, including the optional hosted
+   coach, without removing any v1 entry during its support period.
+3. Choose the first shelf packs and their order: video, decks and invoices as
+   proposed, or a different priority. Scheduling remains a separate proposal.

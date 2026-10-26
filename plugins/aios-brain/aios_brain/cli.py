@@ -5,6 +5,8 @@ import subprocess
 import sys
 import time
 from . import capture, config, db, digest, media, search, status, sync
+from .errors import InputError
+from .privacy import redact
 
 
 def sync_if_configured(conn,values):
@@ -41,6 +43,13 @@ def main(argv=None):
     add = medias.add_parser('add')
     add.add_argument('url')
     add.add_argument('--refresh',action='store_true')
+    failures=commands.add_parser('failures',help='List or acknowledge operational failures; never deletes data')
+    actions=failures.add_subparsers(dest='failure_action',required=True)
+    actions.add_parser('list')
+    clear=actions.add_parser('clear')
+    group=clear.add_mutually_exclusive_group(required=True)
+    group.add_argument('--scope')
+    group.add_argument('--all',action='store_true')
     commands.add_parser('mcp',help='Run the stdio MCP server')
     args = parser.parse_args(argv)
     if args.command=='mcp':
@@ -48,7 +57,7 @@ def main(argv=None):
         serve()
         return 0
     try:
-        values = config.load()
+        values = config.load() if args.command not in ('search','read','failures') else {}
         with db.database(create=args.command=='init') as conn:
             code = 0
             if args.command=='init':
@@ -57,7 +66,7 @@ def main(argv=None):
                 result = capture.capture(conn)
                 if result['failures']:
                     code = 1
-                else:
+                elif result['captured'] or result['unchanged']:
                     with conn:
                         conn.execute('INSERT OR REPLACE INTO meta VALUES(?,?)',('last_capture',str(time.time())))
                 result['sync'] = sync_if_configured(conn,values)
@@ -79,17 +88,31 @@ def main(argv=None):
                 code = 0 if result['healthy'] else 1
             elif args.command=='sync':
                 result = sync_if_configured(conn,values)
+            elif args.command=='failures':
+                db.prune_failures(conn)
+                if args.failure_action=='clear':
+                    with conn:
+                        cur=conn.execute('DELETE FROM failures' if args.all else 'DELETE FROM failures WHERE scope=?',() if args.all else (args.scope,))
+                    result={'acknowledged':cur.rowcount,'note':'Session and remote health are still checked; no captured data was deleted'}
+                else:
+                    result={'failures':[dict(row) for row in conn.execute('SELECT * FROM failures ORDER BY at')]}
             elif args.command in ('media','digest'):
-                scope = args.command+':'+(args.ref if args.command=='digest' else args.url)
+                if args.command=='digest':
+                    db.bundle(conn,args.ref)
+                    scope='digest:'+args.ref
+                else:
+                    scope='media:'+media.canonical_url(args.url)[0]
                 try:
                     result = digest.make(conn,args.ref) if args.command=='digest' else media.add(conn,args.url,values,args.refresh)
                     db.clear_failure(conn,scope)
+                except InputError:
+                    raise
                 except (ValueError,OSError,subprocess.TimeoutExpired):
                     db.failure(conn,scope,args.command+' failed; retry the same command after fixing its reported cause')
                     raise
-                result['sync'] = sync_if_configured(conn,values)
+                result['sync'] = {'note':'Run brain sync to exchange data'}
             print(json.dumps(result,ensure_ascii=False,indent=2))
             return code
     except (ValueError,OSError,sqlite3.Error,subprocess.TimeoutExpired) as exc:
-        print(json.dumps({'error':str(exc)},ensure_ascii=False),file=sys.stderr)
+        print(json.dumps({'error':redact(str(exc))},ensure_ascii=False),file=sys.stderr)
         return 1

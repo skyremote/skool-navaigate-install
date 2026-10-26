@@ -5,6 +5,7 @@ import os
 import shlex
 import subprocess
 from pathlib import Path
+from proof_paths import portable
 
 ROOT = Path(__file__).resolve().parents[1]
 HOME = Path('/tmp/aios-member-sandbox')
@@ -19,27 +20,34 @@ ENV.pop('AIOS_BRAIN_TURSO_TOKEN',None)
 ENV.pop('CLAUDE_PLUGIN_OPTION_TURSO_URL',None)
 ENV.pop('CLAUDE_PLUGIN_OPTION_TURSO_TOKEN',None)
 ENV.pop('SUPADATA_API_KEY',None)
+ENV['TMPDIR']='/tmp'
 HOME.mkdir(parents=True,exist_ok=True)
-REPORT = ROOT/'proof/sandbox-run_v1.md'
-lines = ['# Sandbox member install proof v1','',
-         'All commands use HOME=/tmp/aios-member-sandbox and CLAUDE_CONFIG_DIR=$HOME/.claude.',
+REPORT = ROOT/'proof/sandbox-run_v2.md'
+lines = ['# Sandbox member install proof v2','',
+         'Paths are normalised as <worktree> and $HOME for portability. All commands use HOME=/tmp/aios-member-sandbox and CLAUDE_CONFIG_DIR=$HOME/.claude.',
          'The working directory is the review checkout. Fixtures are fictional. No real member data or tokens are used.','']
 failed = []
 
 
 def run(args,expect=0):
+    if args[0]=='brain':
+        args=[str(HOME/'.local/bin/brain'),*args[1:]]
     proc = subprocess.run(args,cwd=ROOT,env=ENV,text=True,capture_output=True,timeout=90)
     command = shlex.join(args)
     lines.extend(['```sh',command,'```','```text','\n'.join(line.rstrip() for line in (proc.stdout+proc.stderr).splitlines()),f'[exit {proc.returncode}]','```',''])
-    REPORT.write_text('\n'.join(lines))
+    REPORT.write_text(portable('\n'.join(lines))+'\n')
     print(command+' -> exit '+str(proc.returncode),flush=True)
     if proc.returncode != expect:
         failed.append(command)
+        lines.extend(['FAILED: unexpected exit; stopped before any dependent command.',''])
+        REPORT.write_text(portable('\n'.join(lines))+'\n')
+        raise SystemExit(1)
     return proc
 
 
 run(['claude','--version'])
 run(['claude','plugin','validate','plugins/aios','--strict'])
+run(['claude','plugin','validate','./','--strict'])
 run(['claude','plugin','validate','plugins/aios-brain','--strict'])
 run(['claude','plugin','validate','.claude-plugin/marketplace.json','--strict'])
 run(['claude','plugin','marketplace','add',str(ROOT)])
@@ -69,5 +77,5 @@ run(['codex','--version'])
 run(['codex','mcp','list'])
 lines.extend(['## Result','',('PASS: all expected exit codes, search/read and backup assertions passed.' if not failed else 'FAIL: '+', '.join(failed)),
               '', 'This proves installation and the local CLI flow. Harness reload and live remote Turso/paid media/subscription digest use are separate checks.',''])
-REPORT.write_text('\n'.join(lines))
+REPORT.write_text(portable('\n'.join(lines))+'\n')
 raise SystemExit(bool(failed))

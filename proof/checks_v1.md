@@ -1,5 +1,7 @@
 # Checks v1
 
+Historical phase-1 evidence for ffddffb; superseded by the v2 review-fix proof.
+
 All harness CLI checks use the isolated member HOME.
 
 ```sh
@@ -55,9 +57,9 @@ OK
 claude plugin validate plugins/aios --strict
 ```
 ```text
-Validating plugin manifest: /Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/plugins/aios/.claude-plugin/plugin.json
+Validating plugin manifest: <worktree>/plugins/aios/.claude-plugin/plugin.json
 
-Plugin directory checks for /Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/plugins/aios. The plugin directory is the catalog that plugins are submitted to; this is a subset of what it runs.
+Plugin directory checks for <worktree>/plugins/aios. The plugin directory is the catalog that plugins are submitted to; this is a subset of what it runs.
 
 ⚠ Found 1 plugin directory warning:
 
@@ -70,7 +72,7 @@ The directory also runs a safety scan and a policy review that this command does
 
 ℹ Advice (does not change the verdict):
 
-  ❯ /Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/plugins/aios/README.md: This README has no line that installs "aios" from a marketplace. Add the install line, which works in one step on Claude Code 2.1.275 or later. Validate the folder that holds its marketplace.json to have <owner>/<repo> filled in, and the name its marketplace lists it under.
+  ❯ <worktree>/plugins/aios/README.md: This README has no line that installs "aios" from a marketplace. Add the install line, which works in one step on Claude Code 2.1.275 or later. Validate the folder that holds its marketplace.json to have <owner>/<repo> filled in, and the name its marketplace lists it under.
       /plugin install aios --marketplace <owner>/<repo>
 
 ✔ Validation passed
@@ -81,9 +83,9 @@ The directory also runs a safety scan and a policy review that this command does
 claude plugin validate plugins/aios-brain --strict
 ```
 ```text
-Validating plugin manifest: /Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/plugins/aios-brain/.claude-plugin/plugin.json
+Validating plugin manifest: <worktree>/plugins/aios-brain/.claude-plugin/plugin.json
 
-Plugin directory checks for /Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/plugins/aios-brain. The plugin directory is the catalog that plugins are submitted to; this is a subset of what it runs.
+Plugin directory checks for <worktree>/plugins/aios-brain. The plugin directory is the catalog that plugins are submitted to; this is a subset of what it runs.
 
 ⚠ Found 1 plugin directory warning:
 
@@ -96,7 +98,7 @@ The directory also runs a safety scan and a policy review that this command does
 
 ℹ Advice (does not change the verdict):
 
-  ❯ /Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/plugins/aios-brain/README.md: This README has no line that installs "aios-brain" from a marketplace. Add the install line, which works in one step on Claude Code 2.1.275 or later. Validate the folder that holds its marketplace.json to have <owner>/<repo> filled in, and the name its marketplace lists it under.
+  ❯ <worktree>/plugins/aios-brain/README.md: This README has no line that installs "aios-brain" from a marketplace. Add the install line, which works in one step on Claude Code 2.1.275 or later. Validate the folder that holds its marketplace.json to have <owner>/<repo> filled in, and the name its marketplace lists it under.
       /plugin install aios-brain --marketplace <owner>/<repo>
 
 ✔ Validation passed
@@ -107,7 +109,7 @@ The directory also runs a safety scan and a policy review that this command does
 claude plugin validate .claude-plugin/marketplace.json --strict
 ```
 ```text
-Validating marketplace manifest: /Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/.claude-plugin/marketplace.json
+Validating marketplace manifest: <worktree>/.claude-plugin/marketplace.json
 
 ✔ Validation passed
 [exit 0]

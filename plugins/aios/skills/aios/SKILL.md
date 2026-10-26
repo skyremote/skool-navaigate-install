@@ -14,6 +14,15 @@ this SKILL.md symlink and use the pack's `scripts/status.py`, two folders above
 Report installed and enabled separately. Skill links and MCP configuration do
 not prove that a restarted harness has loaded them. Never print tokens or config values.
 
+If the inventory's `v1` reports old skills or the old marketplace plugin, explain
+that v1 stays at its existing paths with fixes-only support until 26 April 2027.
+Offer to keep it or review a guided move. Never run a migration merely because
+v1 was detected. Show the exact affected links and backup location, ask the
+member to confirm, then use `./install.sh aios --migrate-v1` for Codex/Cursor.
+It moves only the conflicting start links into `~/.local/share/aios/v1-backups/`
+and leaves all other v1 skills and the Claude v1 plugin available. No files are
+deleted. Claude Code can install the new pack beside the old namespaced plugin.
+
 Ask which module they are in. Follow this path, one step at a time:
 
 1. Start here: one loop, small context, a check it can run — `aios`.

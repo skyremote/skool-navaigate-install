@@ -7,7 +7,7 @@
   "partial": true,
   "partialReason": "auth_failed",
   "suite": {
-    "root": "/Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/plugins/aios-brain",
+    "root": "<worktree>/plugins/aios-brain",
     "ablation": "with-without",
     "caseFilter": "local-setup",
     "threshold": 1,
@@ -16,7 +16,7 @@
       {
         "name": "aios-brain",
         "version": "2.0.0",
-        "path": "/Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/plugins/aios-brain"
+        "path": "<worktree>/plugins/aios-brain"
       }
     ]
   },
