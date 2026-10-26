@@ -1,0 +1,22 @@
+{
+  "name": "tools-boards",
+  "version": "2.0.0",
+  "description": "Build presentation-ready, editable BluPlai whiteboards from a brief, a screenshot or a call transcript, as native shapes your team can move, validated before they are written.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "whiteboard",
+    "bluplai",
+    "workshop",
+    "tldraw",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "tools-boards",
+  "source": "./plugins/tools-boards",
+  "version": "2.0.0",
+  "description": "Tools: editable BluPlai whiteboards from a brief or a transcript, native shapes, validated before they are written.",
+  "metadata": {
+    "module": 12
+  }
+}
