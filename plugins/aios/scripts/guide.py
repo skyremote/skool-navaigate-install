@@ -380,16 +380,20 @@ def cmd_where(args):
 def main(argv=None):
     parser=argparse.ArgumentParser(prog='aios-guide',description='Your path through the AIOS modules.')
     parser.add_argument('--harness',choices=['claude','codex','cursor','codex-cursor'],help='which harness is asking (default: detect)')
+    # Agents often put --harness after the command ('aios-guide install x --harness claude').
+    # Accept it in both places: SUPPRESS keeps the top-level value when a command omits it.
+    common=argparse.ArgumentParser(add_help=False)
+    common.add_argument('--harness',choices=['claude','codex','cursor','codex-cursor'],default=argparse.SUPPRESS,help='which harness is asking (default: detect)')
     sub=parser.add_subparsers(dest='command')
-    sub.add_parser('next')
-    sub.add_parser('list')
-    sub.add_parser('where')
-    f=sub.add_parser('find');f.add_argument('words',nargs='+')
-    i=sub.add_parser('install');i.add_argument('target',nargs='+')
-    v=sub.add_parser('verify');v.add_argument('pack')
-    l=sub.add_parser('learn');l.add_argument('target')
+    sub.add_parser('next',parents=[common])
+    sub.add_parser('list',parents=[common])
+    sub.add_parser('where',parents=[common])
+    f=sub.add_parser('find',parents=[common]);f.add_argument('words',nargs='+')
+    i=sub.add_parser('install',parents=[common]);i.add_argument('target',nargs='+')
+    v=sub.add_parser('verify',parents=[common]);v.add_argument('pack')
+    l=sub.add_parser('learn',parents=[common]);l.add_argument('target')
     l.add_argument('--step',type=int);l.add_argument('--done',type=int);l.add_argument('--reset',action='store_true')
-    g=sub.add_parser('progress');g.add_argument('--complete',type=int)
+    g=sub.add_parser('progress',parents=[common]);g.add_argument('--complete',type=int)
     args=parser.parse_args(argv)
     if args.harness in ('codex','cursor'):
         args.harness='codex-cursor'
