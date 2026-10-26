@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Run the aios-rules eval suite once per case and write plugins/aios-rules/proof/eval_v1.md.
+"""Run the aios-rules eval suite once per case and write <out>/eval_v1.md (outside the repository).
+
+Usage: python3 tests/aios-rules/eval_proof_v1.py --out <folder outside the repo>
 
 Claude Code 2.1.310's `claude plugin eval` loads the plugin under test on its own, so a pack that
 declares `"dependencies": ["aios"]` fails to load with `dependency-unsatisfied` and is never scored.
@@ -16,13 +18,18 @@ REPO = Path(__file__).resolve().parents[2]
 PACK = REPO / 'plugins' / 'aios-rules'
 WORK = Path('/tmp/aios2-a-foundations/eval-copy/aios-rules')
 HOME = Path('/tmp/aios2-sandbox-a-foundations-eval')
-OUT = PACK / 'proof'
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--out', required=True, help='folder outside the repository for eval_v1.md and eval_v1.json')
+    OUT = Path(ap.parse_args().out).expanduser().resolve()
+    if OUT == REPO or REPO in OUT.parents:
+        raise SystemExit('Build proof stays out of the repository: choose a folder outside it.')
     if WORK.exists():
         shutil.rmtree(WORK)
-    shutil.copytree(PACK, WORK, ignore=shutil.ignore_patterns('proof', 'results', '__pycache__'))
+    shutil.copytree(PACK, WORK, ignore=shutil.ignore_patterns('results', '__pycache__'))
     manifest = WORK / '.claude-plugin' / 'plugin.json'
     data = json.loads(manifest.read_text())
     data.pop('dependencies', None)

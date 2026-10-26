@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Install aios-rules as a new member in a throwaway HOME and record every command and its output.
 
-Usage: python3 tests/aios-rules/sandbox_proof_v1.py [--with-claude-audit]
-Writes plugins/aios-rules/proof/sandbox_v1.md. Never touches the real ~/.claude, ~/.codex or ~/.cursor.
+Usage: python3 tests/aios-rules/sandbox_proof_v1.py --out <folder outside the repo> [--with-claude-audit]
+Writes <folder>/sandbox_v1.md. Build proof is course evidence, so it is kept out of this repository.
+Never touches the real ~/.claude, ~/.codex or ~/.cursor.
 """
 import json
 import os
@@ -16,7 +17,6 @@ REPO = Path(__file__).resolve().parents[2]
 HOME = Path('/tmp/aios2-sandbox-a-foundations')
 CHECKOUT = HOME / 'skool-navaigate-install'
 FOLDER = HOME / 'acme-studio'
-OUT = REPO / 'plugins' / 'aios-rules' / 'proof' / 'sandbox_v1.md'
 
 
 def sanitise(text):
@@ -84,6 +84,12 @@ def fill_agents():
 
 def main():
     with_claude = '--with-claude-audit' in sys.argv
+    if '--out' not in sys.argv:
+        raise SystemExit('Pass --out <folder outside the repository> for the proof file.')
+    out_dir = Path(sys.argv[sys.argv.index('--out') + 1]).expanduser().resolve()
+    if out_dir == REPO or REPO in out_dir.parents:
+        raise SystemExit('Build proof stays out of the repository: choose a folder outside it.')
+    OUT = out_dir / 'sandbox_v1.md'
     prepare()
     c = CHECKOUT
     run(['claude', '--version'], c, 'Claude Code version')
@@ -129,7 +135,7 @@ def main():
              'apart from paths: `$HOME` is `/tmp/aios2-sandbox-a-foundations` and `<checkout>` is a copy of this branch',
              'with `INTEGRATION.diff` and `MARKETPLACE_ENTRY.json` applied (the merge this stream proposes).',
              'Environment: HOME, CLAUDE_CONFIG_DIR and CODEX_HOME all point into the sandbox. The business is fictional.', '',
-             'Reproduce: `python3 tests/aios-rules/sandbox_proof_v1.py --with-claude-audit`.', '']
+             'Reproduce: `python3 tests/aios-rules/sandbox_proof_v1.py --out <folder> --with-claude-audit`.', '']
     for n, (note, cmd, out, code, cwd) in enumerate(LOG, 1):
         lines += ['## %d. %s' % (n, note), '', 'In `%s`:' % cwd, '', '```sh', cmd, '```', '```text', out, '[exit %d]' % code, '```', '']
     audits = sorted((FOLDER / '80_aios' / 'audits').glob('*_rules-audit_v*.md'))

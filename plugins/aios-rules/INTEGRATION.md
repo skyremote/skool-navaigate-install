@@ -2,7 +2,7 @@
 
 This stream does not edit shared files. The chief of staff applies these when merging.
 Each change was tested on a copy of the branch (`tests/test_brain.py`: 37 tests pass with the
-installer patch applied; the aios-rules sandbox install in `proof/sandbox_v1.md` used it).
+installer patch applied; the aios-rules sandbox install, `tests/aios-rules/sandbox_proof_v1.py`, used it).
 
 ## 1. `.claude-plugin/marketplace.json`
 Add the object in `MARKETPLACE_ENTRY.json` to `plugins`, after `aios`.
@@ -93,5 +93,9 @@ Codex and Cursor block, between `aios` and `aios-brain`.
 Module 2 row, last column: "Planned: AGENTS.md, short rules, CLAUDE.md bridge" becomes
 "Shipped for local review: folder map, AGENTS.md starter, CLAUDE.md bridge, path-scoped rules, budget check, monthly audit".
 
-## 7. Lesson 1 (module 1) needs nothing from `plugins/aios/`
-See `lessons/v2/01-start-here/INTEGRATION.md` for the one wording change it suggests.
+## 7. Kept out of the repo
+Course content and build evidence live in the classroom folders, not in Git (Daniel, 26 October 2026):
+- `lessons/`: the Skool lessons for modules 1, 2 and 5;
+- `video/`: tutorial scripts, tapes, shot lists, SRTs and clips;
+- `plugins/*/proof/`: sandbox install and eval proof notes.
+The proof scripts in `tests/aios-rules/` take `--out <folder>` and refuse a folder inside the repository.
