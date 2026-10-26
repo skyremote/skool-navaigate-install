@@ -110,7 +110,8 @@ export default async function plugin(bb: BbPluginApi) {
     if (!found) throw new Error(`No prompt ${promptId}. Run "bb aios-kit list" to see them.`);
     const thread = await bb.sdk.threads.spawn({
       projectId,
-      environment: { type: "project-default" },
+      // The project's own checkout, never a new worktree: each prompt builds on the files the last one made.
+      environment: { type: "host", workspace: { type: "unmanaged", path: null } },
       prompt: found.prompt.body,
       title: `AIOS ${found.prompt.id} · ${found.prompt.title}`,
       providerId: "claude-code",
