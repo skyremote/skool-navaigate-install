@@ -24,19 +24,20 @@ rules files, and `model: sonnet` with medium effort.
 
 ## Install
 
-Claude Code:
+Claude Code, once `aios` is installed (module 1):
 
 ```
-/plugin marketplace add skyremote/skool-navaigate-install
-/plugin install aios@navaigate-aios
-/plugin install aios-agents@navaigate-aios
+/aios install aios-agents
 ```
+
+It says what the pack adds, asks before installing, shows the proof, and then you type
+`/reload-plugins`. The direct command is `/plugin install aios-agents@navaigate-aios`.
 
 Codex and Cursor, from your checkout of this repository:
 
 ```
-./install.sh aios
 ./install.sh aios-agents
+./install.sh aios-agents --check
 ```
 
 That links the two skills and `aios-agent`. The three agent files are Claude Code plugin

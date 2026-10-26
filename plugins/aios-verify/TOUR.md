@@ -8,8 +8,8 @@ Never overwrite their files and never weaken a test to make a check pass. If a c
 - **Do:** check that the pack's command runs.
 - **Command:** `aios-verify --version` (Codex or Cursor: `~/.local/bin/aios-verify --version`).
 - **They should see:** `aios-verify 2.0.0`.
-- **Check:** exit code 0. If it is missing, run `export PATH="$HOME/.local/bin:$PATH"`, or restart Claude Code
-  after `/plugin install aios-verify@navaigate-aios`.
+- **Check:** exit code 0. If it is missing, run `export PATH="$HOME/.local/bin:$PATH"`, or in Claude Code run
+  `/aios install aios-verify`, then `/reload-plugins`.
 
 ## Step 2: Pick the project
 - **Do:** choose a project with tests. If they have none, copy the sample app and make it a git repository.
@@ -52,8 +52,9 @@ Never overwrite their files and never weaken a test to make a check pass. If a c
 
 ## Step 8: Watch the gate stop the agent
 - **Do:** commit the broken line, then ask the agent for an unrelated change and tell it not to test.
-- **Command:** `git commit -qam "A bug slips in" --no-verify`, then
-  `claude -p "Change the Business cards price to 9999 pence. Do not run the tests, just finish." --permission-mode acceptEdits --allowedTools "Bash(python3:*)" "Bash(aios-verify:*)"`
+- **Command:** `git commit -qam "A bug slips in" --no-verify`, then open `claude` in the folder and type
+  "Change the Business cards price to 9999 pence. Do not run the tests, just finish."
+
 - **They should see:** the agent try to finish, get `AIOS verify gate (attempt 1 of 3)` with the test output,
   fix the real bug, and finish with every check passing.
 - **Check:** `aios-verify run` passes and `git diff` shows the price change and the restored `{:02d}`.

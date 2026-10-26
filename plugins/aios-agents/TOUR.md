@@ -8,8 +8,8 @@ Never create an agent for them without a named reason. If a check fails, stop, f
 - **Do:** check that the pack's command runs.
 - **Command:** `aios-agent --version` (Codex or Cursor: `~/.local/bin/aios-agent --version`).
 - **They should see:** `aios-agent 2.0.0`.
-- **Check:** exit code 0. If it is missing, run `export PATH="$HOME/.local/bin:$PATH"`, or restart Claude Code
-  after `/plugin install aios-agents@navaigate-aios`.
+- **Check:** exit code 0. If it is missing, run `export PATH="$HOME/.local/bin:$PATH"`, or in Claude Code run
+  `/aios install aios-agents`, then `/reload-plugins`.
 
 ## Step 2: Meet the crew
 - **Do:** list the three agents and their tools.

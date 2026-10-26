@@ -31,19 +31,20 @@ terminal. `git push --force-with-lease` is allowed.
 
 ## Install
 
-Claude Code:
+Claude Code, once `aios` is installed (module 1):
 
 ```
-/plugin marketplace add skyremote/skool-navaigate-install
-/plugin install aios@navaigate-aios
-/plugin install aios-verify@navaigate-aios
+/aios install aios-verify
 ```
+
+It says what the pack adds, asks before installing, shows the proof, and then you type
+`/reload-plugins`. The direct command is `/plugin install aios-verify@navaigate-aios`.
 
 Codex and Cursor, from your checkout of this repository:
 
 ```
-./install.sh aios
 ./install.sh aios-verify
+./install.sh aios-verify --check
 cd <your project> && aios-verify init --git-hook
 ```
 

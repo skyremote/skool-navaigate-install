@@ -9,7 +9,7 @@ Never overwrite or delete a member's skill. If a check fails, stop, fix that one
 - **Command:** `aios-skill --version` (Codex or Cursor: `~/.local/bin/aios-skill --version`).
 - **They should see:** `aios-skill 2.0.0`.
 - **Check:** exit code 0. If it is missing, run `export PATH="$HOME/.local/bin:$PATH"` (Codex and Cursor),
-  or restart Claude Code after `/plugin install aios-skills@navaigate-aios`.
+  or in Claude Code run `/aios install aios-skills`, then `/reload-plugins`.
 
 ## Step 2: Choose the job
 - **Do:** ask for one job they explain to the agent every week, and the check that proves it is done.
