@@ -1,0 +1,22 @@
+{
+  "name": "shelf-hormozi",
+  "version": "2.0.0",
+  "description": "Run the Hormozi offer engine on your own offer, grounded in the books you own, citing book, chapter and page and refusing to invent.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "offers",
+    "pricing",
+    "hormozi",
+    "lead generation",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

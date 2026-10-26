@@ -1,0 +1,22 @@
+{
+  "name": "shelf-writing-style",
+  "version": "2.0.0",
+  "description": "Scrub AI slop out of a draft before you ship it: banned words, em dashes, wind-ups and model tells, keeping your names, numbers and claims.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "writing",
+    "editing",
+    "style",
+    "prose",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}
