@@ -1,0 +1,9 @@
+{
+  "name": "tools-reverse",
+  "source": "./plugins/tools-reverse",
+  "version": "2.0.0",
+  "description": "Tools: how shipped software works, explained with REA inside a scope you may work in, every claim with evidence.",
+  "metadata": {
+    "module": 12
+  }
+}

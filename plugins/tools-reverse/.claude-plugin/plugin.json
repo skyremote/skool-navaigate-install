@@ -1,0 +1,22 @@
+{
+  "name": "tools-reverse",
+  "version": "2.0.0",
+  "description": "Explain how a shipped app, website bundle or binary works with REA (public, MIT), inside a scope you are allowed to work in, with evidence behind every claim and the unknowns kept honest.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "reverse engineering",
+    "rea",
+    "javascript",
+    "binaries",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}
