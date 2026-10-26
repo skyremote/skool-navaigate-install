@@ -8,6 +8,7 @@ Running it twice changes nothing the second time.
 """
 import argparse
 from contextlib import ExitStack
+import filecmp
 import fcntl
 import json
 import os
@@ -229,6 +230,23 @@ def legacy_link(dest):
     return dest.is_symlink() and (ROOT/'skills') in dest.resolve().parents
 
 
+def same_tree(a,b):
+    """True when two skill folders hold the same files with the same bytes."""
+    if not (a.is_dir() and b.is_dir()):
+        return False
+    cmp=filecmp.dircmp(a,b,ignore=['__pycache__','.DS_Store'])
+    if cmp.left_only or cmp.right_only or cmp.funny_files:
+        return False
+    same,mismatch,errors=filecmp.cmpfiles(a,b,cmp.common_files,shallow=False)
+    return not mismatch and not errors and all(same_tree(a/d,b/d) for d in cmp.common_dirs)
+
+
+def shared_copy(dest,source):
+    """A link to another pack's byte-identical copy of the same skill (several shelf packs carry web-scrape)."""
+    target=dest.resolve()
+    return dest.is_symlink() and (ROOT/'plugins') in target.parents and same_tree(target,source)
+
+
 def available_packs():
     return sorted(p.name for p in (ROOT/'plugins').iterdir() if (p/'.claude-plugin/plugin.json').is_file())
 
@@ -318,6 +336,8 @@ def plan_pack(pack,plan,home,migrate_v1,planned):
             dest=home/parent/source.name
             if dest.exists() or dest.is_symlink():
                 if dest.is_symlink() and dest.resolve()==source.resolve():
+                    continue
+                if shared_copy(dest,source):
                     continue
                 if not (legacy_link(dest) and migrate_v1):
                     hint=' Ask /aios for a guided move; --migrate-v1 preserves the old link in a backup.' if legacy_link(dest) else ''
@@ -432,7 +452,7 @@ def check(pack,home=None,quiet=False):
     for parent in SKILL_DIRS:
         for source in sorted((plugin/'skills').iterdir()) if (plugin/'skills').is_dir() else []:
             dest=home/parent/source.name
-            if not ((dest/'SKILL.md').is_file() and dest.resolve()==source.resolve()):
+            if not ((dest/'SKILL.md').is_file() and (dest.resolve()==source.resolve() or shared_copy(dest,source))):
                 problems.append('skill '+source.name+' not linked in ~/'+parent)
     for source in sorted((plugin/'bin').iterdir()) if (plugin/'bin').is_dir() else []:
         command=home/'.local/bin'/source.name

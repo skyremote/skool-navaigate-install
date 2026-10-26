@@ -100,9 +100,21 @@
       "title": "The shelf",
       "lesson": "https://www.skool.com/navaigate/classroom",
       "packs": [
+        "shelf-content-pipeline",
+        "shelf-daily-brief",
         "shelf-decks",
+        "shelf-deep-research",
+        "shelf-design-brain",
+        "shelf-diagrams",
+        "shelf-exec-brief",
+        "shelf-hormozi",
         "shelf-invoices",
-        "shelf-video"
+        "shelf-podcasts",
+        "shelf-thumbnails",
+        "shelf-transcripts",
+        "shelf-video",
+        "shelf-web-scrape",
+        "shelf-writing-style"
       ]
     }
   ],
@@ -474,6 +486,71 @@
       ]
     },
     {
+      "name": "shelf-content-pipeline",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: capture content ideas, develop each against your strategy, and schedule them with a make-by date, in one local file you can open.",
+      "source": "./plugins/shelf-content-pipeline",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "content-pipeline"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": []
+    },
+    {
+      "name": "shelf-daily-brief",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: a morning brief you will actually read: your numbers, yesterday's meetings and Slack, and what needs attention, written by one model call and saved to your project.",
+      "source": "./plugins/shelf-daily-brief",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "daily-brief"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [
+        {
+          "key": "anthropic_api_key",
+          "sensitive": true,
+          "required": false
+        },
+        {
+          "key": "gemini_api_key",
+          "sensitive": true,
+          "required": false
+        },
+        {
+          "key": "openai_api_key",
+          "sensitive": true,
+          "required": false
+        },
+        {
+          "key": "openrouter_api_key",
+          "sensitive": true,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": []
+    },
+    {
       "name": "shelf-decks",
       "kind": "shelf",
       "module": 12,
@@ -501,6 +578,128 @@
         "powerpoint",
         "presentation"
       ]
+    },
+    {
+      "name": "shelf-deep-research",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: run a multi-source research pass: scope the question, recon the sources, read them in parallel, run a critic pass, then write up with confidence labels.",
+      "source": "./plugins/shelf-deep-research",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "deep-research",
+        "web-scrape"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [
+        {
+          "key": "exa_api_key",
+          "sensitive": true,
+          "required": false
+        },
+        {
+          "key": "firecrawl_api_key",
+          "sensitive": true,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": []
+    },
+    {
+      "name": "shelf-design-brain",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: query 1,119 sourced design fundamentals and get design critiques that cite the entry number and the named source.",
+      "source": "./plugins/shelf-design-brain",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "design-brain"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": []
+    },
+    {
+      "name": "shelf-diagrams",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: describe a system in plain English and get a clean architecture, pipeline or funnel diagram drawn with D2 and checked by eye.",
+      "source": "./plugins/shelf-diagrams",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "diagrams"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": []
+    },
+    {
+      "name": "shelf-exec-brief",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: build a cream-paper A4 decision brief as one HTML file, with your own figures, ready to print to PDF.",
+      "source": "./plugins/shelf-exec-brief",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "exec-brief"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": []
+    },
+    {
+      "name": "shelf-hormozi",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: run the Hormozi offer engine on your own offer, grounded in the books you own, citing book, chapter and page and refusing to invent.",
+      "source": "./plugins/shelf-hormozi",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "hormozi"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": []
     },
     {
       "name": "shelf-invoices",
@@ -531,6 +730,102 @@
       ]
     },
     {
+      "name": "shelf-podcasts",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: find the right podcast episodes, rank a shortlist, and pull the full transcripts of the ones you pick.",
+      "source": "./plugins/shelf-podcasts",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "podcasts",
+        "web-scrape"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [
+        {
+          "key": "exa_api_key",
+          "sensitive": true,
+          "required": false
+        },
+        {
+          "key": "firecrawl_api_key",
+          "sensitive": true,
+          "required": false
+        },
+        {
+          "key": "supadata_api_key",
+          "sensitive": true,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": []
+    },
+    {
+      "name": "shelf-thumbnails",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: make four on-brand video thumbnail concepts from your own photos, then add the headline as a real text layer so it is spelled correctly.",
+      "source": "./plugins/shelf-thumbnails",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "thumbnails"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [
+        {
+          "key": "gemini_api_key",
+          "sensitive": true,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": []
+    },
+    {
+      "name": "shelf-transcripts",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: pull the full words of a YouTube, TikTok, Instagram or X video, then extract decisions, objections and quotes from them.",
+      "source": "./plugins/shelf-transcripts",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "transcripts",
+        "web-scrape"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [
+        {
+          "key": "supadata_api_key",
+          "sensitive": true,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": []
+    },
+    {
       "name": "shelf-video",
       "kind": "shelf",
       "module": 12,
@@ -557,6 +852,61 @@
         "captions",
         "filler"
       ]
+    },
+    {
+      "name": "shelf-web-scrape",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: search the web by meaning and read any page, including JavaScript-heavy ones, with your own Exa and Firecrawl keys.",
+      "source": "./plugins/shelf-web-scrape",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "web-scrape"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [
+        {
+          "key": "exa_api_key",
+          "sensitive": true,
+          "required": false
+        },
+        {
+          "key": "firecrawl_api_key",
+          "sensitive": true,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": []
+    },
+    {
+      "name": "shelf-writing-style",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: scrub AI slop out of a draft before you ship it: banned words, em dashes, wind-ups and model tells, keeping your names, numbers and claims.",
+      "source": "./plugins/shelf-writing-style",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "writing-style"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": []
     },
     {
       "name": "aios-complete",
