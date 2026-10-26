@@ -502,6 +502,10 @@ class ReleaseTags(unittest.TestCase):
             for rel in ('scripts','.claude-plugin','plugins'):
                 shutil.copytree(str(ROOT/rel),str(clone/rel),dirs_exist_ok=True,ignore=shutil.ignore_patterns('__pycache__'))
             subprocess.run(['git','-C',str(clone),'remote','remove','origin'],check=True)
+            # Start untagged: the real repository carries release tags since 26 Oct 2026, and the clone copies them.
+            tags=subprocess.run(['git','-C',str(clone),'tag','-l'],check=True,capture_output=True,text=True).stdout.split()
+            if tags:
+                subprocess.run(['git','-C',str(clone),'tag','-d',*tags],check=True,capture_output=True)
             subprocess.run(['git','-C',str(clone),'tag','aios--v2.0.0'],check=True)
             log=Path(temp)/'calls.txt'
             fake=Path(temp)/'claude'
