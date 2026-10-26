@@ -1,0 +1,22 @@
+{
+  "name": "tools-images",
+  "version": "2.0.0",
+  "description": "Make images and AI video on your own Higgsfield account with Higgsfield's own skills, using our shot-by-shot prompt method, a check before credits are spent, and a manifest of every generation.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "images",
+    "video",
+    "higgsfield",
+    "seedance",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

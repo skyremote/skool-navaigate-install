@@ -1,0 +1,9 @@
+{
+  "name": "tools-images",
+  "source": "./plugins/tools-images",
+  "version": "2.0.0",
+  "description": "Tools: images and AI video on your own Higgsfield, shot-by-shot prompts checked before credits are spent.",
+  "metadata": {
+    "module": 12
+  }
+}
