@@ -1,250 +1,387 @@
-"""Tests for the shelf-invoices pack. Run: python3 -m unittest discover -s tests/shelf-invoices"""
+"""Tests for shelf-invoices 2.0.1. Run: python3 -m unittest discover -s tests/shelf-invoices
+
+Needs lxml (python3 -m pip install --user lxml). The PDF tests need LibreOffice and skip without it.
+"""
+import hashlib
 import io
 import json
 import os
-import stat
+import re
+import shutil
+import struct
+import subprocess
 import sys
 import tempfile
-import threading
 import unittest
+import zipfile
+import zlib
 from contextlib import redirect_stderr, redirect_stdout
 from decimal import Decimal
 from pathlib import Path
-from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / 'plugins/shelf-invoices'))
-from shelf_invoices import books as bk  # noqa: E402
-from shelf_invoices import money, pdf, sample  # noqa: E402
-from shelf_invoices.cli import main  # noqa: E402
+PACK = ROOT / "plugins" / "shelf-invoices"
+sys.path.insert(0, str(PACK / "scripts"))
+import generate_invoice as gi  # noqa: E402
+import make_clean_template as mct  # noqa: E402
 
-try:
-    import reportlab  # noqa: F401
-    HAVE_REPORTLAB = True
-except ImportError:
-    HAVE_REPORTLAB = False
+TEMPLATE = PACK / "assets" / "template_v1.docx"
+SAMPLE = PACK / "assets" / "sample"
+BIN = PACK / "bin" / "shelf-invoices"
 
-
-class MoneyTests(unittest.TestCase):
-    def test_parse_item(self):
-        item = money.parse_item('Design | 2 | 1,200.50', '20')
-        self.assertEqual(item, {'description': 'Design', 'quantity': '2', 'unit_price': '1200.50', 'vat_rate': '20'})
-        self.assertEqual(money.parse_item('Hosting | 1 | 25 | 0%', '20')['vat_rate'], '0')
-
-    def test_parse_item_errors(self):
-        for bad in ('no pipes', 'X | two | 3', 'X | 0 | 3', 'X | 1 | 3 | 120', ' | 1 | 3'):
-            with self.assertRaises(money.MoneyError, msg=bad):
-                money.parse_item(bad, '20')
-
-    def test_totals_group_vat_by_rate(self):
-        items = [money.parse_item('A | 1 | 2400', '20'), money.parse_item('B | 1 | 650', '20'),
-                 money.parse_item('C | 3 | 10 | 5', '20')]
-        t = money.totals(items, 'standard')
-        self.assertEqual((t['net'], t['vat'], t['total']), ('3080.00', '611.50', '3691.50'))
-        self.assertEqual([r['rate'] for r in t['vat_rows']], ['20', '5'])
-
-    def test_rounding_half_up_per_line(self):
-        t = money.totals([money.parse_item('A | 3 | 0.335', '20')], 'standard')
-        self.assertEqual(t['lines'][0]['amount'], '1.01')   # 1.005 rounds up
-        self.assertEqual(t['vat'], '0.20')
-
-    def test_non_standard_modes_charge_no_vat(self):
-        items = [money.parse_item('A | 1 | 100', '20')]
-        for mode in ('reverse-charge', 'zero-rated', 'exempt', 'outside-scope', 'not-registered'):
-            t = money.totals(items, mode)
-            self.assertEqual((t['vat'], t['total']), ('0.00', '100.00'), mode)
-            self.assertTrue(money.VAT_MODES[mode])
-
-    def test_format(self):
-        self.assertEqual(money.fmt('3690', 'GBP'), '£3,690.00')
-        self.assertEqual(money.fmt('-1800', 'EUR'), '-€1,800.00')
-        self.assertEqual(money.fmt('12.5', 'PLN'), '12.50 PLN')
-        self.assertEqual(money.fmt_rate('20'), '20%')
-        self.assertEqual(money.fmt_rate('5.50'), '5.5%')
-        self.assertEqual(money.fmt_qty('10'), '10')
-        self.assertEqual(money.fmt_qty('-1'), '-1')
-
-    def test_bad_mode(self):
-        with self.assertRaises(money.MoneyError):
-            money.totals([], 'sometimes')
+# The privacy scans from the shelf v2 brief, applied to every part of every shipped archive. The private strings
+# themselves must not be published, so the test holds only (length, SHA-256 prefix of the lower-cased string) and
+# hashes every window of that length that starts a word. The generic patterns stay as regular expressions.
+PRIVATE = {
+    (9, "6fd06f2a4fdd27bd49f6aba6"), (12, "09161f256a96476fdd1526cd"), (13, "6767778e470b5216a9ef0296"),
+    (12, "38a84aae6a076c1cca998bb5"), (17, "cdcd28407e19135194eee8e6"), (20, "7904178987efce8f8a1bd086"),
+    (7, "fb582ee70e88265c59c0dee5"), (11, "59e6f1d3bc3523b0c80c77bf"), (8, "82ca071df925197017b0197d"),
+    (9, "2b9c8c6dec3a356b36775c1e"), (10, "6b1b9415ca033df9b668f4f0"), (10, "8ab272bd8fac78d2ac8c9621"),
+    (10, "32d6cd6572c703b15ae6b35a"), (10, "e129d0d8787516914c076abe"), (9, "6a05266e64cf3224ac31f9c2"),
+    (10, "ce56d5803d55a8f4f0aebe7c"), (17, "96ce572e1c1000f5f246d949"), (5, "ecd50b07b75cca839862f648"),
+    (8, "904516c80aaec28554115539"), (5, "1ba3531ea8129e6858b329f0"), (8, "8589c25b0959ade9695eba45"),
+    (10, "563cb4c90f71e3054bc07eb6"), (22, "997cbf837e9af0b30dd194c9"), (14, "01e096604c4c122992157274"),
+    (7, "5fa495b84bd1c34d833ad414"), (6, "d300571a34febb044e2e6d14"), (8, "320d597682ed208cdaa58f77"),
+    (5, "e3fd7ca42b4557ab6f78ec67"), (6, "e181b3dfcbf4b938b8254b83"), (10, "b1ad0143047aa493a69df4e6"),
+    (12, "81743b673c91fd3ced4e0b4e"),
+}
+GENERIC = re.compile(r"libsql:" r"//|ey" r"J[A-Za-z0-9_-]{20,}|s" r"k-[A-Za-z0-9]{20,}"
+                     r"|DE[0-9]{2} ?[0-9]{4} ?[0-9]{4} ?[0-9]{4} ?[0-9]{4} ?[0-9]{2}")
+WORD_START = re.compile(r"(?<![a-z0-9])[a-z0-9]")
 
 
-class Books(unittest.TestCase):
-    def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory(prefix='shelf-invoices-test-')
-        self.dir = Path(self.tmp.name)
-        self.env = patch.dict(os.environ, {'AIOS_CONFIG_DIR': str(self.dir / 'config'), 'HOME': str(self.dir)})
-        self.env.start()
-
-    def tearDown(self):
-        self.env.stop()
-        self.tmp.cleanup()
-
-    def cli(self, *args):
-        out, err = io.StringIO(), io.StringIO()
-        with redirect_stdout(out), redirect_stderr(err):
-            code = main([str(a) for a in args])
-        return code, out.getvalue(), err.getvalue()
-
-    def sample_books(self):
-        return sample.make(self.dir / 'books')
+def private_hits(text):
+    hits = [m.group(0) for m in GENERIC.finditer(text)]
+    text = text.lower()
+    lengths = {n for n, _ in PRIVATE}
+    for m in WORD_START.finditer(text):
+        i = m.start()
+        for n in lengths:
+            if (n, hashlib.sha256(text[i:i + n].encode()).hexdigest()[:24]) in PRIVATE:
+                hits.append("a private string at offset %d" % i)
+    return hits
+FIELDS = {"signatory", "company_name", "company_address", "contact_line", "web_line", "title", "subtitle",
+          "client_name", "client_address", "requester", "client_extra", "date_long", "invoice_number", "currency",
+          "po_number", "po_extra", "greeting", "intro", "item_no", "item_title", "item_description", "item_amount",
+          "total_note", "total", "service_line", "vat_label", "vat_text", "vat_row_amount", "bank_line", "tax_line",
+          "payment_terms", "closing", "date_short", "legal_footer"}
 
 
-class BooksTests(Books):
-    def test_init_is_private_and_default(self):
-        b = bk.init(self.dir / 'mine')
-        self.assertEqual(bk.resolve_books(None), b.resolve())
-        self.assertEqual(stat.S_IMODE((b / 'company.json').stat().st_mode), 0o600)
-        self.assertEqual(stat.S_IMODE(b.stat().st_mode), 0o700)
-
-    def test_no_books_message(self):
-        with self.assertRaises(bk.BooksError) as cm:
-            bk.resolve_books(None)
-        self.assertIn('shelf-invoices init', str(cm.exception))
-
-    def test_company_set_types_and_checks(self):
-        b = bk.init(self.dir / 'mine')
-        self.assertIn('name', bk.check_company(bk.company(b)))
-        bk.set_company(b, 'address', '1 Road;Town;AB1 2CD')
-        bk.set_company(b, 'payment_terms_days', '14')
-        bk.set_company(b, 'vat_registered', 'false')
-        c = bk.company(b)
-        self.assertEqual((c['address'], c['payment_terms_days'], c['vat_registered']), (['1 Road', 'Town', 'AB1 2CD'], 14, False))
-        for key, value in (('colour', 'x'), ('number_format', '{prefix}-{year}'), ('number_reset', 'monthly'),
-                           ('logo', 'missing.png')):
-            with self.assertRaises(bk.BooksError, msg=key):
-                bk.set_company(b, key, value)
-
-    def test_numbering_yearly_and_never(self):
-        b = self.sample_books()
-        c = bk.company(b)
-        n1, _ = bk.next_number(b, c, 'invoice', bk.parse_date('2026-03-01'))
-        self.assertEqual(n1, 'ACME-2026-0001')
-        bk.record(b, {'number': n1, 'seq': 1, 'year': 2026, 'kind': 'invoice', 'total': '1', 'status': 'issued'})
-        self.assertEqual(bk.next_number(b, c, 'invoice', bk.parse_date('2026-04-01'))[0], 'ACME-2026-0002')
-        self.assertEqual(bk.next_number(b, c, 'invoice', bk.parse_date('2027-01-02'))[0], 'ACME-2027-0001')
-        self.assertEqual(bk.next_number(b, c, 'credit', bk.parse_date('2026-04-01'))[0], 'CN-2026-0001')
-        c['number_reset'] = 'never'
-        self.assertEqual(bk.next_number(b, c, 'invoice', bk.parse_date('2027-01-02'))[0], 'ACME-2027-0002')
+def tmpdir(test):
+    path = Path(tempfile.mkdtemp(prefix="shelf-invoices-test-"))
+    test.addCleanup(shutil.rmtree, path, True)
+    return path
 
 
-@unittest.skipUnless(HAVE_REPORTLAB, 'ReportLab not installed')
-class FlowTests(Books):
-    def draft(self, b, *extra):
-        return self.cli('draft', '--books', b, '--date', '2026-10-26', *extra)
+def parts_of(docx):
+    with zipfile.ZipFile(docx) as z:
+        return {n: z.read(n) for n in z.namelist()}
 
-    def test_full_flow(self):
-        b = self.sample_books()
-        code, out, err = self.draft(b, '--client', 'northwind', '--item', 'Design | 1 | 2400', '--item', 'Hosting | 1 | 25 | 0',
-                                    '--po', 'NW-1')
-        self.assertEqual(code, 0, err)
-        self.assertIn('£2,905.00', out)
-        self.assertTrue((b / 'drafts/northwind_draft_v1.pdf').exists())
-        self.assertEqual(bk.ledger(b)['documents'], [], 'a draft is never numbered')
-        code, _, err = self.cli('issue', 'northwind_draft_v1', '--books', b)
-        self.assertEqual(code, 1)
-        self.assertIn('must not issue', err)
-        self.assertEqual(self.cli('issue', 'northwind_draft_v1', '--books', b, '--yes')[0], 0)
-        filed = b / '2026/ACME-2026-0001_northwind.pdf'
-        self.assertTrue(filed.exists())
-        self.assertTrue(filed.with_suffix('.json').exists())
-        code, out, _ = self.cli('verify', 'ACME-2026-0001', '--books', b)
-        self.assertEqual(code, 0, out)
-        code, _, err = self.cli('issue', 'northwind_draft_v1', '--books', b, '--yes')
-        self.assertEqual(code, 1)
-        self.assertIn('already issued', err)
-        csv_text = (b / 'ledger.csv').read_text()
-        self.assertIn('ACME-2026-0001,invoice,2026-10-26,2026-11-25,Northwind Bakery Ltd,GBP,2425.00,480.00,2905.00', csv_text)
 
-    def test_pdf_text_has_the_essentials(self):
-        b = self.sample_books()
-        self.draft(b, '--client', 'contoso-de', '--item', 'Workshop | 1 | 1800')
-        self.cli('issue', 'contoso-de_draft_v1', '--books', b, '--yes')
-        text = pdf.text_of(b / '2026/ACME-2026-0001_contoso-de.pdf')
-        if text is None:
-            self.skipTest('No PDF text extractor')
-        flat = ' '.join(text.split())
-        for needle in ('ACME-2026-0001', 'Contoso GmbH', 'DE000000000', 'GB000000000', 'Reverse charge',
-                       '€1,800.00', 'GB82 WEST 1234 5698 7654 32'):
-            self.assertIn(needle, flat)
+def doc_text(docx):
+    p = parts_of(docx)
+    return " ".join(re.findall(r"<w:t(?: [^>]*)?>([^<]*)</w:t>", p["word/document.xml"].decode() +
+                               p["word/footer1.xml"].decode()))
+
+
+def png(w, h):
+    raw = b"".join(b"\x00" + b"\xff\x00\x00" * w for _ in range(h))
+
+    def chunk(t, d):
+        return struct.pack(">I", len(d)) + t + d + struct.pack(">I", zlib.crc32(t + d) & 0xffffffff)
+    return (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 2, 0, 0, 0))
+            + chunk(b"IDAT", zlib.compress(raw)) + chunk(b"IEND", b""))
+
+
+def sample_company():
+    c = gi.load_company(SAMPLE / "company.json")
+    c["_sample"] = True
+    return c
+
+
+def sample_spec(name="northwind-website.json", **over):
+    spec = json.loads((SAMPLE / "examples" / name).read_text())
+    spec.setdefault("invoice_number", "ACME-010")
+    spec.update(over)
+    return spec
+
+
+def cli(*args, env=None):
+    out, err = io.StringIO(), io.StringIO()
+    e = dict(os.environ, **(env or {}))
+    r = subprocess.run([sys.executable, str(BIN)] + [str(a) for a in args], capture_output=True, text=True, env=e)
+    return r.returncode, r.stdout, r.stderr
+
+
+class TemplateTests(unittest.TestCase):
+    def test_no_private_string_in_any_part(self):
+        for name, data in parts_of(TEMPLATE).items():
+            self.assertEqual(private_hits(data.decode("utf-8", "ignore")), [], name)
+
+    def test_the_scanner_finds_what_it_looks_for(self):
+        home = "/Us" + "ers/" + "s" + "ky/Documents"  # built in pieces so the repo-wide grep stays clean
+        self.assertEqual(len(private_hits("path: " + home)), 1)
+        self.assertEqual(private_hits("Acme Studio Ltd, Bristol"), [])
+
+    def test_no_thumbnail_or_custom_xml(self):
+        p = parts_of(TEMPLATE)
+        self.assertNotIn("docProps/thumbnail.jpeg", p)
+        self.assertFalse([n for n in p if n.startswith("customXml/")])
+        self.assertNotIn(b"thumbnail", p["_rels/.rels"])
+        self.assertNotIn(b"customXml", p["[Content_Types].xml"])
+        self.assertNotIn(b"customXml", p["word/_rels/document.xml.rels"])
+
+    def test_core_properties_reset(self):
+        core = parts_of(TEMPLATE)["docProps/core.xml"].decode()
+        for tag in ("dc:title", "dc:creator", "dc:description", "cp:lastModifiedBy"):
+            self.assertRegex(core, r"<%s>\s*</%s>|<%s/>" % (tag, tag, tag))
+
+    def test_every_field_is_a_placeholder_the_generator_knows(self):
+        found = set(re.findall(r"\{\{(\w+)\}\}", doc_text(TEMPLATE)))
+        self.assertEqual(found, FIELDS)
+
+    def test_logo_is_the_neutral_placeholder(self):
+        self.assertEqual(parts_of(TEMPLATE)["word/media/image1.png"], (PACK / "assets/placeholder_logo.png").read_bytes())
+        self.assertNotIn(b"navaigate", parts_of(TEMPLATE)["word/document.xml"].lower())
+
+    def test_sample_and_shipped_files_are_clean(self):
+        for p in PACK.rglob("*"):
+            if p.is_file() and p.suffix in (".json", ".md", ".py", "") and p.name != ".DS_Store":
+                self.assertEqual(private_hits(p.read_text(encoding="utf-8", errors="ignore")), [], str(p))
+        for archive in PACK.rglob("*.docx"):
+            for name, data in parts_of(archive).items():
+                self.assertEqual(private_hits(data.decode("utf-8", "ignore")), [], "%s:%s" % (archive.name, name))
+
+
+class BuildTests(unittest.TestCase):
+    def test_vat_standard(self):
+        values, items, t = gi.build(sample_company(), sample_spec())
+        self.assertEqual((t["net"], t["vat"], t["gross"]), (Decimal("3075.00"), Decimal("615.00"), Decimal("3690.00")))
+        self.assertEqual(values["total"], "£3,690.00")
+        self.assertEqual(values["vat_row_amount"], "£615.00")
+        self.assertIn("(incl. 20% VAT)", values["total_note"])
+        self.assertEqual(len(items), 3)
+
+    def test_quantity_times_unit_price_and_reverse_charge(self):
+        values, items, t = gi.build(sample_company(), sample_spec("contoso-workshop.json"))
+        self.assertEqual(t["gross"], Decimal("3600.00"))
+        self.assertEqual(t["vat"], Decimal("0"))
+        self.assertIn("3 days × €1,200.00", items[0]["item_description"])
+        self.assertEqual(values["vat_row_amount"], "€3,600.00")
+        self.assertIn("reverse charge", values["vat_text"])
+        self.assertIn("DE000000000", values["client_extra"])
 
     def test_reverse_charge_needs_client_vat_id(self):
-        b = self.sample_books()
-        code, _, err = self.draft(b, '--to-name', 'Someone GmbH', '--to-address', 'Berlin', '--vat-mode', 'reverse-charge',
-                                  '--item', 'X | 1 | 10')
-        self.assertEqual(code, 1)
-        self.assertIn('VAT ID', err)
+        with self.assertRaises(gi.InvoiceError):
+            gi.build(sample_company(), sample_spec("contoso-workshop.json", client_vat_id="", vat="reverse_charge_eu"))
 
-    def test_not_registered_forces_no_vat(self):
-        b = self.sample_books()
-        bk.set_company(b, 'vat_registered', 'false')
-        code, out, _ = self.draft(b, '--client', 'northwind', '--item', 'X | 1 | 100')
+    def test_not_registered_cannot_charge_vat(self):
+        c = sample_company()
+        c["vat_mode"] = "not_registered"
+        with self.assertRaises(gi.InvoiceError):
+            gi.build(c, sample_spec(vat="standard"))
+        values, _, t = gi.build(c, sample_spec(vat="not_registered"))
+        self.assertEqual(t["vat"], 0)
+        self.assertIn("not registered", values["vat_text"])
+
+    def test_wording_comes_from_settings(self):
+        c = sample_company()
+        c["vat_wording"]["outside_scope"] = {"label": "Export: ", "text": "zero tax for {country}"}
+        values, _, _ = gi.build(c, sample_spec(vat="outside_scope"))
+        self.assertEqual((values["vat_label"], values["vat_text"]), ("Export: ", "zero tax for the UK"))
+
+    def test_payment_terms_quote_po_and_number(self):
+        values, _, _ = gi.build(sample_company(), sample_spec())
+        self.assertEqual(values["payment_terms"],
+                         "Payment terms: net 14 days, per purchase order NW-0042. Please quote ACME-010 with payment.")
+        values, _, _ = gi.build(sample_company(), sample_spec(payment_terms="Due on receipt."))
+        self.assertEqual(values["payment_terms"], "Due on receipt.")
+
+    def test_bad_input_is_refused(self):
+        for over in ({"items": []}, {"vat": "made_up"}, {"date": "26/10/2026"},
+                     {"items": [{"title": "X"}]}, {"items": [{"title": "X", "amount": "lots"}]}):
+            with self.assertRaises(gi.InvoiceError, msg=over):
+                gi.build(sample_company(), sample_spec(**over))
+
+    def test_company_check(self):
+        missing, _ = gi.check_company(gi.load_company(SAMPLE / "company.json"))
+        self.assertEqual(missing, [])
+        blank = dict(gi.COMPANY_DEFAULTS)
+        missing, _ = gi.check_company(blank)
+        self.assertTrue({"company_name", "email", "signatory", "address"} <= set(missing))
+        _, warnings = gi.check_company(gi.load_company(SAMPLE / "company.json"))
+        self.assertTrue(any("SAMPLE" in w for w in warnings), "real books holding SAMPLE values must be flagged")
+
+
+class DocxTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tmpdir(self)
+
+    def make(self, spec, name="out.docx", logo=None, company=None):
+        values, items, _ = gi.build(company or sample_company(), spec)
+        problems = gi.fill_docx(values, items, self.tmp / name, logo)
+        return self.tmp / name, problems
+
+    def test_every_placeholder_filled_in_every_part(self):
+        out, problems = self.make(sample_spec())
+        self.assertEqual(problems, [])
+        for name, data in parts_of(out).items():
+            self.assertNotIn(b"{{", data, name)
+        text = doc_text(out)
+        for want in ("Acme Studio Ltd", "Northwind Bakery Ltd", "ACME-010", "NW-0042", "£3,690.00", "Sam Lee",
+                     "Service date: October 2026.", "IBAN XX00 SAMPLE", "Alex Morgan"):
+            self.assertIn(want, text)
+
+    def test_multi_line_items_clone_rows(self):
+        out, _ = self.make(sample_spec())
+        xml = parts_of(out)["word/document.xml"].decode()
+        rows = [r for r in re.findall(r"<w:tr[ >].*?</w:tr>", xml, re.S)
+                if re.search(r">(Booking page redesign|Menu photography|Hosting, October)<", r)]
+        self.assertEqual(len(rows), 3)
+
+    def test_never_overwrites(self):
+        out, _ = self.make(sample_spec())
+        before = out.read_bytes()
+        with self.assertRaises(gi.InvoiceError):
+            self.make(sample_spec())
+        self.assertEqual(out.read_bytes(), before)
+
+    def test_wrong_currency_sign_is_caught(self):
+        spec = sample_spec()
+        spec["items"][0]["description"] = "Paid €200 deposit"
+        _, problems = self.make(spec)
+        self.assertTrue(any("EUR sign" in p for p in problems))
+
+    def test_empty_lines_disappear(self):
+        spec = sample_spec(po_number="", subtitle="", requester="", service_date="")
+        out, problems = self.make(spec)
+        self.assertEqual(problems, [])
+        text = doc_text(out)
+        self.assertNotIn("Purchase order:", text)
+        self.assertNotIn("Requester:", text)
+        self.assertNotIn("Service date", text)
+        self.assertIn("Hello,", text)
+
+    def test_logo_swap_keeps_proportions(self):
+        logo = png(400, 100)
+        out, _ = self.make(sample_spec(), logo=logo)
+        p = parts_of(out)
+        self.assertEqual(p["word/media/image1.png"], logo)
+        cx, cy = map(int, re.search(rb'<wp:extent cx="(\d+)" cy="(\d+)"', p["word/document.xml"]).groups())
+        self.assertAlmostEqual(cx / cy, 4.0, places=2)
+        with self.assertRaises(gi.InvoiceError):
+            self.make(sample_spec(), name="jpeg.docx", logo=b"\xff\xd8\xff\xe0 not a png")
+
+    def test_clean_template_round_trip(self):
+        """A filled one-item invoice, cleaned again, gives back exactly the shipped placeholder text."""
+        spec = sample_spec(items=[{"title": "Workshop", "description": "One day", "amount": 900}],
+                           client_extra="Cost centre 12")
+        out, _ = self.make(spec)
+        clean = self.tmp / "clean.docx"
+        self.assertEqual(mct.main([str(out), str(clean)]), 0)
+        self.assertEqual(doc_text(clean), doc_text(TEMPLATE))
+        for name, data in parts_of(clean).items():
+            self.assertNotIn(b"Northwind", data, name)
+            self.assertNotIn(b"Acme", data, name)
+
+    def test_clean_template_refuses_other_layouts(self):
+        out, _ = self.make(sample_spec())  # three items: more runs than the house layout
+        with redirect_stderr(io.StringIO()):
+            self.assertEqual(mct.main([str(out), str(self.tmp / "clean.docx")]), 1)
+        self.assertFalse((self.tmp / "clean.docx").exists())
+
+
+class NumberTests(unittest.TestCase):
+    def test_highest_plus_one(self):
+        books = tmpdir(self)
+        c = sample_company()
+        self.assertEqual(gi.next_number(books, c), ("ACME-001", None))
+        for rel in ("2026/09/ACME-001.pdf", "2026/10/ACME-007.pdf", "drafts/ACME-009_v2.docx",
+                    "drafts/ACME-NW-030_v1.docx", "notes/ACME-099-notes.txt"):
+            (books / rel).parent.mkdir(parents=True, exist_ok=True)
+            (books / rel).write_text("x")
+        self.assertEqual(gi.next_number(books, c), ("ACME-010", 9))
+        self.assertEqual(gi.next_number(books, c, "nw"), ("ACME-NW-031", 30))
+
+
+@unittest.skipUnless(gi.find_soffice(), "LibreOffice not installed")
+class PdfTests(unittest.TestCase):
+    def test_renders_one_page(self):
+        tmp = tmpdir(self)
+        values, items, _ = gi.build(sample_company(), sample_spec())
+        gi.fill_docx(values, items, tmp / "ACME-010_v1.docx", (SAMPLE / "acme-studio-logo.png").read_bytes())
+        pdf = gi.render_pdf(tmp / "ACME-010_v1.docx")
+        self.assertTrue(pdf and pdf.exists())
+        self.assertEqual(gi.pdf_pages(pdf), 1)
+
+
+class CliTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tmpdir(self)
+        self.env = {"AIOS_CONFIG_DIR": str(self.tmp / "cfg"), "SHELF_INVOICES_BOOKS": "",
+                    "CLAUDE_PLUGIN_OPTION_BOOKS_FOLDER": ""}
+
+    def test_version(self):
+        code, out, _ = cli("--version", env=self.env)
+        self.assertEqual((code, out.strip()), (0, "shelf-invoices 2.0.1"))
+
+    def test_sample_make_file_flow(self):
+        books = self.tmp / "practice"
+        code, out, _ = cli("sample", books, env=self.env)
+        self.assertEqual(code, 0, out)
+        code, out, _ = cli("next-number", "--books", books, env=self.env)
+        self.assertIn("ACME-002  (highest used: ACME-001)", out)
+        code, out, err = cli("make", books / "examples/contoso-workshop.json", "--books", books, "--no-pdf",
+                             env=self.env)
+        self.assertEqual(code, 0, out + err)
+        self.assertIn("Invoice ACME-002", out)
+        self.assertTrue((books / "drafts/ACME-002_v1.docx").exists())
+        self.assertEqual(json.loads((books / "drafts/ACME-002_v1.spec.json").read_text())["invoice_number"], "ACME-002")
+        # A second make of the same spec takes the next number; a fixed number gets a new version, never overwrites.
+        spec = json.loads((books / "examples/contoso-workshop.json").read_text())
+        spec["invoice_number"] = "ACME-002"
+        (self.tmp / "fixed.json").write_text(json.dumps(spec))
+        code, out, _ = cli("make", self.tmp / "fixed.json", "--books", books, "--no-pdf", env=self.env)
+        self.assertTrue((books / "drafts/ACME-002_v2.docx").exists())
+        # Filing needs the PDF the member has looked at.
+        code, _, err = cli("file", "ACME-002", "--books", books, env=self.env)
+        self.assertEqual(code, 1)
+        self.assertIn("No PDF", err)
+        (books / "drafts/ACME-002_v2.pdf").write_bytes(b"%PDF-1.4 test")
+        code, out, err = cli("file", "ACME-002", "--books", books, env=self.env)
+        self.assertEqual(code, 0, err)
+        self.assertTrue((books / "2026/10/ACME-002.pdf").exists())
+        code, _, err = cli("file", "ACME-002", "--books", books, env=self.env)
+        self.assertEqual(code, 1)
+        code, _, err = cli("make", self.tmp / "fixed.json", "--books", books, "--no-pdf", env=self.env)
+        self.assertEqual(code, 1)
+        self.assertIn("already filed", err)
+
+    def test_init_never_overwrites_and_check_refuses_blank(self):
+        books = self.tmp / "mine"
+        code, _, _ = cli("init", books, env=self.env)
         self.assertEqual(code, 0)
-        self.assertIn('total £100.00 (not-registered)', out)
-
-    def test_incomplete_company_refused(self):
-        b = bk.init(self.dir / 'empty')
-        code, _, err = self.draft(b, '--to-name', 'X', '--item', 'X | 1 | 1')
+        (books / "company.json").write_text('{"company_name": "Mine"}')
+        code, out, _ = cli("init", books, env=self.env)
+        self.assertIn("Already set up", out)
+        self.assertEqual((books / "company.json").read_text(), '{"company_name": "Mine"}')
+        code, out, _ = cli("company", "check", env=self.env)  # the remembered default
         self.assertEqual(code, 1)
-        self.assertIn('Finish your company details', err)
+        self.assertIn("Missing before you can invoice", out)
 
-    def test_credit_note_cancels_and_marks(self):
-        b = self.sample_books()
-        self.draft(b, '--client', 'northwind', '--item', 'Design | 1 | 100')
-        self.cli('issue', 'northwind_draft_v1', '--books', b, '--yes')
-        self.assertEqual(self.cli('credit', 'ACME-2026-0001', '--books', b, '--reason', 'Duplicate')[0], 1)
-        self.assertEqual(self.cli('credit', 'ACME-2026-0001', '--books', b, '--reason', 'Duplicate', '--yes')[0], 0)
-        docs = {d['number']: d for d in bk.ledger(b)['documents']}
-        self.assertEqual(docs['ACME-2026-0001']['status'], 'credited')
-        self.assertEqual(docs['CN-2026-0001']['total'], '-120.00')
-        self.assertIn('credited', (b / 'ledger.csv').read_text())
-        self.assertEqual(self.cli('credit', 'ACME-2026-0001', '--books', b, '--reason', 'Again', '--yes')[0], 1)
+    def test_plugin_setting_picks_the_books_folder(self):
+        books = self.tmp / "practice"
+        cli("sample", books, env=self.env)
+        env = dict(self.env, CLAUDE_PLUGIN_OPTION_BOOKS_FOLDER=str(books))
+        code, out, _ = cli("next-number", env=env)
+        self.assertEqual(code, 0)
+        self.assertIn("ACME-002", out)
 
-    def test_tampered_pdf_fails_verify(self):
-        b = self.sample_books()
-        self.draft(b, '--client', 'northwind', '--item', 'Design | 1 | 100')
-        self.cli('issue', 'northwind_draft_v1', '--books', b, '--yes')
-        f = b / '2026/ACME-2026-0001_northwind.pdf'
-        f.write_bytes(f.read_bytes() + b'\n% edited\n')
-        code, out, _ = self.cli('verify', 'ACME-2026-0001', '--books', b)
+    def test_no_books_folder_says_what_to_do(self):
+        code, _, err = cli("next-number", env=self.env)
         self.assertEqual(code, 1)
-        self.assertIn('changed after it was issued', out)
-
-    def test_parallel_issues_never_share_a_number(self):
-        b = self.sample_books()
-        c = bk.company(b)
-        docs = []
-        for i in range(6):
-            doc = {'kind': 'invoice', 'date': '2026-10-26', 'due': '2026-11-25', 'currency': 'GBP', 'vat_mode': 'standard',
-                   'client': {'key': 'c%d' % i, 'name': 'Client %d' % i, 'address': ['Town']},
-                   'items': [money.parse_item('X | 1 | %d' % (i + 1), '20')]}
-            doc['totals'] = money.totals(doc['items'], 'standard')
-            docs.append(doc)
-        from shelf_invoices.cli import issue_doc
-        threads = [threading.Thread(target=issue_doc, args=(b, c, d, 'invoice')) for d in docs]
-        for t in threads:
-            t.start()
-        for t in threads:
-            t.join()
-        numbers = [d['number'] for d in bk.ledger(b)['documents']]
-        self.assertEqual(sorted(numbers), ['ACME-2026-%04d' % n for n in range(1, 7)])
-
-    def test_long_invoice_refused_not_cut(self):
-        b = self.sample_books()
-        items = []
-        for i in range(40):
-            items += ['--item', 'Line %d with a longer description to fill the page | 1 | 10' % i]
-        code, _, err = self.draft(b, '--client', 'northwind', *items)
-        self.assertEqual(code, 1)
-        self.assertIn('does not fit on one page', err)
-
-    def test_sample_uses_only_fictional_details(self):
-        b = self.sample_books()
-        text = (b / 'company.json').read_text() + (b / 'clients.json').read_text()
-        self.assertIn('.example', text)
-        self.assertNotIn('navaigate', text.lower())
-        self.assertEqual(Decimal(json.loads((b / 'company.json').read_text())['vat_rate']), Decimal(20))
+        self.assertIn("shelf-invoices init", err)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

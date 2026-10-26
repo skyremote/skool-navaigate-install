@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-26",
+  "title": "Booking page redesign",
+  "subtitle": "October 2026",
+  "client_name": "Northwind Bakery Ltd",
+  "client_address": "22 Harbour Road, Bristol BS8 4RU, United Kingdom",
+  "requester": "Sam Lee",
+  "po_number": "NW-0042",
+  "currency": "GBP",
+  "items": [
+    {"title": "Booking page redesign", "description": "New booking page, mobile layout and confirmation emails", "amount": 2400},
+    {"title": "Menu photography", "description": "Half a day on site, twelve edited photos", "amount": 650},
+    {"title": "Hosting, October", "amount": 25}
+  ],
+  "total_note": "",
+  "service_date": "October 2026",
+  "vat": "standard",
+  "payment_days": 14
+}

@@ -1,0 +1,38 @@
+{
+  "company_name": "Acme Studio Ltd",
+  "address": ["Unit 4, 10 Example Lane", "Bristol BS1 0AA", "United Kingdom"],
+  "country": "the UK",
+  "phone": "+44 117 496 0000",
+  "email": "hello@acme-studio.example",
+  "website": "acme-studio.example",
+  "vat_id": "GB000000000 (SAMPLE)",
+  "vat_id_label": "VAT ID",
+  "tax_number": "",
+  "tax_number_label": "UTR",
+  "legal_footer": [
+    "Acme Studio Ltd, registered in England and Wales, company no. 00000000 (SAMPLE)",
+    "Registered office: Unit 4, 10 Example Lane, Bristol BS1 0AA"
+  ],
+  "bank": {
+    "bank_name": "Sample Bank",
+    "account_name": "",
+    "iban": "XX00 SAMPLE 0000 0000 00",
+    "bic": "SAMPXX00",
+    "sort_code": "",
+    "account_number": ""
+  },
+  "invoice_prefix": "ACME-",
+  "number_digits": 3,
+  "currency": "GBP",
+  "payment_days": 14,
+  "footer_note": "",
+  "signatory": "Alex Morgan",
+  "closing": "Best,",
+  "logo": "logo.png",
+  "vat_mode": "standard",
+  "vat_rate": 20,
+  "vat_wording": {},
+  "service_date_label": "Service date",
+  "client_vat_id_label": "VAT ID",
+  "date_short_format": "%d.%m.%Y"
+}
