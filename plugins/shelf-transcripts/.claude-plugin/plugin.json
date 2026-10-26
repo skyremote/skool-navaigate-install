@@ -1,0 +1,32 @@
+{
+  "name": "shelf-transcripts",
+  "version": "2.0.0",
+  "description": "Pull the full words of a YouTube, TikTok, Instagram or X video, then extract decisions, objections and quotes from them.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "transcripts",
+    "youtube",
+    "video",
+    "supadata",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  },
+  "userConfig": {
+    "supadata_api_key": {
+      "type": "string",
+      "title": "Supadata API key",
+      "description": "Pulls video transcripts and YouTube search. Paid and metered. The helper reads SUPADATA_API_KEY from ~/.claude/.env or your shell.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    }
+  }
+}
