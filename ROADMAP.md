@@ -85,8 +85,8 @@ retire that skill. No live lesson or member installation has been changed.
 ## Version and migration boundary
 
 The new manifests are 2.0.0 under plugins/aios and plugins/aios-brain. The old
-first-generation files remain at their original skills/, lessons/, references/
-and templates/ paths. The marketplace retains skool-navaigate-install at ./,
+first-generation files remain at their original skills/, references/
+and templates/ paths. Course lessons and videos live on Skool, not in this repo. The marketplace retains skool-navaigate-install at ./,
 using its original 0.1.0 manifest version. Existing symlinks remain valid after
 pulling this branch. There is no legacy/v1 directory.
 
@@ -97,8 +97,8 @@ because v1 was detected. An explicitly reviewed `./install.sh aios --migrate-v1`
 preserves conflicting start links in member-owned backups and links the 2.0 start
 pack. All other v1 skills, the Claude v1 link and old marketplace ID remain.
 
-The code-review acceptance report is proof/review-fixes_v2.md. All 16 findings
-have dedicated regression cases, including the v1 link survival contract.
+All 16 code-review findings have dedicated regression cases in tests/, including
+the v1 link survival contract.
 
 ## Next scope decisions
 

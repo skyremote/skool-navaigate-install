@@ -35,5 +35,5 @@ if baseline.exists():
     lines+=['## Baseline regression run','',
       'The 22 new regression tests were also run against the original ffddffb code in /tmp. Only the new test file and its import-only privacy helper were copied into that snapshot; the implementation stayed unchanged. The failures below demonstrate missing behaviour or missing new interfaces.','',
       '```text',baseline.read_text().rstrip(),'```','']
-(ROOT/'proof/reproductions_v2.md').write_text(portable('\n'.join(lines))+'\n')
+(ROOT/'.evidence/reproductions_v2.md').write_text(portable('\n'.join(lines))+'\n')
 print('Audit reproduction evidence saved.')

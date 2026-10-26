@@ -10,3 +10,10 @@ __pycache__/
 .bb/
 plugins/*/evals/results/
 video/clips/*.gif
+
+# Course content and build evidence live with the Skool course, not in this repo
+.evidence/
+lessons/
+video/
+proof/
+plugins/*/proof/

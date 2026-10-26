@@ -34,5 +34,5 @@ lines += ['## Findings','',
  '', 'The installed CLI exposes evals with a no-plugin baseline and --no-publish. All three eval attempts are blocked by the empty sandbox not having a subscription login; see eval-results_v1.md.',
  '', 'The local-path marketplace loads plugin source from this checkout in place. Keep the checkout present; plugin list readFromFolder is the source authority even if installPath names an absent cache folder.',
  '', 'References: [manifest/userConfig and bin layout](https://code.claude.com/docs/en/plugins-reference), [eval suite format](https://code.claude.com/docs/en/plugin-evals). The CLI probes above are the evidence for this build.','']
-(root/'proof/compatibility_v1.md').write_text(portable('\n'.join(lines))+'\n')
+(root/'.evidence/compatibility_v1.md').write_text(portable('\n'.join(lines))+'\n')
 print('Dependency enablement and local-path compatibility checks passed.')

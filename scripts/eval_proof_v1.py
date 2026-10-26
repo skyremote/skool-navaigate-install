@@ -40,6 +40,6 @@ lines += ['', 'The runner records zero on the aborted first arm and exits 2, but
  '', 'Next action: sign in to the member sandbox with its own Claude subscription, then rerun the three-case suite with --no-publish. The final acceptance run should use the default three runs per arm.',
  '', 'The cases cover local setup commands/storage/health, detecting a misleading heartbeat and 30-day retention, and free-caption/paid-transcription/digest opt-in boundaries. Skill invocation is an indicator; output regexes score both arms.',
  '', 'Unit and integration checks exercise the implementation independently; they do not replace model evals.','']
-(root/'proof/eval-results_v1.md').write_text(portable('\n'.join(lines))+'\n')
-(root/'proof/eval-summary_v1.json').write_text(json.dumps(rows,indent=2)+'\n')
+(root/'.evidence/eval-results_v1.md').write_text(portable('\n'.join(lines))+'\n')
+(root/'.evidence/eval-summary_v1.json').write_text(json.dumps(rows,indent=2)+'\n')
 print(json.dumps(rows,indent=2))

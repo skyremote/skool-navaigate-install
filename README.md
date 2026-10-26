@@ -3,8 +3,9 @@
 Start with **aios**. Check what you have, follow the next module, and install one
 pack when you need it. Phase 1 includes **aios** and **aios-brain**.
 
-This is an unpublished review branch. No release or marketplace update has been
-made. The first-generation (v1) bundle stays at its original `skills/`, `lessons/`,
+The lessons and tutorial videos for every module are in the YOUR AIOS classroom on
+Skool (members only). This repo holds the plugins, the skills and the instructions to
+install them. The first-generation (v1) bundle stays at its original `skills/`,
 `references/` and `templates/` paths, with the `skool-navaigate-install` catalogue
 entry retained. A v1 member can pull this branch without breaking their skill
 links. **V1 receives fixes-only support for six months, until 26 April 2027.**
@@ -220,8 +221,8 @@ claude plugin eval plugins/aios-brain --trust-plugin --no-publish
 Run evals under an isolated HOME using your own subscription login. The three
 cases compare against a no-plugin baseline. No real MCP servers start in these
 advice cases. The proof records an authentication block separately from scores.
-See `proof/sandbox-run_v2.md`, `proof/checks_v2.md`, `proof/eval-results_v1.md` and
-`proof/compatibility_v1.md` for actual results and limitations.
+Build evidence (sandbox runs, checks, eval results) is kept with the course
+materials, outside this repo.
 
 To repeat the fictional local proof in a **fresh** sandbox:
 
@@ -232,10 +233,6 @@ python3 scripts/sandbox_proof_v1.py
 This helper hard-codes `/tmp/aios-member-sandbox`; move a previous sandbox aside
 before rerunning. It never uses your real harness configuration.
 
-Ordered tutorial clips, real terminal stills and VHS tapes are in `video/`.
-`video/SHOTLIST_v2.md` gives each command, view and narration sentence.
-These are raw materials for later 3–10 minute landscape NavMotion tutorials
-narrated in Daniel's voice; this phase does not make those finished films.
-Nothing has been pushed, tagged, submitted or published.
+Step-by-step tutorial videos for each module are in the Skool classroom.
 
 MIT.

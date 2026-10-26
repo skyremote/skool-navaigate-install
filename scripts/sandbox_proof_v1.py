@@ -22,7 +22,7 @@ ENV.pop('CLAUDE_PLUGIN_OPTION_TURSO_TOKEN',None)
 ENV.pop('SUPADATA_API_KEY',None)
 ENV['TMPDIR']='/tmp'
 HOME.mkdir(parents=True,exist_ok=True)
-REPORT = ROOT/'proof/sandbox-run_v2.md'
+REPORT = ROOT/'.evidence/sandbox-run_v2.md'
 lines = ['# Sandbox member install proof v2','',
          'Paths are normalised as <worktree> and $HOME for portability. All commands use HOME=/tmp/aios-member-sandbox and CLAUDE_CONFIG_DIR=$HOME/.claude.',
          'The working directory is the review checkout. Fixtures are fictional. No real member data or tokens are used.','']
