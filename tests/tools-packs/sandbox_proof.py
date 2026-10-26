@@ -25,7 +25,9 @@ PROOF = Path(os.environ.get('AIOS2_PROOF_DIR') or '/tmp/aios2-tool-packs/proof')
 
 def render_running():
     out = subprocess.run(['ps', '-axo', 'command'], capture_output=True, text=True).stdout
-    return [l for l in out.splitlines() if 'nm.py run' in l and 'grep' not in l]
+    # Renders only (the render stage or the shared render lock); VHS recording ("cut") is light and does not block.
+    return [l for l in out.splitlines() if 'nm.py run' in l and 'grep' not in l
+            and (' render ' in l + ' ' or 'with_render_lock' in l)]
 
 
 def prepare_checkout(checkout):
