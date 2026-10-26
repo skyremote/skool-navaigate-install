@@ -39,6 +39,10 @@ Restart Codex or Cursor. In Cursor, type `/aios` in the Agent chat. In Codex, ty
 run records where your clone lives, so the skill can install every later pack from any folder.
 Keep the clone where it is: the installer links to it, it does not copy.
 
+The bb kit keeps its own copy in `~/.local/share/aios/kit`. If you use both, install packs with
+`aios-guide install <pack>`, which uses the copy AIOS recorded. To move AIOS to your own clone instead, run
+`./install.sh <pack> --use-this-checkout` there: it keeps the old links in a backup.
+
 ## Build it step by step
 
 `/aios` installs each pack when you reach its module, or when you ask for a

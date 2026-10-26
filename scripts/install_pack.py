@@ -229,6 +229,29 @@ def legacy_link(dest):
     return dest.is_symlink() and (ROOT/'skills') in dest.resolve().parents
 
 
+def other_checkout(dest,source):
+    """The root of another copy of this repository when dest links to the same file there, else None."""
+    if not dest.is_symlink():
+        return None
+    target=dest.resolve()
+    for parent in target.parents:
+        market=parent/'.claude-plugin/marketplace.json'
+        if market.is_file():
+            try:
+                same=json.loads(market.read_text()).get('name')==json.loads((ROOT/'.claude-plugin/marketplace.json').read_text()).get('name')
+            except (OSError,ValueError):
+                return None
+            if not same or parent==ROOT or target.relative_to(parent)!=source.resolve().relative_to(ROOT):
+                return None
+            return parent
+    return None
+
+
+def other_checkout_hint(pack,dest,other):
+    return ('Existing link preserved: '+str(dest)+'. It points into another copy of this repository: '+str(other)+
+            '. Install from that copy with: aios-guide install '+pack+'. Or move AIOS to this copy: ./install.sh '+pack+' --use-this-checkout')
+
+
 def available_packs():
     return sorted(p.name for p in (ROOT/'plugins').iterdir() if (p/'.claude-plugin/plugin.json').is_file())
 
@@ -306,7 +329,7 @@ class Plan:
         self.configs[path][1]=text
 
 
-def plan_pack(pack,plan,home,migrate_v1,planned):
+def plan_pack(pack,plan,home,migrate_v1,planned,use_this_checkout=False):
     plugin=ROOT/'plugins'/pack
     data=manifest(pack)
     for dep in dependencies(data):
@@ -319,6 +342,12 @@ def plan_pack(pack,plan,home,migrate_v1,planned):
             if dest.exists() or dest.is_symlink():
                 if dest.is_symlink() and dest.resolve()==source.resolve():
                     continue
+                other=other_checkout(dest,source)
+                if other is not None:
+                    if not use_this_checkout:
+                        raise ValueError(other_checkout_hint(pack,dest,other))
+                    plan.links.append((source,dest))
+                    continue
                 if not (legacy_link(dest) and migrate_v1):
                     hint=' Ask /aios for a guided move; --migrate-v1 preserves the old link in a backup.' if legacy_link(dest) else ''
                     raise ValueError('Existing skill preserved: '+str(dest)+'.'+hint)
@@ -327,9 +356,13 @@ def plan_pack(pack,plan,home,migrate_v1,planned):
     for source in tools:
         command=home/'.local/bin'/source.name
         if command.exists() or command.is_symlink():
-            if not command.is_symlink() or command.resolve()!=source.resolve():
+            if command.is_symlink() and command.resolve()==source.resolve():
+                continue
+            other=other_checkout(command,source)
+            if other is None:
                 raise ValueError('Existing '+source.name+' command preserved; move it aside manually')
-            continue
+            if not use_this_checkout:
+                raise ValueError(other_checkout_hint(pack,command,other))
         plan.links.append((source,command))
     servers,notes=mcp_servers(plugin,home)
     plan.notes.extend(notes)
@@ -359,13 +392,13 @@ def installed(pack,home):
     return receipt.is_file() and not check(pack,home,quiet=True)
 
 
-def install(pack,migrate_v1=False,dry_run=False):
+def install(pack,migrate_v1=False,dry_run=False,use_this_checkout=False):
     """Install a pack and its dependencies. Returns the packs in install order."""
     home=Path.home()
     order=dependency_order([pack])
     plan=Plan()
     for name in order:
-        plan_pack(name,plan,home,migrate_v1,set(order[:order.index(name)]))
+        plan_pack(name,plan,home,migrate_v1,set(order[:order.index(name)]),use_this_checkout)
     if dry_run:
         for source,dest in plan.links:
             print('Would link '+str(dest.relative_to(home)))
@@ -389,11 +422,12 @@ def install(pack,migrate_v1=False,dry_run=False):
     for source,dest in plan.links:
         dest.parent.mkdir(parents=True,exist_ok=True)
         if dest.is_symlink():
-            # Only a reviewed v1 migration reaches here. Preserve, never unlink.
-            backup=home/STATE/'v1-backups'/dest.parent.parent.name/(dest.name+'-'+str(time.time_ns()))
+            # Only a reviewed v1 migration or --use-this-checkout reaches here. Preserve, never unlink.
+            kind='v1' if legacy_link(dest) else 'checkout'
+            backup=home/STATE/(kind+'-backups')/dest.parent.parent.name/(dest.name+'-'+str(time.time_ns()))
             backup.parent.mkdir(parents=True,exist_ok=True)
             dest.rename(backup)
-            print('Preserved v1 link at '+str(backup.relative_to(home)))
+            print('Preserved '+('v1' if kind=='v1' else 'the other copy\'s')+' link at '+str(backup.relative_to(home)))
         dest.symlink_to(source)
         print('Linked '+str(dest.relative_to(home)))
     for name,data,skills,tools,servers,hooks in plan.packs:
@@ -475,6 +509,7 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description='Install an AIOS 2.0 pack and its dependencies for Codex and Cursor. Claude Code configuration is never changed.')
     parser.add_argument('pack',nargs='?',help='pack name, for example aios-brain or aios-complete')
     parser.add_argument('--migrate-v1',action='store_true',help='After reviewing the guided move, preserve old v1 links in backups and link this pack')
+    parser.add_argument('--use-this-checkout',action='store_true',help='Move links that point into another copy of this repository to this copy (the old links are kept in a backup)')
     parser.add_argument('--dry-run',action='store_true',help='Show what would change and write nothing')
     parser.add_argument('--check',action='store_true',help='Prove the pack is installed for Codex and Cursor')
     parser.add_argument('--list',action='store_true',help='List the packs in this checkout')
@@ -490,7 +525,7 @@ def main(argv=None):
             return 0
         if args.check:
             return 1 if check(args.pack) else 0
-        install(args.pack,args.migrate_v1,args.dry_run)
+        install(args.pack,args.migrate_v1,args.dry_run,args.use_this_checkout)
     except (ValueError,OSError) as exc:
         print('Install stopped: '+str(exc),file=sys.stderr)
         return 1
