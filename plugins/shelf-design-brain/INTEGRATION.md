@@ -36,6 +36,7 @@ The same object is in `MARKETPLACE_ENTRY.json`.
 
 ## Known limits
 
+- The corpus is not in the pack. It is a zip the member downloads from the lesson (public Backblaze link in the skill). Unzipped into `~/.claude/skills` it becomes a second, personal `design-brain` skill beside the plugin one; for Codex and Cursor the skill folder is a link into the checkout, so the README tells members to unzip to `~/design-brain` instead.
 - The `userConfig` keys are stored by Claude Code in the keychain. The wrapped 1.x scripts read `~/.claude/.env` or the
   shell environment, not `CLAUDE_PLUGIN_OPTION_*`, and the copy must not be edited. The README therefore tells members
   to use `~/.claude/.env`.

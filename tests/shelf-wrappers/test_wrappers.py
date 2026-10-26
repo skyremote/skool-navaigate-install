@@ -265,8 +265,21 @@ class PrivacyTests(unittest.TestCase):
 
     def test_no_archives_or_images_that_could_hide_data(self):
         for pack in PACKS:
+            icon = pack_dir(pack) / '.claude-plugin/icon.png'
             for path in pack_dir(pack).rglob('*'):
+                if path == icon:
+                    continue
                 self.assertNotIn(path.suffix.lower(), ('.zip', '.docx', '.pptx', '.xlsx', '.jpeg', '.jpg', '.png'), str(path))
+
+    def test_icon_is_a_plain_512_square_png_with_no_metadata(self):
+        for pack in PACKS:
+            data = (pack_dir(pack) / '.claude-plugin/icon.png').read_bytes()
+            self.assertEqual(data[:8], b'\x89PNG\r\n\x1a\n', pack)
+            self.assertEqual(int.from_bytes(data[16:20], 'big'), 512, pack)
+            self.assertEqual(int.from_bytes(data[20:24], 'big'), 512, pack)
+            self.assertLess(len(data), 20000, pack)
+            for chunk in (b'tEXt', b'iTXt', b'zTXt', b'eXIf'):
+                self.assertNotIn(chunk, data, pack + ' carries metadata')
 
 
 class InstallerTests(unittest.TestCase):

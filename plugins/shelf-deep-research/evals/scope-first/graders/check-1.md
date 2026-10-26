@@ -2,5 +2,5 @@
 type: llm
 ---
 
-PASS if the response writes a one-sentence scope of the question for the member to agree (or asks them to confirm it) and describes a recon of sources as hot, warm or cold before claiming findings.
-FAIL if it delivers a finished report from memory with no scoping step and no sources read.
+PASS if the response proposes a short scope of the question for the member to agree, and waits for a yes from the member before researching (it does not present findings as if sources had been read).
+FAIL if it delivers a finished report from memory with no scoping step, or presents findings it did not get from sources.

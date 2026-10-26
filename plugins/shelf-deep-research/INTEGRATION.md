@@ -45,6 +45,7 @@ installer treat an already linked, byte-identical copy as installed. Apply it on
 
 ## Known limits
 
+- Reddit answered `403 Blocked` from the build Mac. The skill reports the gap and carries on; the proof notes show it.
 - The `userConfig` keys are stored by Claude Code in the keychain. The wrapped 1.x scripts read `~/.claude/.env` or the
   shell environment, not `CLAUDE_PLUGIN_OPTION_*`, and the copy must not be edited. The README therefore tells members
   to use `~/.claude/.env`.

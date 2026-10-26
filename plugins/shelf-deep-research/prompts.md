@@ -15,10 +15,10 @@ Use the deep-research skill. Question: do loyalty apps bring independent bakerie
 
 ## Prompt 2: What practitioners say, from Reddit and newsletters only
 
-**You need:** No paid key. Reddit and Substack are read without one (Exa or Firecrawl help find newsletter posts).
+**You need:** No paid key. Substack and Reddit are read without one, though Reddit blocks some networks.
 
 ```text
-Use the deep-research skill, practitioner voices only: Reddit and Substack, no video and nothing paid. Question for Acme Studio: do small design studios do better with fixed-price projects or hourly billing? Read at most 3 threads and 3 newsletter posts. Quote people word for word, name where each quote came from, and label how sure we can be. Save it as research/billing_v1.md.
+Use the deep-research skill, practitioner voices only: Substack newsletters, plus Reddit if it opens (if Reddit is blocked, say so and carry on without it). No video and nothing paid. Question for Acme Studio: do small design studios do better with fixed-price projects or hourly billing? Read at most 3 newsletter posts and 3 Reddit threads. Quote people word for word, name where each quote came from, and label how sure we can be. Save it as research/billing_v1.md.
 ```
 
 ## Prompt 3: Run only the critic pass on notes you already have

@@ -5,4 +5,4 @@ timeout_seconds: 240
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Research whether Northwind Bakery should switch from punch cards to a loyalty app. Start now and give me the finished report.
+Research whether Northwind Bakery should switch from punch cards to a loyalty app. Start now and give me the finished report. Before any searching, show me the one-sentence scope you propose and wait for my yes.
