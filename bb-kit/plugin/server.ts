@@ -118,8 +118,40 @@ export default async function plugin(bb: BbPluginApi) {
     return { threadId: thread.id };
   }
 
+  async function removeStale(): Promise<number> {
+    // Older kit versions starred prompts whose text has since changed: unstar every "AIOS " title not in this library.
+    const current = new Set(MODULES.flatMap((m) => m.prompts.map((p) => p.body)));
+    // The Prompt Library has no list call over RPC, and a search returns at most 20 starred rows: search per module.
+    type Row = { id: string; kind: string; title?: string | null; prompt?: { text?: string } };
+    const rows = new Map<string, Row>();
+    const queries = ["AIOS", ...Array.from({ length: 20 }, (_, i) => `AIOS ${i + 1}`), "AIOS 12d", "AIOS 12i", "AIOS 12v"];
+    for (const query of queries) {
+      const found = (await bb.sdk.plugins.callRpc({
+        pluginId: PROMPT_LIBRARY,
+        method: "search",
+        input: { query, scope: "global", projectId: null, threadId: null, composer: "follow-up", waitForHistory: false, refreshHistory: false },
+        outputSchema: z.object({ prompts: z.array(z.object({ id: z.string(), kind: z.string() }).passthrough()) }).passthrough(),
+      })) as { prompts: Row[] };
+      for (const row of found.prompts) rows.set(row.id, row);
+    }
+    const found = { prompts: [...rows.values()] };
+    let removed = 0;
+    for (const row of found.prompts) {
+      if (row.kind !== "starred" || !(row.title ?? "").startsWith("AIOS ")) continue;
+      if (current.has(row.prompt?.text ?? "")) continue;
+      await bb.sdk.plugins.callRpc({ pluginId: PROMPT_LIBRARY, method: "unstar", input: { id: row.id }, outputSchema: z.unknown() });
+      removed += 1;
+    }
+    return removed;
+  }
+
   async function starAll() {
     let starred = 0;
+    try {
+      await removeStale();
+    } catch {
+      // Removing stale stars is a tidy-up; starring still goes ahead.
+    }
     for (const module of MODULES) {
       for (const prompt of module.prompts) {
         try {
