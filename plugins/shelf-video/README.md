@@ -11,16 +11,16 @@ tighten the long pauses, burn in captions and export an MP4. You approve every c
 
 Install the start plugin `aios` first.
 
-Claude Code:
+Claude Code: type `/aios install shelf-video` (it runs `aios-guide --harness claude install shelf-video`), then `/reload-plugins`.
+Or install it directly:
 ```
-/plugin marketplace add skyremote/skool-navaigate-install
 /plugin install shelf-video@navaigate-aios
 ```
 
 Codex and Cursor, from your checkout of this repository:
 ```
-./install.sh aios
 ./install.sh shelf-video
+./install.sh shelf-video --check
 ```
 
 Then install the tools once (macOS shown; Linux lines are in the command guide):

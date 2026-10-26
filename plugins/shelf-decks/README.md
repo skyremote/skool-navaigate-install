@@ -12,16 +12,16 @@ reviews every slide in a real browser, and then exports an editable PowerPoint a
 
 Install the start plugin `aios` first.
 
-Claude Code:
+Claude Code: type `/aios install shelf-decks` (it runs `aios-guide --harness claude install shelf-decks`), then `/reload-plugins`.
+Or install it directly:
 ```
-/plugin marketplace add skyremote/skool-navaigate-install
 /plugin install shelf-decks@navaigate-aios
 ```
 
 Codex and Cursor, from your checkout of this repository:
 ```
-./install.sh aios
 ./install.sh shelf-decks
+./install.sh shelf-decks --check
 ```
 
 Then the tools, once:

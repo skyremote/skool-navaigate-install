@@ -9,7 +9,7 @@ Never issue, credit or delete an invoice for the member. If a check fails, stop,
 - **Command:** `shelf-invoices --version` (Claude Code: `"${CLAUDE_PLUGIN_ROOT}/bin/shelf-invoices" --version`).
 - **They should see:** `shelf-invoices 2.0.0`.
 - **Check:** exit code 0. If the command is missing, run `export PATH="$HOME/.local/bin:$PATH"` (Codex and Cursor),
-  or restart Claude Code after `/plugin install shelf-invoices@navaigate-aios`.
+  or run `aios-guide --harness claude install shelf-invoices` (what `/aios install shelf-invoices` runs), then `/reload-plugins`.
 
 ## Step 2: Check the tools
 - **Do:** confirm ReportLab (draws the PDF) and pypdf (checks it).

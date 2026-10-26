@@ -9,7 +9,7 @@ Never overwrite a deck. If a check fails, stop, fix that one thing, and check ag
 - **Command:** `shelf-decks --version` (Claude Code: `"${CLAUDE_PLUGIN_ROOT}/bin/shelf-decks" --version`).
 - **They should see:** `shelf-decks 2.0.0`.
 - **Check:** exit code 0. If the command is missing, run `export PATH="$HOME/.local/bin:$PATH"` (Codex and Cursor),
-  or restart Claude Code after `/plugin install shelf-decks@navaigate-aios`.
+  or run `aios-guide --harness claude install shelf-decks` (what `/aios install shelf-decks` runs), then `/reload-plugins`.
 
 ## Step 2: Check the tools
 - **Do:** confirm python-pptx, Pillow and Playwright with Chromium.

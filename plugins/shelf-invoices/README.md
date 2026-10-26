@@ -12,16 +12,16 @@ and other VAT notes are built in, and a ledger keeps every number in order for y
 
 Install the start plugin `aios` first.
 
-Claude Code:
+Claude Code: type `/aios install shelf-invoices` (it runs `aios-guide --harness claude install shelf-invoices`), then `/reload-plugins`.
+Or install it directly:
 ```
-/plugin marketplace add skyremote/skool-navaigate-install
 /plugin install shelf-invoices@navaigate-aios
 ```
 
 Codex and Cursor, from your checkout of this repository:
 ```
-./install.sh aios
 ./install.sh shelf-invoices
+./install.sh shelf-invoices --check
 ```
 
 Then the tools, once: `python3 -m pip install --user reportlab pypdf`. Works on macOS and Linux (WSL on Windows).

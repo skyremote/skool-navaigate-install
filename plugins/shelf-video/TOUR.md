@@ -9,7 +9,7 @@ Never change or move the member's original recording. If a check fails, stop, fi
 - **Command:** `shelf-video --version` (Claude Code: `"${CLAUDE_PLUGIN_ROOT}/bin/shelf-video" --version`).
 - **They should see:** `shelf-video 2.0.0`.
 - **Check:** exit code 0. If the command is missing, run `export PATH="$HOME/.local/bin:$PATH"` (Codex and Cursor),
-  or restart Claude Code after `/plugin install shelf-video@navaigate-aios`.
+  or run `aios-guide --harness claude install shelf-video` (what `/aios install shelf-video` runs), then `/reload-plugins`.
 
 ## Step 2: Check the three tools
 - **Do:** confirm FFmpeg, Whisper and Pillow are installed.
