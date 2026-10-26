@@ -1,0 +1,29 @@
+{
+  "name": "aios-brain",
+  "version": "2.0.0",
+  "description": "Memory you own: local session capture, BM25 search, captions, optional digests and your own Turso sync.",
+  "author": {
+    "name": "NavAIgate"
+  },
+  "license": "MIT",
+  "dependencies": [
+    "aios"
+  ],
+  "userConfig": {
+    "turso_url": {
+      "type": "string",
+      "title": "Your Turso database URL (optional)",
+      "description": "Leave blank for local-only memory. Use your own database URL for a second machine.",
+      "required": false,
+      "default": ""
+    },
+    "turso_token": {
+      "type": "string",
+      "title": "Your Turso database token (optional)",
+      "description": "Leave blank for local-only memory. Your own database token, stored in the OS keychain.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    }
+  }
+}

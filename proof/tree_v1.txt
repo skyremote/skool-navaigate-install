@@ -1,0 +1,46 @@
+.
+├── .claude-plugin/
+│   └── marketplace.json
+├── .gitignore
+├── README.md
+├── ROADMAP.md
+├── LICENSE
+├── install.sh
+├── legacy/
+│   └── v1/
+├── plugins/
+│   ├── aios/
+│   └── aios-brain/
+├── proof/
+│   ├── checks_v1.md
+│   ├── compatibility_v1.md
+│   ├── eval-local-setup_v1.json
+│   ├── eval-media-privacy_v1.json
+│   ├── eval-results_v1.md
+│   ├── eval-silent-failure_v1.json
+│   ├── eval-summary_v1.json
+│   ├── sandbox-run_v1.md
+│   └── tree_v1.txt
+├── scripts/
+│   ├── checks_v1.py
+│   ├── compatibility_proof_v1.py
+│   ├── eval_proof_v1.py
+│   ├── install_pack.py
+│   ├── sandbox_config_v1.py
+│   ├── sandbox_fixtures_v1.py
+│   ├── sandbox_mcp_v1.py
+│   └── sandbox_proof_v1.py
+├── tests/
+│   └── test_brain.py
+└── video/
+    ├── README_v1.md
+    ├── SHOTLIST_v1.md
+    ├── build_shotlist_v1.py
+    ├── build_tapes_v1.py
+    ├── check_clips_v1.py
+    ├── clips/
+    ├── extract_screens_v1.py
+    ├── render_v1.sh
+    ├── screens/
+    ├── steps_v1.json
+    └── tapes/

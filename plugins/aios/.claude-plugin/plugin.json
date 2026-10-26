@@ -1,0 +1,9 @@
+{
+  "name": "aios",
+  "version": "2.0.0",
+  "description": "Start your AIOS: check your machine, follow twelve modules, install one pack at a time.",
+  "author": {
+    "name": "NavAIgate"
+  },
+  "license": "MIT"
+}

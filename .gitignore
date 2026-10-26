@@ -3,3 +3,10 @@
 *.zip
 .env
 .env.*
+__pycache__/
+*.pyc
+*.db
+*.db-*
+.bb/
+plugins/*/evals/results/
+video/clips/*.gif

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "aios-brain": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/bin/brain",
+      "args": [
+        "mcp"
+      ],
+      "env": {
+        "AIOS_BRAIN_TURSO_URL": "${user_config.turso_url}",
+        "AIOS_BRAIN_TURSO_TOKEN": "${user_config.turso_token}"
+      }
+    }
+  }
+}

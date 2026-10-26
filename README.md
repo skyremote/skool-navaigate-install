@@ -1,84 +1,183 @@
-# skool-navaigate-install
+# YOUR AIOS 2.0
 
-The community plugin for [NavAIgate](https://www.skool.com/navaigate)
-**ANNUAL ONLY — YOUR AIOS**.
+Start with **aios**. Check what you have, follow the next module, and install one
+pack when you need it. Phase 1 includes **aios** and **aios-brain**.
 
-This is the OS path. It is not Chief of Staff (that is the team —
-[`skyremote/chief-of-staff-kit`](https://github.com/skyremote/chief-of-staff-kit)
-0.4.2). It is not Daniel's private `navaigate-plugins` marketplace.
+This is an unpublished review branch. No release or marketplace update has been
+made. The old bundle is preserved in `legacy/v1/` and git history; it is not
+loaded by the 2.0 marketplace. Existing installations are not migrated by this
+checkout. See [ROADMAP.md](ROADMAP.md) for the twelve modules and every old skill.
 
-The five plates first. After that they type `/aios` and **pick from the
-shelf** — thumbnails, diagrams, Firecrawl, podcasts, writing, new app,
-new capability, the daily brief, and the rest. The plugin asks where they are (empty /
-halfway / already running) and which lesson they are in. It will not wipe
-a messy folder to make a clean demo.
+## Claude Code: local review install
 
-## Install
+Requires Claude Code with plugin dependencies and userConfig support (verified
+with 2.1.310), plus Python 3.9+ with SQLite FTS5. From this checkout:
 
-### Claude Code
+```sh
+claude plugin marketplace add ./
+claude plugin install aios@navaigate-aios
+```
+
+Restart Claude Code and type `/aios` (or `/aios:aios` when namespaced). It asks
+whether your machine is empty, halfway or already running, checks packs across
+harnesses, and gives you the next step. The brain is optional:
+
+```sh
+claude plugin install aios-brain@navaigate-aios
+```
+
+`aios-brain` declares `aios` as its dependency. It contains `bin/`, so this pack
+is for Claude Code on your computer; claude.ai and Cowork skip it.
+
+After Daniel approves and publishes, the marketplace-add command will be
+`/plugin marketplace add skyremote/skool-navaigate-install`. That GitHub command
+still resolves to the old public version until release. Do not use it to review 2.0.
+
+## Codex and Cursor
+
+From this checkout:
+
+```sh
+./install.sh aios
+./install.sh aios-brain
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+The installer links only the named pack's skills into `~/.codex/skills`,
+`~/.cursor/skills` and `~/.agents/skills`. Install `aios` before a dependent pack.
+It does not write Claude Code configuration. The brain command is linked to
+`~/.local/bin/brain`. Keep the checkout where it is: these are links, not copies.
+
+For the brain it merges an `aios-brain` MCP server into `~/.codex/config.toml`
+and `~/.cursor/mcp.json`, backing up each file first. Other server entries stay.
+It refuses conflicting skills, commands or custom Codex brain tables, and never
+silently replaces them. Review the reported paths if it stops. Restart the
+harness to load the links and server.
+
+## Your first memory
+
+```sh
+brain init
+brain capture
+brain search "a topic from your work"
+brain read REF_FROM_SEARCH
+brain status
+```
+
+Local mode makes no network requests and needs no account. One database,
+`~/.local/share/aios-brain/brain.db`, holds your captured text and FTS5 index.
+Do not put it in a NAS or cloud-sync folder. Back it up as your own private data.
+
+Capture reads top-level user and assistant turns from Claude Code JSONL, Codex
+current/archived JSONL and Cursor agent-transcript JSONL or role-labelled TXT.
+Cursor history stored only in its native application database needs a transcript
+export first. Tool payloads, sub-agent forks and harness instructions are excluded.
+Only new or changed files are imported; changed sessions replace their indexed
+messages atomically. Partial or malformed files remain pending and are reported.
+
+`status` checks file hashes and actual messages, shows newest stored/session
+messages and file modification times separately, and reports failures. It exits
+**1** when unhealthy. An empty fresh brain is labelled as having no captured
+history; it does not prove capture works. Claude Code deletes session files
+after 30 days, so run capture regularly. A recent job timestamp proves nothing
+about whether text was stored.
+
+## Optional: your second machine
+
+Use your own empty Turso database and database token. You own the account and data.
+For Claude Code's MCP tools, configure optional `turso_url` and sensitive
+`turso_token` with `/plugin configure aios-brain@navaigate-aios`. The token is a
+keychain value. Shell installs do not open the enable-time configuration dialog;
+leave both options blank to stay local.
+
+The MCP server receives these values in its environment; search, read and media
+calls exchange captured data when configured. **Terminal commands** in any
+harness use exported environment variables or this private file:
+
+```sh
+mkdir -p ~/.config/aios-brain
+touch ~/.config/aios-brain/env
+chmod 600 ~/.config/aios-brain/env
+```
+
+Edit that file privately, putting your own values against these names:
 
 ```text
-/plugin marketplace add skyremote/skool-navaigate-install
-/plugin install skool-navaigate-install@navaigate-aios
+AIOS_BRAIN_TURSO_URL=libsql://YOUR_DATABASE.turso.io
+AIOS_BRAIN_TURSO_TOKEN=YOUR_DATABASE_TOKEN
 ```
 
-Restart, then type `/aios`.
+Do not paste the token into a chat or commit the file. Install the same pack on
+the second machine, configure your own database there, then run:
 
-### Cursor or Codex (or all three at once)
-
-```bash
-git clone https://github.com/skyremote/skool-navaigate-install.git
-cd skool-navaigate-install
-./install.sh
+```sh
+brain init
+brain capture
+brain sync
+brain status
 ```
 
-`install.sh` symlinks the skills into `~/.claude/skills`, `~/.cursor/skills`,
-`~/.codex/skills` and `~/.agents/skills`. Restart the harness. Type `/aios`.
+Capture also syncs when shell configuration is present. There is no scheduler
+in phase 1: run capture/sync on each machine when needed. HTTP transactions,
+message-before-hash ordering, full payload read-back and local/primary content
+comparison replace CLI success markers and embedded-replica heartbeats.
+FTS indexes remain local; Turso stores session/media/digest bundles. This is a
+small initial sync design which reads the remote catalogue on each sync.
 
-## Commands
+## Optional: video captions and digests
 
-| Command | Job |
-|---|---|
-| `/aios` | Status. Where are you. Then the shelf — they pick. Answers course questions from the pack. |
-| `/aios-coach` | Copy the coach, load the course pack, they put it online. Not GPLS. Not navaigate.dev. |
-| `/install-crew` | Chief of Staff 0.4.2. Does not merge this course into the kit. |
-| `/layer-1` | Context — their CLAUDE.md. |
-| `/layer-2` | Data — numbers they can ask. |
-| `/layer-3` | Intelligence — meetings, brief, Grok Bot. Research tools are on the shelf. |
-| `/layer-4` | Automate — task audit. |
-| `/layer-5` | Build — name the leftover job, then pick from the shelf. |
-| `/thumbnails` | Their photos, four concepts, headline composited after. |
-| `/diagrams` | D2, render, look, iterate. |
-| `/web-scrape` | Exa to find, Firecrawl to extract. Reddit, papers, Substack, X. |
-| `/podcasts` | Find the episode, rank it, pull the words. |
-| `/transcripts` | YouTube / TikTok / IG via Supadata. Paid. |
-| `/deep-research` | Multi-source pass. |
-| `/daily-brief` | One-call morning brief from their numbers, meetings and Slack. Any model key they have. |
-| `/ai-landscape-monitor` | Daily leaderboard scan; `update` rewrites `ai-docs/` for what moved. |
-| `/content-pipeline` | Capture, develop, schedule content ideas. Local SQLite, one pipeline.md. |
-| `/writing-style` | Anti-slop. Voice is `/your-voice`. |
-| `/new-app` | Plan, then phases, sequential. |
-| `/new-capability` | Talk to a tool we did not ship. |
-| `/frontend-design` | A page that does not look generated. |
-| `/design-brain` | The 1,119-entry corpus. Not `/design`. |
-| `/your-voice` | Their voice. Never `daniel-voice`. |
-| `/your-brain` | Their memory. Public kit: `skyremote/db-sync`. |
-| `/your-ops` | Their invoice. Public kit: `skyremote/invoice-builder`. |
-| `/content-coach` | LinkedIn the way we actually run it. |
-| `/hormozi` | Ask Hormozi + the four workbenches. Their books. |
+Install `yt-dlp` for free English YouTube captions, then:
 
-## Lessons
+```sh
+brain media add "https://www.youtube.com/watch?v=VIDEO_ID"
+```
 
-Paste-ready bodies for the fifteen modules live in `lessons/`. Images and
-voice are on Backblaze, already referenced from the HTML:
+If free captions fail, it stops. Paid transcription is enabled only when you set
+your own `SUPADATA_API_KEY` in the private env file or process environment.
 
-`https://f003.backblazeb2.com/file/NavAIgate-Website/navbot-community/lessons/your-aios/`
+No digest runs automatically. To opt in for one item:
 
-## What this will never ship
+```sh
+brain digest REF_FROM_SEARCH
+```
 
-See `references/never-ship.md`. If a skill has Daniel's name, his register
-number, his call recordings, or his old chats in it, it stays on his machines.
+This uses `claude -p --model haiku` on your signed-in Claude subscription. API
+credentials and provider routes are removed; a subscription login is required.
+It stores a generic summary, questions and atoms. No shared accounts or user data
+are included. Very long items are refused instead of silently summarised in part.
 
-## License
+The stdio MCP server exposes `brain_search`, `brain_read` and `brain_media_add`.
+`brain mcp` starts it; the plugin and installer wire it to the harness.
 
-MIT. Same as the chief-of-staff kit.
+## Checks and review evidence
+
+```sh
+python3 -m unittest discover -s tests -v
+claude plugin validate plugins/aios --strict
+claude plugin validate plugins/aios-brain --strict
+claude plugin validate .claude-plugin/marketplace.json --strict
+claude plugin eval plugins/aios-brain --trust-plugin --no-publish
+```
+
+Run evals under an isolated HOME using your own subscription login. The three
+cases compare against a no-plugin baseline. No real MCP servers start in these
+advice cases. The proof records an authentication block separately from scores.
+See `proof/sandbox-run_v1.md`, `proof/checks_v1.md`, `proof/eval-results_v1.md` and
+`proof/compatibility_v1.md` for actual results and limitations.
+
+To repeat the fictional local proof in a **fresh** sandbox:
+
+```sh
+python3 scripts/sandbox_proof_v1.py
+```
+
+This helper hard-codes `/tmp/aios-member-sandbox`; move a previous sandbox aside
+before rerunning. It never uses your real harness configuration.
+
+Ordered tutorial clips, real terminal stills and VHS tapes are in `video/`.
+`video/SHOTLIST_v1.md` gives each command, view and narration sentence.
+These are raw materials for later 3–10 minute landscape NavMotion tutorials
+narrated in Daniel's voice; this phase does not make those finished films.
+Nothing has been pushed, tagged, submitted or published.
+
+MIT.

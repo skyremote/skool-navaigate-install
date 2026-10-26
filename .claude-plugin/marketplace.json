@@ -1,18 +1,24 @@
 {
   "name": "navaigate-aios",
   "owner": {
-    "name": "skyremote",
-    "url": "https://github.com/skyremote"
+    "name": "NavAIgate"
   },
   "metadata": {
-    "description": "NavAIgate community AIOS \u2014 five plates, then a pickable shelf.",
-    "version": "0.1.0"
+    "version": "2.0.0",
+    "description": "YOUR AIOS 2.0: start small; install the next pack when you need it."
   },
   "plugins": [
     {
-      "name": "skool-navaigate-install",
-      "source": "./",
-      "description": "Your AIOS: /aios, the five layers, Design Brain, build-yours, Content Coach, Hormozi."
+      "name": "aios",
+      "source": "./plugins/aios",
+      "version": "2.0.0",
+      "description": "Start here. Check your harnesses and choose your next module."
+    },
+    {
+      "name": "aios-brain",
+      "source": "./plugins/aios-brain",
+      "version": "2.0.0",
+      "description": "Your own local memory, with optional sync to your own Turso database."
     }
   ]
 }
