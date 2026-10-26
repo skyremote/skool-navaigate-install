@@ -31,11 +31,19 @@ ClickUp's task tools (name, due date, priority, list name, status), then run it.
 - Cursor: Settings, MCP, add `https://mcp.clickup.com/mcp` (or ClickUp in Cursor's marketplace).
 - Check: ask for their ClickUp spaces. If nothing comes back, they sign in again.
 
+## Before anything goes into ClickUp
+
+Even when the member says "push them straight in", show the checked list first and wait for their yes. Owners are
+only names written in the source, or a name the member gives you. Never assign by implication, never default the owner
+to the member, and ask for every task the source leaves without an owner.
+
 ## From a brief to tasks
 
 1. Read the whole brief, call record (for example from `tools-meetings`) or message.
 2. One task per outcome. Start with a verb (Send, Book, Write, Decide, Ask). "Look into" and "work on" are not tasks.
-3. Owner: a name from the source, or ask. Due: a date from the source as YYYY-MM-DD, or "no date". Never invent either.
+3. Owner: a name from the source, or ask ("Who owns this?"). Due: the date as YYYY-MM-DD ("Friday" becomes the date),
+   or "no date". Never invent either. For a vague task ("look into pricing"), rewrite it as an outcome with a verb, show
+   the rewrite with Owner, Due and Done when filled in, and ask the member to confirm the owner.
 4. "Done when": what anyone could see when it is finished.
 5. `new` the list, fill it in, `check` it, show the member.
 6. Only after they say yes: find the right ClickUp list (ask if unsure) and create the tasks with ClickUp's tools.

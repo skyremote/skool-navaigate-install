@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scrub eval JSON of local paths and write proof/eval_v1.md. Usage: eval_report.py <pack> <full.json> [<rerun.json> <case>] [--note FILE]"""
+"""Scrub eval JSON of local paths and write proof/eval_v1.md. Usage: eval_report.py <pack> <full.json> [<rerun.json> <case>]... [--note FILE]"""
 import json
 import os
 import re
@@ -17,7 +17,8 @@ def scrub(obj):
 
 def main(argv):
     pack, full_path = argv[0], argv[1]
-    rerun_path, rerun_case = (argv[2], argv[3]) if len(argv) > 3 and not argv[2].startswith('--') else (None, None)
+    rest = argv[2:argv.index('--note')] if '--note' in argv else argv[2:]
+    reruns = list(zip(rest[0::2], rest[1::2]))
     note = ''
     if '--note' in argv:
         note = Path(argv[argv.index('--note') + 1]).read_text()
@@ -27,7 +28,7 @@ def main(argv):
     (proof / 'eval_v1.json').write_text(json.dumps(scrub(full), indent=1) + '\n')
     scores = {c['name']: c['aggregates'] for c in full['cases']}
     first = {}
-    if rerun_path:
+    for rerun_path, rerun_case in reruns:
         rerun = json.load(open(rerun_path))
         (proof / ('eval_v1_' + rerun_case + '-rerun.json')).write_text(json.dumps(scrub(rerun), indent=1) + '\n')
         first[rerun_case] = scores[rerun_case]['score']
@@ -40,7 +41,7 @@ def main(argv):
     mean_without = sum(a['scoreWithout'] for a in scores.values()) / len(scores)
     md = ['# %s eval results (v1, 26 October 2026)' % pack, '',
           'Command, from the repo root so the `aios` dependency resolves:',
-          '`claude plugin eval . --eval-dir plugins/%s/evals --runs 1 --no-publish --trust-plugin --threshold 0`' % pack, '',
+          '`claude plugin eval plugins --eval-dir %s/evals --runs 1 --trust-plugin --no-publish --threshold 0`, run from a copy of plugins/ with no root manifest (/tmp/aios2-tool-packs/evalroot_v1)' % pack, '',
           'One run per case, with a no-plugin baseline arm. Score is the share of scored graders that pass. The',
           '`skill-fired` grader is an indicator and is not part of the score.', '',
           '| Case | With the pack | Without | Change |', '|---|---|---|---|'] + rows + [

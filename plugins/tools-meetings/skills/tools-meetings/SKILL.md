@@ -32,7 +32,10 @@ the plugin settings. Use either route.
    Business or Enterprise plan, and the key starts `grn_`.
 2. Claude Code: the key goes in the plugin settings (`/plugin`, tools-meetings, Configure). Codex and Cursor:
    `export GRANOLA_API_KEY=...` in their shell profile, or one line in `~/.config/aios-tools/env` (chmod 600).
-3. Never ask for the key in the chat, never print it, never write it into a project file.
+3. A key never goes in a chat. If the member pastes one, say that plainly first: do not repeat it, use it or write
+   it to any file. Give the private route (Claude Code: `/plugin`, tools-meetings, Configure, "Granola API key",
+   which stores it in the system keychain; Codex and Cursor: `GRANOLA_API_KEY` in their shell profile or
+   `~/.config/aios-tools/env`, chmod 600), and tell them to create a new key in Granola because the pasted one is exposed.
 4. No key yet, or no Business plan? Run `sample ~/Meetings-practice` and teach the method on the practice call.
 
 ## The method: one call to a decision record

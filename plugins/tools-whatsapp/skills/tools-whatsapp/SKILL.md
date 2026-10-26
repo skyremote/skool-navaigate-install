@@ -38,7 +38,9 @@ On Windows, the separate `GoodLadTom/whatscribe-windows` exists; this pack's com
 
 1. `whatscribe sync` first, so the archive is current.
 2. Narrow the range: `find --since <date>`. Voice notes are `--type voice`; their text is in the transcript.
-3. For "what did we agree": `extract`, then read each message it points to before you state a figure. Say when a
+3. For "what did we agree" or "how much did they say": `extract`, then read each message it points to before you state
+   a figure. Never give a number without its date, sender and message. If there is no archive yet, say so, and say the
+   steps: `whatscribe sync`, then `tools-whatsapp extract` (or `find --contains`) on that chat's `transcript.jsonl`. Say when a
    figure came from a voice-note transcription, because speech-to-text can mishear numbers.
 4. Answer with the date, the sender and a short quote for every date, time and price.
 5. Summaries: what was agreed, what is still open, and who owes the next message. Never invent a commitment.

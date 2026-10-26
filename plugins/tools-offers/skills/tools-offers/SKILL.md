@@ -1,6 +1,6 @@
 ---
 name: tools-offers
-description: Build or fix the member's offer, pricing, lead plan or money model with the public Hormozi Growth Engine, grounded in a corpus they made from their own copies of the books, with book, chapter and page cited. Use for "fix my offer", "what would Hormozi say", "we need leads", "price this", "make this fund itself".
+description: Build or fix the member's offer, pricing, guarantee, offer name, bonuses, lead plan or money model with the public Hormozi Growth Engine (and say which engine skill does the job), grounded in a corpus from their own copies of the books, with book, chapter and page cited. Use for "fix my offer", "we need a guarantee", "what should we call it", "bonuses for a launch", "which tool do I use for my offer", "we need leads", "price this".
 ---
 
 # Offers and growth, cited from the books you own
@@ -33,6 +33,8 @@ Claude Code: `"${CLAUDE_PLUGIN_ROOT}/bin/tools-offers"`. Codex and Cursor: `tool
    (public teaching from James Smith's business channel, cited by video).
 
 ## Which engine skill does the job
+
+When the member asks which tool to use, name the engine skill from this table in your answer, then say how to run it.
 
 | The member says | Use |
 |---|---|

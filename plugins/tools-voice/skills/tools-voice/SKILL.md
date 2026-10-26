@@ -44,6 +44,16 @@ Claude Code: `"${CLAUDE_PLUGIN_ROOT}/bin/tools-voice"`. Codex and Cursor: `tools
 4. Every strong claim needs a real name or number. Never invent one; ask.
 5. When they correct a line, `calibrate`. Their corrections overrule older rules.
 
+## Checking a draft without running the command
+
+If you cannot run `tools-voice check` in this session, check by hand against the same list, then tell the member
+to run `tools-voice check <draft>` themselves before it ships. Say "not ready" when anything below appears, name
+each word it uses, and offer a rewrite as one spoken sentence. Never call a draft ready if it breaks one of these.
+
+- **Generated-text and jargon words:** "delve", "unlock", "unleash", "elevate", "game-changer", "game changer", "revolutionise", "revolutionize", "seamless", "seamlessly", "leverage", "empower", "robust", "cutting-edge", "in today's fast-paced world", "take it to the next level", "whether you're a beginner or an expert", "ever wondered", "tapestry", "testament to", "navigate the complexities", "it's important to note", "in conclusion", "synergy", "wedge", "moat", "flywheel", "north star", "land and expand".
+- **Fragment chains:** three or more fragments of four words or fewer in a row ("Seamless onboarding. Zero friction.").
+- **Stacks:** more than one long dash in a piece, or three adjectives in a row.
+
 ## The five rules we start everyone with (they keep, change or drop each one)
 
 1. Chain clauses the way people speak ("and", "so", "because"). No staccato fragments.

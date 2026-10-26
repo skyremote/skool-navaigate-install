@@ -49,6 +49,12 @@ Claude Code: `"${CLAUDE_PLUGIN_ROOT}/bin/tools-inbox"`. Codex and Cursor: `tools
 5. **Write the brief** with `new`, fill it in (`From | Date | Subject | Why | Draft`), then `check` it. Fix every FAIL.
 6. **Show it.** Lead with Action needed. Quote sender and date exactly so they can find each email.
 
+## If the member asks you to send
+
+Say plainly that this pack never sends email, even when they ask, and that this is on purpose. Offer drafts they
+send themselves (one-line drafts in the brief, or full drafts in their Drafts folder). Do not offer to send later,
+do not suggest another setup that sends, and do not describe sending as something you will do.
+
 ## Rules
 
 - Read and draft only. Never send, reply, forward, archive, label, delete or unsubscribe unless the member asks for

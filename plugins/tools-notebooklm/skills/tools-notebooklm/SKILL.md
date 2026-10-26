@@ -32,6 +32,12 @@ The public CLI, `notebooklm` (after `pipx install notebooklm-py`):
 
 Run `notebooklm <command> --help` for the current options; the client changes faster than this page.
 
+## Asked to upload a whole folder
+
+Do not upload it as one. Say the limits first: a notebook takes up to 50 sources, each up to 500,000 words or 200 MB,
+and only PDF, text, Markdown, Word, PowerPoint, CSV, audio and images (or links). Run `plan` on the folder, suggest one
+notebook per topic, and ask the member to remove anything private or client material before anything is added.
+
 ## The method
 
 1. `doctor`. If not signed in, the member runs `notebooklm login` in their own terminal (it opens a browser). Never

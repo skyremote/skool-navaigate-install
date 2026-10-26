@@ -1,9 +1,12 @@
 ---
 name: tools-memory
-description: Share one SQLite database between the member's machines on their own free Turso account (with the public db-sync skill), check it is safe to share before anything moves, and recall or paste clipboard content with Paste and rich-clipboard. Use for "sync my database across machines", "use this app on my laptop and desktop", "find what I copied yesterday", "put this table on my clipboard".
+description: Share one SQLite database between the member's machines on their own free Turso account (with the public db-sync skill), check it is safe to share first, and recall or paste clipboard content with Paste and rich-clipboard. Chat and session memory is not this pack: that is the aios-brain pack, module 5. Use for "sync my database across machines", "find what I copied yesterday", "put this table on my clipboard", and to route "remember my chats" to aios-brain.
 ---
 
 # Memory beyond the brain
+
+**Chats and past sessions are the `aios-brain` pack (module 5)**, not this one. If the member asks to remember or
+search past chats across machines, say that first and send them to `/aios install aios-brain`. Never sync chats with db-sync.
 
 The member's chats and notes are the `aios-brain` pack (module 5). This pack covers the other two kinds of memory we
 use every day: an app's own database that must be the same on every machine, and the clipboard.
