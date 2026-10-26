@@ -2,7 +2,7 @@
 pack: aios-ship
 cmd: ship-pack
 
-## 11.1 · Turn one of your skills into a pack
+## 11.1 · Turn my skill into a plugin someone else can install
 what: Packages one of your skills as a plugin (a pack) with tests, three eval cases and an installer, then validates it.
 check: `ship-pack check` ends with `0 error(s)`, the tests print OK and `claude plugin validate` says `Validation passed`.
 ~~~
@@ -24,7 +24,7 @@ My name for the pack's author line (edit this line): Sam Lee
 <<FINISH m11-make-pack>>
 ~~~
 
-## 11.2 · Install your pack as a stranger would
+## 11.2 · Install my plugin as a stranger would
 what: Lists your pack in your own marketplace, installs it into an empty test home folder as a new user would, and checks it is enabled.
 check: The test install says `Successfully installed`, the pack shows as enabled at 0.1.0, and the test home is removed afterwards.
 ~~~
@@ -42,4 +42,22 @@ Module 11, part two. Prove my pack installs for a stranger. The pack must alread
 <<RULES>>
 
 <<FINISH m11-stranger-install>>
+~~~
+
+## 11.3 · Make me a small bb mod (stretch)
+what: Asks Claude to write a tiny bb plugin of your own that shows a line above the chat box, then builds and installs it in your bb.
+check: `bb plugin list` shows your mod running, and its line shows above the chat box after a reload.
+~~~
+Make me a small bb mod that shows today's date and the days left in this month above the chat box.
+
+Here is how:
+1. Read bb's plugin guide first: run `bb guide plugins`, and use the `bb-plugin-authoring` skill if you have it.
+2. Work in `50_projects/bb-mods/`. Run `bb plugin new date-line` there, and keep only what the mod needs: one small banner above the chat box, no server code if none is needed.
+3. Build it with `bb plugin build` and fix any error it shows.
+4. Install it into my bb: `bb plugin install 50_projects/bb-mods/bb-plugin-date-line --yes`. It changes bb's settings: I allow that for this command, so if the sandbox blocks it, run it outside the sandbox.
+5. Run `bb plugin list` and show it running. Tell me to reload bb (Cmd+R) to see the line, and how to switch it off: `bb plugin disable date-line`.
+
+<<RULES>>
+
+<<FINISH m11-bb-mod>>
 ~~~

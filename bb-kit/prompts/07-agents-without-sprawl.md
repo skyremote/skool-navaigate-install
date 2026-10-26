@@ -4,7 +4,7 @@ Paste one prompt at a time into a new Claude chat in bb, opened on your AIOS fol
 
 These prompts are instructions to Claude. They also work in Claude Code in a terminal, opened in the same folder.
 
-## Prompt 7.1 · Meet the crew and write a brief
+## Prompt 7.1 · Show me my helper agents and write a clear brief
 
 **What it does:** Shows the three read-only helper agents, lists any agents you already have, and writes a brief (a clear hand-over note) that passes its check.
 
@@ -32,7 +32,7 @@ When you are done, show me the result:
 3. End with at most five plain lines: what works, what failed, and the one thing I do next.
 ~~~
 
-## Prompt 7.2 · Compare one agent with one agent plus a reviewer
+## Prompt 7.2 · Compare one agent alone with one agent plus a reviewer
 
 **What it does:** Runs the same small coding task twice, once alone and once with a reviewer agent, and compares time, tokens and what the reviewer caught. It uses your own plan.
 
@@ -55,5 +55,31 @@ Ground rules: work only in this folder unless a step names another one. Never de
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m07-compare_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
 2. If the `BB_THREAD_ID` environment variable is set, you are in bb. Then put `::inline-vis{file="80_aios/reports/m07-compare_v1.html"}` on its own line in your final reply, outside any code block. Then move this chat to the Review lane: run `bb thread section list --json`, create a section called Review with `bb thread section create Review` if there is none, and run `bb thread update --self --section <the Review id>`.
+3. End with at most five plain lines: what works, what failed, and the one thing I do next.
+~~~
+
+## Prompt 7.3 · Start a child thread to check my work
+
+**What it does:** Does a job in one loop first, then starts one child thread (a separate bb chat linked to this one) to check the result for mistakes, and reports back when it finishes.
+
+**How you know it worked:** A child thread appears under this chat in the bb sidebar, and the report lists what it found.
+
+~~~text
+Do this job yourself first. Then start a child thread to check it for mistakes, and tell me when it is done. Only use more helpers if parts of the job are truly separate, and tell me which you chose and why.
+
+The job (edit this line): write a one-page proposal for Northwind Ltd in `20_offers/northwind-proposal_v1.md`: a new booking page, four weeks, £2,400.
+
+Here is how:
+1. Do the job yourself in this chat. Say in one line why one loop is enough (or why it is not).
+2. Write a short brief to `80_aios/briefs/check-proposal_v1.md`: "Read 20_offers/northwind-proposal_v1.md. List every mistake: wrong or missing numbers, unclear promises, spelling. Do not edit any file. Done when you have listed each problem with its line, or said there are none."
+3. Start one child thread: `bb thread spawn --parent-self --project "$BB_PROJECT_ID" --title "Check: Northwind proposal" --prompt-file 80_aios/briefs/check-proposal_v1.md --json`.
+4. Wait for it: `bb thread wait <its id> --timeout 15m`, then read its answer with `bb thread output <its id>`.
+5. Fix the real mistakes it found in the proposal (as `_v2`, keep `_v1`), and list the ones you did not agree with and why.
+
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
+
+When you are done, show me the result:
+1. Write a one-page HTML report to `80_aios/reports/m07-child-check_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
+2. If the `BB_THREAD_ID` environment variable is set, you are in bb. Then put `::inline-vis{file="80_aios/reports/m07-child-check_v1.html"}` on its own line in your final reply, outside any code block. Then move this chat to the Review lane: run `bb thread section list --json`, create a section called Review with `bb thread section create Review` if there is none, and run `bb thread update --self --section <the Review id>`.
 3. End with at most five plain lines: what works, what failed, and the one thing I do next.
 ~~~

@@ -4,7 +4,7 @@ Paste one prompt at a time into a new Claude chat in bb, opened on your AIOS fol
 
 These prompts are instructions to Claude. They also work in Claude Code in a terminal, opened in the same folder.
 
-## Prompt 8.1 · Give a project its checks and its hard rules
+## Prompt 8.1 · Give my project checks and hard rules
 
 **What it does:** Copies a small practice app, sets up the checks an agent must pass before it says "done", and tests the three hard rules: no secrets, no destructive git, ask before production.
 
@@ -29,7 +29,7 @@ When you are done, show me the result:
 3. End with at most five plain lines: what works, what failed, and the one thing I do next.
 ~~~
 
-## Prompt 8.2 · Watch the gate stop an agent that skips the tests
+## Prompt 8.2 · Break a test on purpose and show me the check stopping you
 
 **What it does:** Puts a small bug in the practice app, asks a second agent for an unrelated change and tells it not to test, and shows the gate making it find and fix the bug.
 

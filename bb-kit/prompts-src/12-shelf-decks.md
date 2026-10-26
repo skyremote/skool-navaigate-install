@@ -2,26 +2,27 @@
 pack: shelf-decks
 cmd: shelf-decks
 
-## 12d.1 · Practise on the sample deck
+## 12d.1 · Show me the shelf, then practise on the sample deck
 what: Checks the tools, then builds, reviews and exports the fictional Acme Studio sample deck as HTML, an editable PowerPoint and a PDF.
 check: The review says PASS, the export writes `deck_v1.pptx`, and the report shows the slide montage.
 ~~~
-Set up the decks pack from the shelf and practise on the sample deck.
+Show me the shelf and recommend the one tool I should install first for my business, in two lines. Then set up the decks pack and practise on the sample deck.
 
 <<INSTALL>>
 
-1. Check the tools: `python3 -c "import pptx, PIL, playwright; print('ok')"`. If it fails, run `python3 -m pip install --user python-pptx Pillow playwright` and check again. Then run `python3 -m playwright install chromium`.
-2. Make the sample in this folder: `shelf-decks sample 40_content/decks/acme-sample`. Show the first slides of its `deck.md`.
-3. Build, review and export: `shelf-decks build 40_content/decks/acme-sample && shelf-decks review 40_content/decks/acme-sample && shelf-decks export 40_content/decks/acme-sample --pdf`.
-4. Run `shelf-decks verify 40_content/decks/acme-sample` and show the result.
-5. In the report, show the review montage image (`out/review_v1/montage.png`) by copying it next to the report and using a relative image link.
+1. Run `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios/*/bin | tail -1)/aios-guide" list` and show the shelf packs (module 12) with one line each. Recommend one in two lines.
+2. Check the tools: `python3 -c "import pptx, PIL, playwright; print('ok')"`. If it fails, run `python3 -m pip install --user python-pptx Pillow playwright` and check again. Then run `python3 -m playwright install chromium`.
+3. Make the sample in this folder: `shelf-decks sample 40_content/decks/acme-sample`. Show the first slides of its `deck.md`.
+4. Build, review and export: `shelf-decks build 40_content/decks/acme-sample && shelf-decks review 40_content/decks/acme-sample && shelf-decks export 40_content/decks/acme-sample --pdf`.
+5. Run `shelf-decks verify 40_content/decks/acme-sample` and show the result.
+6. In the report, show the review montage image (`out/review_v1/montage.png`) by copying it next to the report and using a relative image link.
 
 <<RULES>>
 
 <<FINISH m12-decks-sample>>
 ~~~
 
-## 12d.2 · Make a short deck in your brand
+## 12d.2 · Make a short deck in my brand, check every slide, then export it
 what: Sets your brand once (name, colours, fonts), plans five slides as a story, builds them, reviews every slide and exports a PowerPoint and a PDF.
 check: `shelf-decks brand check` shows every colour pair as ok, the review says PASS and `shelf-decks verify` lists only your brand fonts.
 ~~~

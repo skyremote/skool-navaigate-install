@@ -2,7 +2,7 @@
 pack: aios-verify
 cmd: aios-verify
 
-## 8.1 · Give a project its checks and its hard rules
+## 8.1 · Give my project checks and hard rules
 what: Copies a small practice app, sets up the checks an agent must pass before it says "done", and tests the three hard rules: no secrets, no destructive git, ask before production.
 check: `aios-verify run` says 3 of 3 checks passed, and the three rule tests answer DENY, ASK and ALLOW.
 ~~~
@@ -21,7 +21,7 @@ Set up module 8 on a practice project: checks that an agent must pass, and hard 
 <<FINISH m08-checks-and-rules>>
 ~~~
 
-## 8.2 · Watch the gate stop an agent that skips the tests
+## 8.2 · Break a test on purpose and show me the check stopping you
 what: Puts a small bug in the practice app, asks a second agent for an unrelated change and tells it not to test, and shows the gate making it find and fix the bug.
 check: The second agent's output shows `AIOS verify gate`, and afterwards `aios-verify run` passes with the bug fixed.
 ~~~

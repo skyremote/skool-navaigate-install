@@ -1,41 +1,38 @@
 #!/usr/bin/env bash
-# YOUR AIOS 2.0 starter kit for bb. One command gives a member a NavAIgate bb:
+# YOUR AIOS 2.0: the AIOS step for bb. Run it after BB Overlay (github.com/skyremote/bb-overlay), which gives bb
+# the NavAIgate look, Kanban, to-dos and the mods. This step adds the course:
 #   1. the AIOS start pack for Claude Code (and for Codex, when Codex is installed);
-#   2. a bb project for the member's AIOS folder;
+#   2. a bb project for the member's AIOS folder (or keeps the one that exists);
 #   3. the prompt library: the "AIOS course" page in the bb sidebar, and every prompt saved in
-#      bb's built-in Prompt Library (Ctrl+R in any chat box);
-#   4. the NavAIgate skin and five member-safe mods, when this computer can reach those repositories.
+#      bb's built-in Prompt Library (Ctrl+R in any chat box).
+# It never installs, changes or removes BB Overlay. If BB Overlay is missing, it says so and gives its one line.
 #
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/skyremote/skool-navaigate-install/main/bb-kit/install.sh | bash
-#   bash install.sh [--folder <path>] [--name <project name>] [--all] [--ref <git ref>] [--no-skin] [--dry-run]
+#   bash install.sh [--folder <path>] [--name <project name>] [--all] [--ref <git ref>] [--dry-run]
 #
 #   --folder   your AIOS folder (default: ~/AIOS). Created if missing; existing files are never touched.
-#   --name     the bb project name (default: "My AIOS").
+#   --name     the bb project name, used only when the folder has no bb project yet (default: "My AIOS").
 #   --all      also install every core pack now (aios-complete), instead of one pack per module.
 #   --ref      the branch or tag of this repository to install from (default: main).
-#   --no-skin  skip the NavAIgate skin and mods.
 #   --dry-run  print what would happen and change nothing.
 # Safe to re-run: every step checks first and keeps what is already there.
 set -euo pipefail
 
 REPO_SLUG="skyremote/skool-navaigate-install"
 REPO_URL="https://github.com/$REPO_SLUG.git"
-SKIN_URL="https://github.com/skyremote/bb-plugin-navaigate-skin.git"
-MODS_URL="https://github.com/skyremote/navaigate-bb-mods.git"
-MODS=(helper-desk cache-clock reflect screen-share finder-links)   # fleet stays out: it needs a private brain
+OVERLAY_LINE="curl -fsSL https://raw.githubusercontent.com/skyremote/bb-overlay/main/install.sh | bash"
 MARKET="navaigate-aios"
 
-FOLDER="$HOME/AIOS"; NAME="My AIOS"; ALL=0; REF="main"; SKIN=1; DRY=0
+FOLDER="$HOME/AIOS"; NAME="My AIOS"; ALL=0; REF="main"; DRY=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --folder) FOLDER="$2"; shift 2;;
     --name) NAME="$2"; shift 2;;
     --all) ALL=1; shift;;
     --ref) REF="$2"; shift 2;;
-    --no-skin) SKIN=0; shift;;
     --dry-run) DRY=1; shift;;
-    -h|--help) sed -n '2,21p' "$0"; exit 0;;
+    -h|--help) sed -n '2,20p' "$0"; exit 0;;
     *) echo "Unknown option: $1 (try --help)" >&2; exit 2;;
   esac
 done
@@ -116,26 +113,11 @@ if [ $DRY = 1 ]; then say "  [dry run] bb aios-kit star"
 elif "$BB" aios-kit star; then ok "Every prompt saved in the Prompt Library (Ctrl+R)"
 else skip "Prompt Library: run 'bb aios-kit star' once bb has reloaded"; fi
 
-if [ $SKIN = 1 ]; then
-  step "The NavAIgate skin and mods"
-  reachable() { GIT_TERMINAL_PROMPT=0 git ls-remote "$1" HEAD >/dev/null 2>&1; }
-  if reachable "$SKIN_URL"; then
-    if installed navaigate-skin; then say "  The skin is already installed"; else run "$BB" plugin install "git:$SKIN_URL" --yes; fi
-    run "$BB" theme set plugin:navaigate-skin:navaigate >/dev/null 2>&1 || true
-    run "$BB" settings ui set sidebar.threadListProvider '"navaigate-skin/rail"' >/dev/null 2>&1 || true
-    ok "NavAIgate skin"
-  else
-    skip "NavAIgate skin: $SKIN_URL is private and this computer has no access to it"
-  fi
-  if reachable "$MODS_URL"; then
-    for m in "${MODS[@]}"; do
-      if installed "$m"; then say "  $m is already installed"
-      elif run "$BB" plugin install "git:$MODS_URL" --subdirectory "$m" --yes; then ok "mod: $m"
-      else fail "mod: $m did not install"; fi
-    done
-  else
-    skip "Mods (${MODS[*]}): $MODS_URL is private and this computer has no access to it"
-  fi
+step "BB Overlay"
+if installed navaigate-workspace; then
+  ok "BB Overlay is installed"
+else
+  skip "BB Overlay is not installed. It gives bb the NavAIgate look, Kanban, to-dos and the mods. Install it with: $OVERLAY_LINE"
 fi
 
 step "Done"

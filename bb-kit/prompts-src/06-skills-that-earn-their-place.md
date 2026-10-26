@@ -2,7 +2,7 @@
 pack: aios-skills
 cmd: aios-skill
 
-## 6.1 · Turn a weekly job into a skill
+## 6.1 · Make me a skill for my weekly job, with three tests
 what: Turns one job you explain to Claude every week into a skill (a saved set of steps), with three test cases, and checks it.
 check: `aios-skill check` says PASS for the new skill and counts three cases.
 ~~~
@@ -11,7 +11,7 @@ About my weekly job (edit these lines before you send):
 - What I type to ask for it: "actions from these notes".
 - The check that proves it is done: every action has an owner and a due date, and nothing in the notes is missing.
 
-Set up module 6: turn this job into a skill with its own tests.
+Make me a skill for this weekly job, with three test cases, and check it passes.
 
 <<INSTALL>>
 
@@ -27,7 +27,42 @@ Set up module 6: turn this job into a skill with its own tests.
 <<FINISH m06-new-skill>>
 ~~~
 
-## 6.2 · See what your skills cost and pick one to hide
+## 6.2 · Show me my skill beats no skill
+what: Runs your skill's three test cases with and without the skill, so you see whether it really helps. It uses your own Claude plan for six short runs.
+check: The report shows WITH, WITHOUT and the difference for each case, and whether the skill fired.
+~~~
+Show me the skill I made does better than no skill. If there is no skill with three filled test cases, stop and tell me to run prompt 6.1 first.
+
+<<INSTALL>>
+
+1. Find the skill folder I made (run `aios-skill audit` if you need the path) and run `aios-skill check <folder>`. It must pass first.
+2. Run `claude plugin eval <folder> --runs 1 --no-publish`. If it asks whether to trust the folder, answer yes. It makes six short runs on my plan.
+3. Show me, for each case, the WITH score, the WITHOUT score, the difference, and whether the skill fired.
+4. If the skill did not fire, rewrite the "Use when" words in its description and run the eval once more. If the difference is zero or below, tell me the model already does this job well without the skill.
+
+<<RULES>>
+
+<<FINISH m06-skill-eval>>
+~~~
+## 6.3 · Find a bb plugin that shows what fills my context
+what: Searches the bb plugin store, picks the best plugin for seeing what fills a chat's context, and installs it after showing you what it is.
+check: The report shows the search results and why one was picked, and `bb plugin list` shows it running.
+~~~
+Search the bb plugin store for something that shows what is filling my context, and install the best one.
+
+Here is how:
+1. Run `bb plugin search context` and show me the results as a short table: name, what it does, installs.
+2. Pick the best match for "see what is filling my chat's context" and say why in one line. Expect "Context Health".
+3. Show me its source before you install it: `bb plugin search "<its name>" --json` or the store page. Plugins run with full trust, so tell me who made it.
+4. Install it: `bb plugin install <its id> --yes`. It changes bb's settings, outside this folder: I allow that for this one command, so if the sandbox blocks it, run it outside the sandbox.
+5. Run `bb plugin list` and show it running. Tell me where to find it in bb.
+
+<<RULES>>
+
+<<FINISH m06-store-plugin>>
+~~~
+
+## 6.4 · Show me what my skills cost (optional)
 what: Lists every skill you have with the tokens it costs on every turn, and previews hiding one you never use. Nothing is hidden yet.
 check: The report lists your skills sorted by cost, and shows the dry run for one skill you could hide.
 ~~~
@@ -46,20 +81,3 @@ Show me what my skills cost me, and which one I could hide.
 <<FINISH m06-skill-costs>>
 ~~~
 
-## 6.3 · Test your skill against no skill
-what: Runs your skill's three test cases with and without the skill, so you see whether it really helps. It uses your own Claude plan for six short runs.
-check: The report shows WITH, WITHOUT and the difference for each case, and whether the skill fired.
-~~~
-Test the skill I made in prompt 6.1 against no skill. If there is no skill with three filled test cases, stop and tell me to run prompt 6.1 first.
-
-<<INSTALL>>
-
-1. Find the skill folder I made (run `aios-skill audit` if you need the path) and run `aios-skill check <folder>`. It must pass first.
-2. Run `claude plugin eval <folder> --runs 1 --no-publish`. If it asks whether to trust the folder, answer yes. It makes six short runs on my plan.
-3. Show me, for each case, the WITH score, the WITHOUT score, the difference, and whether the skill fired.
-4. If the skill did not fire, rewrite the "Use when" words in its description and run the eval once more. If the difference is zero or below, tell me the model already does this job well without the skill.
-
-<<RULES>>
-
-<<FINISH m06-skill-eval>>
-~~~

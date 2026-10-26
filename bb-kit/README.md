@@ -1,7 +1,7 @@
-# YOUR AIOS 2.0 starter kit for bb
+# YOUR AIOS 2.0 in bb: the starter kit
 
 Track A of YOUR AIOS 2.0: open bb, ask Claude, paste the prompt, and let Claude set it up and show you the result.
-This kit gives you a NavAIgate bb in one step.
+The kit is two steps: **BB Overlay** (NavAIgate's free front end for bb), then **the AIOS step** in this folder.
 
 ## Install (members)
 
@@ -12,13 +12,28 @@ You need a Mac (or Linux) with:
 3. **The bb command in your terminal.** In bb, open Settings, General, bb CLI, and press Install.
    (The kit also finds bb inside the app if you skip this.)
 
-Then open the Terminal app and paste this one line:
+### Step 1: BB Overlay
+
+Open a chat in bb and paste prompt 1.1 from module 1, or run its one line in the Terminal app:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/skyremote/bb-overlay/main/install.sh | bash
+```
+
+It installs the NavAIgate Workspace (Home, the run-sheet sidebar, to-dos, the usage card, Talk), Kanban, the five mods
+(Helper Desk, Cache Clock, Reflect, Screen Share, Finder Links), NavMotion Skin and two companion plugins. Reload bb
+(Cmd+R), open Home and walk through Set up. Every key in Set up is optional. BB Overlay is free for your own business;
+its licence (PolyForm Internal Use) does not allow reselling or repackaging it.
+
+### Step 2: the AIOS step
+
+Paste prompt 1.2 into a bb chat opened on your AIOS folder, or run this one line in the Terminal app:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/skyremote/skool-navaigate-install/main/bb-kit/install.sh | bash
 ```
 
-It takes about a minute. It ends with a list of `OK` lines and the next step.
+It takes about a minute and ends with a list of `OK` lines and the next step.
 
 Want a different folder or name? Add options after `bash -s --`:
 
@@ -31,7 +46,6 @@ curl -fsSL https://raw.githubusercontent.com/skyremote/skool-navaigate-install/m
 | `--folder <path>` | Your AIOS folder. Default `~/AIOS`. Created if missing; existing files are never touched. |
 | `--name <name>` | The bb project name. Default "My AIOS". |
 | `--all` | Install every core pack now, instead of one pack per module. |
-| `--no-skin` | Skip the NavAIgate skin and mods. |
 | `--dry-run` | Show what would happen and change nothing. |
 
 Running it again is safe: each step checks first and keeps what is there.
@@ -44,8 +58,7 @@ Running it again is safe: each step checks first and keeps what is there.
 3. **Adds the prompt library** where you can see it:
    - an **AIOS course** page in the bb sidebar, with every module's prompts and a **Start chat** button;
    - every prompt saved in bb's built-in **Prompt Library**: press `Ctrl+R` in any chat box and type "AIOS".
-4. **Installs the NavAIgate skin and five mods** (helper desk, cache clock, reflect, screen share, Finder links),
-   when this computer can reach those repositories. See "Private parts" below.
+4. **Checks for BB Overlay.** It never installs or changes it. If it is missing, it prints its one line.
 
 ## Use it
 
@@ -68,14 +81,10 @@ They also work in Claude Code in a terminal: open it in your AIOS folder and pas
 | No **AIOS course** in the sidebar | Run `bb plugin list`. If `aios-starter` is missing, run the install line again. |
 | `Ctrl+R` does not find "AIOS" | Run `bb plugin enable bb--prompt-library`, then `bb aios-kit star`. |
 
-## Private parts
+## What needs BB Overlay
 
-The NavAIgate skin (`skyremote/bb-plugin-navaigate-skin`) and the mods (`skyremote/navaigate-bb-mods`) are private
-repositories today. The kit checks whether this computer can reach them. If it cannot, it says SKIP for each one and
-finishes everything else. The course works without them: the prompts, the AIOS course page and the Prompt Library
-need only this public repository.
-
-The `fleet` mod is never installed by the kit: it uses NavAIgate's own memory service.
+Most prompts need only this public repository. These need BB Overlay: 2.2 (Reflect), 4.3 (to-dos and charts), the
+Kanban board in 4.1 to 4.4 (without it, the lanes are bb sidebar sections), and the usage charts mentioned in 10.2.
 
 ## For maintainers
 

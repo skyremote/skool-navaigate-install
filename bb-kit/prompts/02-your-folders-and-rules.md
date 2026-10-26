@@ -4,7 +4,7 @@ Paste one prompt at a time into a new Claude chat in bb, opened on your AIOS fol
 
 These prompts are instructions to Claude. They also work in Claude Code in a terminal, opened in the same folder.
 
-## Prompt 2.1 · Set up your folders and your AGENTS.md
+## Prompt 2.1 · Make AGENTS.md my one rules file
 
 **What it does:** Creates the folder map and one short AGENTS.md (the rules file every agent reads), filled in with your business details.
 
@@ -18,7 +18,7 @@ About my business (edit these lines before you send):
 - Who buys: owners of small companies with 2 to 50 staff.
 - Never: send anything to a client without my approval.
 
-Set up module 2, my folders and my rules, in this folder.
+Make AGENTS.md my one rules file, filled in for my business, with CLAUDE.md pointing at it. Set up my folders too. Show me both files before and after.
 
 Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-rules@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-rules/*/bin | tail -1)/aios-rules"`. Below, `aios-rules` means that full path.
 
@@ -29,6 +29,7 @@ Step 0, get the pack. These commands change Claude's own plugin folder in my hom
 5. Check: `grep -n "{{" AGENTS.md` prints nothing, `wc -l AGENTS.md` is under 150, and `cat CLAUDE.md` prints `@AGENTS.md`. If my old CLAUDE.md was kept, show me the one line to add at the top, and do not add it yourself.
 6. Run `aios-rules check`. It must say `CLAUDE CODE: OK`.
 7. Run `aios-rules cursor-rules`, then `aios-rules check --harness all`, and show the result for each harness.
+8. Show me AGENTS.md and CLAUDE.md as they are now.
 
 Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
@@ -38,21 +39,33 @@ When you are done, show me the result:
 3. End with at most five plain lines: what works, what failed, and the one thing I do next.
 ~~~
 
-## Prompt 2.2 · Add a rule for one folder and prove Claude reads it
+## Prompt 2.2 · Save a lasting rule with one press (BB Overlay)
 
-**What it does:** Adds a rule that loads only when Claude works in your offers folder, then asks a fresh Claude, without opening files, where invoices go.
+**What it does:** You tell Claude a rule in plain words. BB Overlay's Reflect mod spots it and offers to save it to CLAUDE.md with one press. Type this one yourself: Reflect only reacts to messages a person types.
 
-**How you know it worked:** The new rule shows under "On demand" in the budget check, and the fresh Claude quotes the `30_finance/` line from your AGENTS.md.
+**How you know it worked:** A Reflect card appears above the chat box. After you press Save to CLAUDE.md, the rule sits under "Rules from corrections" in CLAUDE.md.
 
 ~~~text
-Module 2, part two. My folders and AGENTS.md are already set up in this folder (if they are not, stop and tell me to run prompt 2.1 first).
+From now on, never use hashtags in my posts.
+~~~
+
+## Prompt 2.3 · Show me Claude and Codex read the same rules
+
+**What it does:** Adds a rule that loads only when Claude works in your offers folder, then asks a fresh Claude and a fresh Codex, without opening files, to quote your rules.
+
+**How you know it worked:** The new rule shows under "On demand" in the budget check, and Claude and Codex both quote the same never-break rules from AGENTS.md.
+
+~~~text
+Read AGENTS.md and list the rules you must never break, word for word, and show me that Claude and Codex both read the same rules. My folders and AGENTS.md are already set up in this folder (if they are not, stop and tell me to run prompt 2.1 first).
 
 Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-rules@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-rules/*/bin | tail -1)/aios-rules"`. Below, `aios-rules` means that full path.
 
 1. Show me the top of the finance rule: `head -5 .claude/rules/finance.md`. Explain in one sentence when it loads.
 2. Make a rule for my offers folder, which has none yet: run `ls .claude/rules` first. If `offers.md` already exists, keep it and skip to step 3. Otherwise copy `.claude/rules/finance.md` to `.claude/rules/offers.md`, change its path to `20_offers/**`, and replace its rule lines with two short rules: "Every price shows its currency and the date it was set." and "Never send an offer to a client; drafts only."
 3. Run `aios-rules check`. Show that `offers.md` is listed under "On demand", not in the always-loaded list.
-4. Prove a fresh Claude reads AGENTS.md: run `claude -p "Without reading any file, quote the line in your instructions that says where invoices go."` and show the answer. It should quote the `30_finance/` line.
+4. Prove a fresh Claude reads AGENTS.md: run `claude -p "Without reading any file, quote the rules in your instructions that must never break, word for word, and name the file they came from."` and show the answer.
+5. If Codex is installed and signed in (`codex login status`), ask it the same: `codex exec "Without reading any file, quote the rules in your instructions that must never break, word for word, and name the file they came from."`. If Codex is not available, say so in one line.
+6. Show the answers side by side in a short table and say whether they match.
 
 Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
@@ -62,7 +75,7 @@ When you are done, show me the result:
 3. End with at most five plain lines: what works, what failed, and the one thing I do next.
 ~~~
 
-## Prompt 2.3 · Run your first monthly rules audit
+## Prompt 2.4 · Run your monthly rules audit (once a month)
 
 **What it does:** Runs the monthly audit, which reads your rules and writes a dated report. It takes a few minutes and uses your own Claude plan.
 

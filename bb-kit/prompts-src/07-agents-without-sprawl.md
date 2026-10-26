@@ -2,7 +2,7 @@
 pack: aios-agents
 cmd: aios-agent
 
-## 7.1 · Meet the crew and write a brief
+## 7.1 · Show me my helper agents and write a clear brief
 what: Shows the three read-only helper agents, lists any agents you already have, and writes a brief (a clear hand-over note) that passes its check.
 check: `aios-agent brief check` says READY, and the brief's "Done when" line names a count, a file or a command.
 ~~~
@@ -24,7 +24,7 @@ The job I might hand over (edit this line): review `20_offers/` and list anythin
 <<FINISH m07-crew-and-brief>>
 ~~~
 
-## 7.2 · Compare one agent with one agent plus a reviewer
+## 7.2 · Compare one agent alone with one agent plus a reviewer
 what: Runs the same small coding task twice, once alone and once with a reviewer agent, and compares time, tokens and what the reviewer caught. It uses your own plan.
 check: Both copies pass their tests, and `aios-agent compare` shows 0 sub-agents against 1.
 ~~~
@@ -42,4 +42,24 @@ Run the module 7 comparison: the same task done by one agent alone, and by one a
 <<RULES>>
 
 <<FINISH m07-compare>>
+~~~
+
+## 7.3 · Start a child thread to check my work
+what: Does a job in one loop first, then starts one child thread (a separate bb chat linked to this one) to check the result for mistakes, and reports back when it finishes.
+check: A child thread appears under this chat in the bb sidebar, and the report lists what it found.
+~~~
+Do this job yourself first. Then start a child thread to check it for mistakes, and tell me when it is done. Only use more helpers if parts of the job are truly separate, and tell me which you chose and why.
+
+The job (edit this line): write a one-page proposal for Northwind Ltd in `20_offers/northwind-proposal_v1.md`: a new booking page, four weeks, £2,400.
+
+Here is how:
+1. Do the job yourself in this chat. Say in one line why one loop is enough (or why it is not).
+2. Write a short brief to `80_aios/briefs/check-proposal_v1.md`: "Read 20_offers/northwind-proposal_v1.md. List every mistake: wrong or missing numbers, unclear promises, spelling. Do not edit any file. Done when you have listed each problem with its line, or said there are none."
+3. Start one child thread: `bb thread spawn --parent-self --project "$BB_PROJECT_ID" --title "Check: Northwind proposal" --prompt-file 80_aios/briefs/check-proposal_v1.md --json`.
+4. Wait for it: `bb thread wait <its id> --timeout 15m`, then read its answer with `bb thread output <its id>`.
+5. Fix the real mistakes it found in the proposal (as `_v2`, keep `_v1`), and list the ones you did not agree with and why.
+
+<<RULES>>
+
+<<FINISH m07-child-check>>
 ~~~

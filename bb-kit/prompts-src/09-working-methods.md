@@ -2,7 +2,7 @@
 pack: aios-methods
 cmd: aios-methods
 
-## 9.1 · Write the words and the spec before the code
+## 9.1 · Interview me, then write the spec before any code
 what: Makes a small practice project, then writes a glossary (the words you agree on) and a spec whose every "Done when" line is a command the agent can run.
 check: `aios-methods glossary check` ends with `0 problems`, and `aios-methods spec check` ends with `0 problem(s)`.
 ~~~
@@ -28,7 +28,7 @@ Set up module 9, part one: agree the words and write the spec before any code.
 <<FINISH m09-spec>>
 ~~~
 
-## 9.2 · Build the feature in its own worktree, then merge
+## 9.2 · Build the feature in its own worktree, then merge it
 what: Builds the feature from the spec in a separate copy of the project (a worktree), runs each "Done when" check until all pass, merges it, and cleans up.
 check: Every "Done when" command passes, the feature is merged, and `aios-methods worktree list` shows only the main folder.
 ~~~
@@ -45,4 +45,22 @@ Module 9, part two. Build the feature from its spec in its own worktree, then me
 <<RULES>>
 
 <<FINISH m09-worktree-build>>
+~~~
+
+## 9.3 · Every Monday, summarise last week's threads
+what: Creates a bb automation that runs every Monday at 8am and writes a one-page summary of last week's threads, shown inline. It runs it once now so you see the result.
+check: `bb automation list` shows the automation with its next run time, and the first summary shows inline.
+~~~
+Every Monday at 8am, write me a one-page summary of last week's threads and show it inline.
+
+Here is how:
+1. Read `bb automation create --help` so you use the right options.
+2. Write the job's prompt to `80_aios/automations/weekly-summary_v1.md`: "List last week's threads in this bb project with `bb thread list --json` (last seven days only). Write a one-page summary to 80_aios/reports/weekly-summary_<date>.html: what was done, what is still open, what needs me. Show it inline with ::inline-vis."
+3. Create the automation for this project: an agent run on a schedule of every Monday at 08:00 in my time zone, with that prompt, using Claude. Show me the command and its output.
+4. Run `bb automation list` and show its name and next run time.
+5. Run it once now with `bb automation run <its id>` and tell me where the first summary appears.
+
+<<RULES>>
+
+<<FINISH m09-weekly-automation>>
 ~~~

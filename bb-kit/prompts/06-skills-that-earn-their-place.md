@@ -4,7 +4,7 @@ Paste one prompt at a time into a new Claude chat in bb, opened on your AIOS fol
 
 These prompts are instructions to Claude. They also work in Claude Code in a terminal, opened in the same folder.
 
-## Prompt 6.1 · Turn a weekly job into a skill
+## Prompt 6.1 · Make me a skill for my weekly job, with three tests
 
 **What it does:** Turns one job you explain to Claude every week into a skill (a saved set of steps), with three test cases, and checks it.
 
@@ -16,7 +16,7 @@ About my weekly job (edit these lines before you send):
 - What I type to ask for it: "actions from these notes".
 - The check that proves it is done: every action has an owner and a due date, and nothing in the notes is missing.
 
-Set up module 6: turn this job into a skill with its own tests.
+Make me a skill for this weekly job, with three test cases, and check it passes.
 
 Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-skills@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-skills/*/bin | tail -1)/aios-skill"`. Below, `aios-skill` means that full path.
 
@@ -35,7 +35,55 @@ When you are done, show me the result:
 3. End with at most five plain lines: what works, what failed, and the one thing I do next.
 ~~~
 
-## Prompt 6.2 · See what your skills cost and pick one to hide
+## Prompt 6.2 · Show me my skill beats no skill
+
+**What it does:** Runs your skill's three test cases with and without the skill, so you see whether it really helps. It uses your own Claude plan for six short runs.
+
+**How you know it worked:** The report shows WITH, WITHOUT and the difference for each case, and whether the skill fired.
+
+~~~text
+Show me the skill I made does better than no skill. If there is no skill with three filled test cases, stop and tell me to run prompt 6.1 first.
+
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-skills@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-skills/*/bin | tail -1)/aios-skill"`. Below, `aios-skill` means that full path.
+
+1. Find the skill folder I made (run `aios-skill audit` if you need the path) and run `aios-skill check <folder>`. It must pass first.
+2. Run `claude plugin eval <folder> --runs 1 --no-publish`. If it asks whether to trust the folder, answer yes. It makes six short runs on my plan.
+3. Show me, for each case, the WITH score, the WITHOUT score, the difference, and whether the skill fired.
+4. If the skill did not fire, rewrite the "Use when" words in its description and run the eval once more. If the difference is zero or below, tell me the model already does this job well without the skill.
+
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
+
+When you are done, show me the result:
+1. Write a one-page HTML report to `80_aios/reports/m06-skill-eval_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
+2. If the `BB_THREAD_ID` environment variable is set, you are in bb. Then put `::inline-vis{file="80_aios/reports/m06-skill-eval_v1.html"}` on its own line in your final reply, outside any code block. Then move this chat to the Review lane: run `bb thread section list --json`, create a section called Review with `bb thread section create Review` if there is none, and run `bb thread update --self --section <the Review id>`.
+3. End with at most five plain lines: what works, what failed, and the one thing I do next.
+~~~
+
+## Prompt 6.3 · Find a bb plugin that shows what fills my context
+
+**What it does:** Searches the bb plugin store, picks the best plugin for seeing what fills a chat's context, and installs it after showing you what it is.
+
+**How you know it worked:** The report shows the search results and why one was picked, and `bb plugin list` shows it running.
+
+~~~text
+Search the bb plugin store for something that shows what is filling my context, and install the best one.
+
+Here is how:
+1. Run `bb plugin search context` and show me the results as a short table: name, what it does, installs.
+2. Pick the best match for "see what is filling my chat's context" and say why in one line. Expect "Context Health".
+3. Show me its source before you install it: `bb plugin search "<its name>" --json` or the store page. Plugins run with full trust, so tell me who made it.
+4. Install it: `bb plugin install <its id> --yes`. It changes bb's settings, outside this folder: I allow that for this one command, so if the sandbox blocks it, run it outside the sandbox.
+5. Run `bb plugin list` and show it running. Tell me where to find it in bb.
+
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
+
+When you are done, show me the result:
+1. Write a one-page HTML report to `80_aios/reports/m06-store-plugin_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
+2. If the `BB_THREAD_ID` environment variable is set, you are in bb. Then put `::inline-vis{file="80_aios/reports/m06-store-plugin_v1.html"}` on its own line in your final reply, outside any code block. Then move this chat to the Review lane: run `bb thread section list --json`, create a section called Review with `bb thread section create Review` if there is none, and run `bb thread update --self --section <the Review id>`.
+3. End with at most five plain lines: what works, what failed, and the one thing I do next.
+~~~
+
+## Prompt 6.4 · Show me what my skills cost (optional)
 
 **What it does:** Lists every skill you have with the tokens it costs on every turn, and previews hiding one you never use. Nothing is hidden yet.
 
@@ -57,29 +105,5 @@ Ground rules: work only in this folder unless a step names another one. Never de
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m06-skill-costs_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
 2. If the `BB_THREAD_ID` environment variable is set, you are in bb. Then put `::inline-vis{file="80_aios/reports/m06-skill-costs_v1.html"}` on its own line in your final reply, outside any code block. Then move this chat to the Review lane: run `bb thread section list --json`, create a section called Review with `bb thread section create Review` if there is none, and run `bb thread update --self --section <the Review id>`.
-3. End with at most five plain lines: what works, what failed, and the one thing I do next.
-~~~
-
-## Prompt 6.3 · Test your skill against no skill
-
-**What it does:** Runs your skill's three test cases with and without the skill, so you see whether it really helps. It uses your own Claude plan for six short runs.
-
-**How you know it worked:** The report shows WITH, WITHOUT and the difference for each case, and whether the skill fired.
-
-~~~text
-Test the skill I made in prompt 6.1 against no skill. If there is no skill with three filled test cases, stop and tell me to run prompt 6.1 first.
-
-Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-skills@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-skills/*/bin | tail -1)/aios-skill"`. Below, `aios-skill` means that full path.
-
-1. Find the skill folder I made (run `aios-skill audit` if you need the path) and run `aios-skill check <folder>`. It must pass first.
-2. Run `claude plugin eval <folder> --runs 1 --no-publish`. If it asks whether to trust the folder, answer yes. It makes six short runs on my plan.
-3. Show me, for each case, the WITH score, the WITHOUT score, the difference, and whether the skill fired.
-4. If the skill did not fire, rewrite the "Use when" words in its description and run the eval once more. If the difference is zero or below, tell me the model already does this job well without the skill.
-
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
-
-When you are done, show me the result:
-1. Write a one-page HTML report to `80_aios/reports/m06-skill-eval_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
-2. If the `BB_THREAD_ID` environment variable is set, you are in bb. Then put `::inline-vis{file="80_aios/reports/m06-skill-eval_v1.html"}` on its own line in your final reply, outside any code block. Then move this chat to the Review lane: run `bb thread section list --json`, create a section called Review with `bb thread section create Review` if there is none, and run `bb thread update --self --section <the Review id>`.
 3. End with at most five plain lines: what works, what failed, and the one thing I do next.
 ~~~
