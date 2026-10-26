@@ -1,0 +1,9 @@
+{
+  "name": "tools-inbox",
+  "source": "./plugins/tools-inbox",
+  "version": "2.0.0",
+  "description": "Tools: inbox triage on your own Composio and Gmail. Sorted into what needs you, drafts only, never sends.",
+  "metadata": {
+    "module": 12
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "tools-inbox",
+  "version": "2.0.0",
+  "description": "Inbox triage that never sends: read your own Gmail through your own Composio account, sort it into what needs you, and draft replies for you to send.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "email",
+    "gmail",
+    "triage",
+    "composio",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  },
+  "userConfig": {
+    "composio_api_key": {
+      "type": "string",
+      "title": "Composio API key",
+      "description": "Your own key from the Composio dashboard, with your Gmail connected there. Used only for reminders to yourself and to list your connections. Stored in your keychain.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    }
+  }
+}
