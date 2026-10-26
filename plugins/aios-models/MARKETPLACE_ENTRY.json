@@ -1,0 +1,6 @@
+{
+  "name": "aios-models",
+  "source": "./plugins/aios-models",
+  "version": "2.0.0",
+  "description": "Module 10. Which model does what, medium effort first, the advisor, and two logins."
+}

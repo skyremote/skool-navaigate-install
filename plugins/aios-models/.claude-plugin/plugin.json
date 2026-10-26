@@ -1,0 +1,15 @@
+{
+  "name": "aios-models",
+  "version": "2.0.0",
+  "description": "Models, effort and cost for your AIOS: which model does what, medium effort first, the advisor, usage checks, two logins for failover, and /models-check.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 10
+  }
+}

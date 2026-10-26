@@ -1,0 +1,6 @@
+{
+  "name": "aios-ship",
+  "source": "./plugins/aios-ship",
+  "version": "2.0.0",
+  "description": "Module 11. Package a skill as a pack with tests, evals and installers, then validate it."
+}

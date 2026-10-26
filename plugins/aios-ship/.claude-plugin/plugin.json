@@ -1,0 +1,15 @@
+{
+  "name": "aios-ship",
+  "version": "2.0.0",
+  "description": "Ship it to others: package a skill or pipeline as a plugin with tests, evals, a marketplace entry and a Codex and Cursor installer, then validate and version it.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 11
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "aios-methods",
+  "version": "2.0.0",
+  "description": "Working methods for your AIOS: /loop with a check, git worktrees for parallel work, interview before you build, and pointers to GSD and compound engineering.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 9
+  }
+}

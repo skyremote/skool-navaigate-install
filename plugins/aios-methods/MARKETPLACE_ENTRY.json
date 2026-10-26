@@ -1,0 +1,6 @@
+{
+  "name": "aios-methods",
+  "source": "./plugins/aios-methods",
+  "version": "2.0.0",
+  "description": "Module 9. Loops with a check, worktrees for parallel work, interview before you build."
+}
