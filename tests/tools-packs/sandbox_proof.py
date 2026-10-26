@@ -76,10 +76,10 @@ class Report:
         if note:
             self.lines.append(note)
         self.lines += ['```sh', shlex.join(str(a) for a in args), '```', '```text'] + [x.rstrip() for x in out] + [
-            '[exit %d%s]' % (proc.returncode, '' if proc.returncode == expect else ', EXPECTED %d' % expect), '```', '']
+            '[exit %d%s]' % (proc.returncode, '' if expect is None or proc.returncode == expect else ', EXPECTED %d' % expect), '```', '']
         self.file.write_text('\n'.join(self.lines) + '\n')
         print(shlex.join(str(a) for a in args)[:120] + ' -> exit ' + str(proc.returncode), flush=True)
-        if proc.returncode != expect:
+        if expect is not None and proc.returncode != expect:
             self.failed.append(shlex.join(str(a) for a in args))
         return proc
 
