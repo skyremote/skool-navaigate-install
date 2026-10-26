@@ -28,7 +28,7 @@ check: The report shows each window's percentage and reset time, and one plain-E
 How much of my Claude week have I used, and will it last until the reset?
 
 Here is how:
-1. Run `bb settings usage` and show me each usage window for Claude: how much is used and when it resets.
+1. Run `bb settings usage` and show me each usage window for Claude: how much is used and when it resets. If it shows no usage for Claude (for example, when Claude signs in through a proxy), say so plainly, tell me to type `/usage` in Claude Code instead, and stop: never guess a number.
 2. Work out a simple forecast: the share used so far against the share of the week gone. Say in one line whether it will last.
 3. If it will not last, give me two plain options: lower effort for routine jobs, or a second login in the account pool (prompt 10.3).
 4. Tell me that with BB Overlay I can hover the usage line under the chat box to see the same windows as charts.
@@ -48,8 +48,9 @@ Here is how:
 1. Read `bb pool --help` and `bb pool account add --help`.
 2. Switch the pool on: `bb plugin enable account-pool`. It changes bb's settings: I allow that for this command, so if the sandbox blocks it, run it outside the sandbox.
 3. Run `bb pool status` and `bb pool account list` and show me what is there now.
-4. Start adding the second login: `bb pool account add --provider claude --login`. It prints a sign-in link and a session id. Do not try to sign in for me. Give me the link and the exact next command, `bb pool account login-complete --session <id> --code-stdin`, to run with the code from my browser.
-5. Tell me how to check it afterwards: `bb pool account list` shows both accounts enabled, and `bb pool routing claude` shows the order. Lower priority numbers run first.
+4. Keep routing off until an account is signed in, so new chats are never sent to an empty pool: `bb pool routing claude --off`.
+5. Start adding the second login: `bb pool account add --provider claude --login`. It prints a sign-in link and a session id. Do not try to sign in for me. Give me the link and the exact next command, `bb pool account login-complete --session <id> --code-stdin`, to run with the code from my browser.
+6. Tell me how to finish afterwards: when `bb pool account list` shows both accounts enabled, switch routing on with `bb pool routing claude`. Lower priority numbers run first: `bb pool account priority <id> 10`.
 
 <<RULES>>
 

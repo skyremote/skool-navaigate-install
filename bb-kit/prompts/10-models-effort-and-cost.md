@@ -39,7 +39,7 @@ When you are done, show me the result:
 How much of my Claude week have I used, and will it last until the reset?
 
 Here is how:
-1. Run `bb settings usage` and show me each usage window for Claude: how much is used and when it resets.
+1. Run `bb settings usage` and show me each usage window for Claude: how much is used and when it resets. If it shows no usage for Claude (for example, when Claude signs in through a proxy), say so plainly, tell me to type `/usage` in Claude Code instead, and stop: never guess a number.
 2. Work out a simple forecast: the share used so far against the share of the week gone. Say in one line whether it will last.
 3. If it will not last, give me two plain options: lower effort for routine jobs, or a second login in the account pool (prompt 10.3).
 4. Tell me that with BB Overlay I can hover the usage line under the chat box to see the same windows as charts.
@@ -65,8 +65,9 @@ Here is how:
 1. Read `bb pool --help` and `bb pool account add --help`.
 2. Switch the pool on: `bb plugin enable account-pool`. It changes bb's settings: I allow that for this command, so if the sandbox blocks it, run it outside the sandbox.
 3. Run `bb pool status` and `bb pool account list` and show me what is there now.
-4. Start adding the second login: `bb pool account add --provider claude --login`. It prints a sign-in link and a session id. Do not try to sign in for me. Give me the link and the exact next command, `bb pool account login-complete --session <id> --code-stdin`, to run with the code from my browser.
-5. Tell me how to check it afterwards: `bb pool account list` shows both accounts enabled, and `bb pool routing claude` shows the order. Lower priority numbers run first.
+4. Keep routing off until an account is signed in, so new chats are never sent to an empty pool: `bb pool routing claude --off`.
+5. Start adding the second login: `bb pool account add --provider claude --login`. It prints a sign-in link and a session id. Do not try to sign in for me. Give me the link and the exact next command, `bb pool account login-complete --session <id> --code-stdin`, to run with the code from my browser.
+6. Tell me how to finish afterwards: when `bb pool account list` shows both accounts enabled, switch routing on with `bb pool routing claude`. Lower priority numbers run first: `bb pool account priority <id> 10`.
 
 For this task only: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
