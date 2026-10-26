@@ -77,10 +77,10 @@ function cmdCheck() {
     "install Google Chrome, or run: npx playwright install chromium, or set CHROME_PATH");
   const brand = brandLib.findBrand(process.cwd());
   if (brand) {
-    try { brandLib.loadBrand(brand); console.log(`ok       your brand: ${brand}`); }
+    try { brandLib.loadBrand(brand); console.log(`ok    your brand: ${brand}`); }
     catch (e) { line(false, `your brand: ${e.message}`, "shelf-decks init (or fix the file)"); }
   } else {
-    console.log(`note     no brand.json yet; decks use the neutral editorial-light look. To add yours: shelf-decks init`);
+    console.log(`note  no brand.json yet; decks use the neutral editorial-light look. To add yours: shelf-decks init`);
   }
   console.log(ok ? "\nReady." : "\nFix the MISSING lines above, then run shelf-decks check again.");
   return ok ? 0 : 1;
