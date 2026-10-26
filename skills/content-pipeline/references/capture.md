@@ -3,8 +3,8 @@
 A raw idea goes in, a classified stub comes out. Quick. The heavy work is
 `develop`.
 
-All commands run from their project folder. `SKILLS` below means
-`~/.claude/skills/content-pipeline/scripts`.
+All commands run from their project folder.
+`$S` below is the `scripts/` folder next to this SKILL.md. Set it once: `export S="<that folder>"`.
 
 ## 1. Get the core
 
@@ -14,7 +14,7 @@ One or two sentences from what they said. Do not pad it.
 
 ```bash
 python3 - <<'EOF'
-import sys, os; sys.path.insert(0, os.path.expanduser("~/.claude/skills/content-pipeline/scripts"))
+import sys, os; sys.path.insert(0, os.environ["S"])
 from db import get_connection
 conn = get_connection()
 rows = conn.execute("""
@@ -45,7 +45,7 @@ Show the classification. Wait for a yes.
 
 ```bash
 python3 - <<'EOF'
-import sys, os; sys.path.insert(0, os.path.expanduser("~/.claude/skills/content-pipeline/scripts"))
+import sys, os; sys.path.insert(0, os.environ["S"])
 from db import get_connection
 from writer import write_content_idea
 idea = {
@@ -67,7 +67,7 @@ EOF
 ## 5. Regenerate the pipeline view
 
 ```bash
-python3 ~/.claude/skills/content-pipeline/scripts/generate_pipeline.py
+python3 "$S/generate_pipeline.py"
 ```
 
 ## 6. Report

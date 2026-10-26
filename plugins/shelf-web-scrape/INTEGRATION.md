@@ -48,11 +48,10 @@ installed (`shared_copy` in `scripts/install_pack.py`, tested in `tests/shelf-wr
 - The `userConfig` keys are stored by Claude Code in the keychain. The wrapped 1.x scripts read `~/.claude/.env` or the
   shell environment, not `CLAUDE_PLUGIN_OPTION_*`, and the copy must not be edited. The README therefore tells members
   to use `~/.claude/.env`.
-- The skill text still says `/aios` at the end, and names `~/.claude/skills/...` paths (for example
-  `~/.claude/skills/web-scrape/scripts/webscrape.py`). Those folders exist only for a first-generation install. In a
-  plugin install Claude finds the real folder from the skill's base directory, at the cost of one failed command first
-  (seen in the prompt proof). Fixing it means editing the 1.x skill text, which this pack must not do; raise it as a
-  change to `skills/` if you want it gone.
+- The skill text still says `/aios` at the end. Script paths are fixed (26 October 2026, in the 1.x skill and this
+  copy alike): the skills name "the `scripts/` folder next to this SKILL.md" and the Python uses
+  `Path(__file__).resolve().parent`, so they work from the plugin cache and from `~/.codex` and `~/.cursor` skill
+  folders. `tests/shelf-wrappers` fails if a shipped file names the old first-generation install folder.
 
 ## Kept out of the repo (Daniel's ruling, 26 October 2026)
 

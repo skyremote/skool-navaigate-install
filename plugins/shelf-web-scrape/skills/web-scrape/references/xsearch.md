@@ -86,7 +86,7 @@ Other documented x_search fields not wired by default (add if needed):
 ## CLI
 
 ```bash
-X=~/.claude/skills/web-scraping/scripts/sources/xsearch.py
+X="<the scripts/ folder next to the web-scrape SKILL.md>/sources/xsearch.py"
 
 # Ask Grok with X Search on; returns answer + X citations
 python3 $X search "what is X saying about Cloudflare Workers vs Vercel" --max-results 5

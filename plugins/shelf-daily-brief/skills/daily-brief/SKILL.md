@@ -48,7 +48,8 @@ project folder**; that is where the brief reads context and writes
 1. Check the folder. If there is no `CLAUDE.md`, send them to `/layer-1`
    first. If there are no numbers at all, the brief still runs on context
    alone; say so, do not fake a dashboard.
-2. Check the key: `python3 ~/.claude/skills/daily-brief/scripts/model.py`
+2. Set `S` to the `scripts/` folder next to this SKILL.md (`S="<that folder>"`).
+   Check the key: `python3 "$S/model.py"`
    says which provider and model will be used. None found: stop and ask
    for one.
 3. Pick a preset with them: `solo` (numbers, signals, actions),
@@ -58,7 +59,7 @@ project folder**; that is where the brief reads context and writes
 4. First run, nothing saved:
    ```bash
    cd <their project>
-   python3 ~/.claude/skills/daily-brief/scripts/daily_brief.py --test
+   python3 "$S/daily_brief.py" --test
    ```
    Read it with them. Too long, too short, wrong sections, wrong metric
    mapping: fix `funnel.md` or the preset and run again. Do not automate
@@ -66,10 +67,10 @@ project folder**; that is where the brief reads context and writes
 5. Real run: same command without `--test`. It saves
    `outputs/daily-brief/YYYY-MM-DD.md` and a PNG dashboard next to it.
 6. Schedule it after their data lands. macOS:
-   `templates/com.aios.daily-brief.plist` (fill `__PYTHON__`, `__HOME__`,
+   `templates/com.aios.daily-brief.plist` (fill `__PYTHON__`, `__SCRIPTS__` (that folder), `__HOME__`,
    `__WORKSPACE__`, then `cp` to `~/Library/LaunchAgents/` and
    `launchctl load`). Linux:
-   `0 7 * * * cd /path/to/project && python3 ~/.claude/skills/daily-brief/scripts/daily_brief.py >> data/daily-brief.log 2>&1`.
+   `0 7 * * * cd /path/to/project && python3 "<that folder>/daily_brief.py" >> data/daily-brief.log 2>&1`.
    The machine has to be awake.
 7. Add one line to their `CLAUDE.md`: where the briefs live and what time
    they run. If they want it somewhere other than a file, that is a

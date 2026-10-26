@@ -4,8 +4,8 @@ Every research source we used to hand out as a separate zip is already wired
 into `/web-scrape`. There is no separate research-sources module to install.
 Pick the source, run the command, and their key goes in `~/.claude/.env`.
 
-All commands run from the plugin folder (or `~/.claude/skills/web-scrape/`
-once `install.sh` has linked it).
+All commands run from the web-scrape skill folder (the folder that holds its
+SKILL.md), wherever your harness installed it.
 
 | Source | What it is good for | Key | Command |
 |---|---|---|---|

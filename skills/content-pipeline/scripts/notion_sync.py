@@ -13,7 +13,7 @@ Functions:
 Setup:
     1. Create a Notion internal integration at https://www.notion.so/my-integrations
     2. Add NOTION_API_TOKEN and NOTION_PIPELINE_DB_ID to ~/.claude/.env
-    3. Run: python3 ~/.claude/skills/content-pipeline/scripts/notion_sync.py --create-db PARENT_PAGE_ID
+    3. Run: python3 <the scripts/ folder next to SKILL.md>/notion_sync.py --create-db PARENT_PAGE_ID
 
 Usage:
     python3 notion_sync.py --create-db PAGE_ID    # One-time setup

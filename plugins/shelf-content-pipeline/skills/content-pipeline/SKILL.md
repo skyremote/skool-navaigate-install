@@ -46,7 +46,7 @@ runs **from their project folder**; that is where `data/content.db` and
    what it already answers.
 2. Foundation, from their project folder:
    ```bash
-   S=~/.claude/skills/content-pipeline/scripts
+   export S="<the scripts/ folder next to this SKILL.md>"   # the references use $S too
    python3 $S/db.py                  # data/content.db, two tables
    python3 $S/db.py --check
    python3 $S/context_aggregator.py  # counts; empty is fine

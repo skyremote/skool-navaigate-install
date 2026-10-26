@@ -24,7 +24,7 @@ There is **no dedicated podcast endpoint** — podcasts are covered via YouTube 
 ## CLI
 
 ```bash
-SD=~/.claude/skills/web-scraping/scripts/sources/supadata.py
+SD="<the scripts/ folder next to the web-scrape SKILL.md>/sources/supadata.py"
 
 # Search YouTube videos for a topic
 python3 $SD search "retrieval augmented generation" --limit 10

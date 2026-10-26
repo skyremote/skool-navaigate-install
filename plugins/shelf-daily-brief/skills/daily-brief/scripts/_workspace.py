@@ -1,7 +1,7 @@
 """Where the member's project lives, and where their keys are.
 
-The scripts in this folder are linked into ~/.claude/skills by install.sh,
-so `__file__` points at the plugin, not at their project. Everything is
+The scripts in this folder run from wherever the skill is installed (a plugin
+cache or a harness skills folder), so `__file__` points at the skill, not at their project. Everything is
 anchored on the folder they run from (or AIOS_WORKSPACE if they set it).
 """
 

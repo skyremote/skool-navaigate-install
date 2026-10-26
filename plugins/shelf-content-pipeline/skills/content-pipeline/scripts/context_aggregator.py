@@ -322,7 +322,7 @@ def format_context_for_prompt(context: dict) -> str:
 if __name__ == "__main__":
     if not DB_PATH.exists():
         print(f"Database not found at {DB_PATH}")
-        print("Run 'python3 ~/.claude/skills/content-pipeline/scripts/db.py' first to initialise.")
+        print(f"Run 'python3 {Path(__file__).resolve().parent / 'db.py'}' first to initialise.")
         sys.exit(1)
 
     ctx = build_context_window(days=7)

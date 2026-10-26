@@ -6,11 +6,12 @@
     <string>com.aios.daily-brief</string>
 
     <!-- Replace __PYTHON__ with the python that has the requirements installed,
+         __SCRIPTS__ with the scripts/ folder next to the skill's SKILL.md,
          and __WORKSPACE__ with the absolute path of the project folder. -->
     <key>ProgramArguments</key>
     <array>
         <string>__PYTHON__</string>
-        <string>__HOME__/.claude/skills/daily-brief/scripts/daily_brief.py</string>
+        <string>__SCRIPTS__/daily_brief.py</string>
     </array>
 
     <key>StartCalendarInterval</key>

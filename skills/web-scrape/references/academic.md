@@ -14,7 +14,7 @@ commentary on it from last week.
 ## CLI
 
 ```bash
-A=~/.claude/skills/web-scraping/scripts/sources/academic.py
+A="<the scripts/ folder next to the web-scrape SKILL.md>/sources/academic.py"
 
 # Search OpenAlex; sort by relevance (default), cites, or date
 python3 $A search "retrieval augmented generation evaluation" --limit 10 --from-year 2023 --sort cites

@@ -56,12 +56,12 @@ key is missing the script tells you exactly which one and where to put it.
 
 ## The helper
 
-All web work goes through one script. It lives in this plugin at
-`skills/web-scrape/scripts/webscrape.py`; `install.sh` links the skill to
-`~/.claude/skills/web-scrape`, so run it with `python3`:
+All web work goes through one script. It lives in the `scripts/` folder next to this SKILL.md
+(`scripts/webscrape.py`). Set `S` to that folder once, then run it with `python3`:
 
 ```bash
-python3 ~/.claude/skills/web-scrape/scripts/webscrape.py <command> [options]
+S="<the scripts/ folder next to this SKILL.md>"
+python3 "$S/webscrape.py" <command> [options]
 ```
 
 Add `--json` to any command for the raw API response (use when you need
@@ -141,8 +141,8 @@ index + one-shot scrape of the hits.
 
 ## Source clients (Reddit / Academic / Substack free; Supadata paid)
 
-Beyond the open web, the source clients live in `skills/web-scrape/scripts/sources/`
-(`~/.claude/skills/web-scrape/scripts/sources/` once linked). Each is a
+Beyond the open web, the source clients live in `sources/` inside
+the `scripts/` folder next to this SKILL.md (`$S/sources/`). Each is a
 self-contained CLI with the same conventions as `webscrape.py` (subcommands,
 `--json` before or after the subcommand, human-readable default output). Academic
 and Substack are keyless; **Reddit** routes through Composio's managed toolkit
