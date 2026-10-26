@@ -11,15 +11,14 @@ Module 4 of YOUR AIOS 2.0: bb (getbb.app) as the cockpit for your AIOS folder.
 
 ## Install
 
-Claude Code:
+Install `aios` once (module 1). Then, in Claude Code, type `/aios`, say you are on module 4, and accept
+`aios-bb`; type `/reload-plugins` afterwards. `/aios` runs `aios-guide install aios-bb`, which you can also type yourself.
+
+Codex and Cursor, from your checkout of this repository:
 
 ```
-/plugin marketplace add skyremote/skool-navaigate-install
-/plugin install aios@navaigate-aios
-/plugin install aios-bb@navaigate-aios
+./install.sh aios-bb
 ```
-
-Codex and Cursor, from your checkout: `./install.sh aios` then `./install.sh aios-bb`.
 
 ## Use
 

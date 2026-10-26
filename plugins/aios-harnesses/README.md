@@ -10,18 +10,12 @@ Module 3 of YOUR AIOS 2.0. One AIOS folder, four harnesses, the same rules, skil
 
 ## Install
 
-Claude Code:
-
-```
-/plugin marketplace add skyremote/skool-navaigate-install
-/plugin install aios@navaigate-aios
-/plugin install aios-harnesses@navaigate-aios
-```
+Install `aios` once (module 1). Then, in Claude Code, type `/aios`, say you are on module 3, and accept
+`aios-harnesses`; type `/reload-plugins` afterwards. `/aios` runs `aios-guide install aios-harnesses`, which you can also type yourself.
 
 Codex and Cursor, from your checkout of this repository:
 
 ```
-./install.sh aios
 ./install.sh aios-harnesses
 ```
 
