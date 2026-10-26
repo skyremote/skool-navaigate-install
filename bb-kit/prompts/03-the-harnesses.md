@@ -42,7 +42,7 @@ Ask Claude, Codex and Cursor the same question in three threads: what are the th
 Here is how:
 1. Run `bb provider list` and note which of `claude-code`, `codex` and `acp-cursor` are listed. Use only those. If one is not signed in, its thread will fail; then say so and carry on with the others.
 2. Write the question to `80_aios/ask/risks_v1.md`: "Read this folder and list the three biggest risks you see, one line each. Do not change any file."
-3. For each harness, start a thread in this bb project: `bb thread spawn --project "$BB_PROJECT_ID" --provider <id> --title "Risks: <harness>" --prompt-file 80_aios/ask/risks_v1.md --json`. Keep each thread id.
+3. For each harness, start a thread in this bb project: `bb thread spawn --project "$BB_PROJECT_ID" --environment "$BB_ENVIRONMENT_ID" --provider <id> --title "Risks: <harness>" --prompt-file 80_aios/ask/risks_v1.md --json` (the same folder as this chat, so each one sees every file, saved or not). Keep each thread id.
 4. Wait for each one with `bb thread wait <id> --timeout 10m`, then read its answer with `bb thread output <id>`.
 5. Compare the answers in one table: harness, risk 1, risk 2, risk 3. Then add one line on where they agree and one on where they differ.
 
