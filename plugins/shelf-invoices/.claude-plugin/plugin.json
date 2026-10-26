@@ -1,0 +1,22 @@
+{
+  "name": "shelf-invoices",
+  "version": "2.0.0",
+  "description": "Create, number and file invoices and credit notes as PDF from your own company details, with VAT handled line by line.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "invoices",
+    "vat",
+    "pdf",
+    "bookkeeping",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "shelf-video",
+  "version": "2.0.0",
+  "description": "Edit a talking-head recording on your own machine: transcribe, remove filler words, tighten pauses, burn in captions and export an MP4.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "video",
+    "captions",
+    "whisper",
+    "ffmpeg",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

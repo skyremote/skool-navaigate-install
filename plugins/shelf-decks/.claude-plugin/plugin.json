@@ -1,0 +1,22 @@
+{
+  "name": "shelf-decks",
+  "version": "2.0.0",
+  "description": "Build a deck in your own brand as an HTML page first, review every slide, then export an editable PowerPoint that matches it.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "presentations",
+    "pptx",
+    "slides",
+    "brand",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

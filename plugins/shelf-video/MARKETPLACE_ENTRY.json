@@ -1,0 +1,6 @@
+{
+  "name": "shelf-video",
+  "source": "./plugins/shelf-video",
+  "version": "2.0.0",
+  "description": "The shelf: edit a talking-head recording locally. Whisper transcript, filler words out, captions in, MP4 out."
+}

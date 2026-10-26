@@ -1,0 +1,6 @@
+{
+  "name": "shelf-invoices",
+  "source": "./plugins/shelf-invoices",
+  "version": "2.0.0",
+  "description": "The shelf: invoices and credit notes as PDF from your own company details, numbered, filed and verified."
+}

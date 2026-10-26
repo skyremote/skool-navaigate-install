@@ -1,0 +1,6 @@
+{
+  "name": "shelf-decks",
+  "source": "./plugins/shelf-decks",
+  "version": "2.0.0",
+  "description": "The shelf: a deck in your own brand. HTML first, every slide reviewed, then an editable PowerPoint and a PDF."
+}
