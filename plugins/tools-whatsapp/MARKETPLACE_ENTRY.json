@@ -1,0 +1,9 @@
+{
+  "name": "tools-whatsapp",
+  "source": "./plugins/tools-whatsapp",
+  "version": "2.0.0",
+  "description": "Tools: WhatsApp archived on your own Mac with whatscribe, voice notes as text, and every date and price found.",
+  "metadata": {
+    "module": 12
+  }
+}

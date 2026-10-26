@@ -1,0 +1,13 @@
+{
+  "description": "tools-social: the release-clock gate. Blotato posts and reschedules need an explicit release the member gave.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__.*blotato.*",
+        "hooks": [
+          { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}\"/bin/tools-social gate", "timeout": 10 }
+        ]
+      }
+    ]
+  }
+}

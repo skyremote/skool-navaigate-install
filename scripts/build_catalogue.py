@@ -33,6 +33,20 @@ CAPABILITIES={'aios-rules':['rules','agents.md','folders','claude.md'],'aios-har
               'aios-models':['model','models','effort','cost','usage'],'aios-ship':['ship','package','publish','plugin'],
               'shelf-video':['video','captions','filler'],'shelf-decks':['deck','slides','powerpoint','presentation'],
               'shelf-invoices':['invoice','invoices','billing'],
+              'tools-boards':['whiteboard','bluplai','workshop board','feedback wall','diagram board'],
+              'tools-images':['image','images','ai video','higgsfield','seedance','product photo'],
+              'tools-inbox':['email','inbox','gmail','triage','reply','drafts'],
+              'tools-meetings':['meeting','meetings','granola','transcript','call notes','action items'],
+              'tools-memory':['database','sqlite','sync my database','clipboard','paste','turso db'],
+              'tools-narration':['narration','voiceover','elevenlabs','clone my voice','text to speech','tts'],
+              'tools-notebooklm':['notebooklm','audio overview','podcast','quiz','flashcards','study guide'],
+              'tools-offers':['offer','pricing','hormozi','leads','guarantee','money model'],
+              'tools-research':['research papers','reddit','substack','sources','citations','what do people say'],
+              'tools-reverse':['reverse engineer','how does this app work','decompile','rea','binary'],
+              'tools-social':['social','post','linkedin','schedule','blotato','instagram'],
+              'tools-tasks':['tasks','clickup','to do','overdue','project plan'],
+              'tools-voice':['voice','my voice','writing style','sounds like ai','de-slop','tone'],
+              'tools-whatsapp':['whatsapp','voice notes','chat archive','whatscribe'],
               'aios-complete':['everything','whole framework','the whole aios','complete','all packs','all of it']}
 
 

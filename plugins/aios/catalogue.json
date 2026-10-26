@@ -102,7 +102,21 @@
       "packs": [
         "shelf-decks",
         "shelf-invoices",
-        "shelf-video"
+        "shelf-video",
+        "tools-boards",
+        "tools-images",
+        "tools-inbox",
+        "tools-meetings",
+        "tools-memory",
+        "tools-narration",
+        "tools-notebooklm",
+        "tools-offers",
+        "tools-research",
+        "tools-reverse",
+        "tools-social",
+        "tools-tasks",
+        "tools-voice",
+        "tools-whatsapp"
       ]
     }
   ],
@@ -556,6 +570,492 @@
         "video",
         "captions",
         "filler"
+      ]
+    },
+    {
+      "name": "tools-boards",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: editable BluPlai whiteboards from a brief or a transcript, native shapes, validated before they are written.",
+      "source": "./plugins/tools-boards",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-boards"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-boards"
+      ],
+      "hooks": [],
+      "mcp_servers": [
+        "bluplai"
+      ],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "whiteboard",
+        "bluplai",
+        "workshop board",
+        "feedback wall",
+        "diagram board"
+      ]
+    },
+    {
+      "name": "tools-images",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: images and AI video on your own Higgsfield, shot-by-shot prompts checked before credits are spent.",
+      "source": "./plugins/tools-images",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-images"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-images"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "image",
+        "images",
+        "ai video",
+        "higgsfield",
+        "seedance",
+        "product photo"
+      ]
+    },
+    {
+      "name": "tools-inbox",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: inbox triage on your own Composio and Gmail. Sorted into what needs you, drafts only, never sends.",
+      "source": "./plugins/tools-inbox",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-inbox"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-inbox"
+      ],
+      "hooks": [
+        "PreToolUse"
+      ],
+      "mcp_servers": [],
+      "user_config": [
+        {
+          "key": "composio_api_key",
+          "sensitive": true,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": [
+        "email",
+        "inbox",
+        "gmail",
+        "triage",
+        "reply",
+        "drafts"
+      ]
+    },
+    {
+      "name": "tools-meetings",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: Granola meetings on your own key, turned into checked decisions, owners and open questions.",
+      "source": "./plugins/tools-meetings",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-meetings"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-meetings"
+      ],
+      "hooks": [],
+      "mcp_servers": [
+        "tools-meetings"
+      ],
+      "user_config": [
+        {
+          "key": "granola_api_key",
+          "sensitive": true,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": [
+        "meeting",
+        "meetings",
+        "granola",
+        "transcript",
+        "call notes",
+        "action items"
+      ]
+    },
+    {
+      "name": "tools-memory",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: one app database in step across your machines on your own Turso, checked first, and clipboard recall with Paste.",
+      "source": "./plugins/tools-memory",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-memory"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-memory"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "database",
+        "sqlite",
+        "sync my database",
+        "clipboard",
+        "paste",
+        "turso db"
+      ]
+    },
+    {
+      "name": "tools-narration",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: narration in your own cloned voice on your own ElevenLabs account, one consistent take per deck.",
+      "source": "./plugins/tools-narration",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-narration"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-narration"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [
+        {
+          "key": "elevenlabs_api_key",
+          "sensitive": true,
+          "required": false
+        },
+        {
+          "key": "voice_id",
+          "sensitive": false,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": [
+        "narration",
+        "voiceover",
+        "elevenlabs",
+        "clone my voice",
+        "text to speech",
+        "tts"
+      ]
+    },
+    {
+      "name": "tools-notebooklm",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: your files into NotebookLM notebooks, audio overviews and quizzes on your own Google account.",
+      "source": "./plugins/tools-notebooklm",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-notebooklm"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-notebooklm"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "notebooklm",
+        "audio overview",
+        "podcast",
+        "quiz",
+        "flashcards",
+        "study guide"
+      ]
+    },
+    {
+      "name": "tools-offers",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: the Hormozi Growth Engine on the books you own, with cited answers, and the James Smith second view.",
+      "source": "./plugins/tools-offers",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-offers"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-offers"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "offer",
+        "pricing",
+        "hormozi",
+        "leads",
+        "guarantee",
+        "money model"
+      ]
+    },
+    {
+      "name": "tools-research",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: papers, Substack, Reddit on your own app and YouTube consensus, in a ledger with links and honest confidence.",
+      "source": "./plugins/tools-research",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-research"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-research"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [
+        {
+          "key": "openalex_email",
+          "sensitive": false,
+          "required": false
+        },
+        {
+          "key": "reddit_client_id",
+          "sensitive": false,
+          "required": false
+        },
+        {
+          "key": "reddit_client_secret",
+          "sensitive": true,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": [
+        "research papers",
+        "reddit",
+        "substack",
+        "sources",
+        "citations",
+        "what do people say"
+      ]
+    },
+    {
+      "name": "tools-reverse",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: how shipped software works, explained with REA inside a scope you may work in, every claim with evidence.",
+      "source": "./plugins/tools-reverse",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-reverse"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-reverse"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "reverse engineer",
+        "how does this app work",
+        "decompile",
+        "rea",
+        "binary"
+      ]
+    },
+    {
+      "name": "tools-social",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: one source to every platform on your own Blotato, with a release gate. Nothing posts without your go.",
+      "source": "./plugins/tools-social",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-social"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-social"
+      ],
+      "hooks": [
+        "PreToolUse"
+      ],
+      "mcp_servers": [
+        "blotato"
+      ],
+      "user_config": [
+        {
+          "key": "blotato_api_key",
+          "sensitive": true,
+          "required": false
+        }
+      ],
+      "tour": true,
+      "capabilities": [
+        "social",
+        "post",
+        "linkedin",
+        "schedule",
+        "blotato",
+        "instagram"
+      ]
+    },
+    {
+      "name": "tools-tasks",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: briefs into checked tasks in your own ClickUp, through ClickUp's official MCP server, and three for today.",
+      "source": "./plugins/tools-tasks",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-tasks"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-tasks"
+      ],
+      "hooks": [],
+      "mcp_servers": [
+        "clickup"
+      ],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "tasks",
+        "clickup",
+        "to do",
+        "overdue",
+        "project plan"
+      ]
+    },
+    {
+      "name": "tools-voice",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: your own writing voice, built from your own words and corrections, and a check for every draft.",
+      "source": "./plugins/tools-voice",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-voice"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-voice"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "voice",
+        "my voice",
+        "writing style",
+        "sounds like ai",
+        "de-slop",
+        "tone"
+      ]
+    },
+    {
+      "name": "tools-whatsapp",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "Tools: WhatsApp archived on your own Mac with whatscribe, voice notes as text, and every date and price found.",
+      "source": "./plugins/tools-whatsapp",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "tools-whatsapp"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "tools-whatsapp"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "whatsapp",
+        "voice notes",
+        "chat archive",
+        "whatscribe"
       ]
     },
     {

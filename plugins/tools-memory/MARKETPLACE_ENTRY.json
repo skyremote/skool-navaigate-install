@@ -1,0 +1,9 @@
+{
+  "name": "tools-memory",
+  "source": "./plugins/tools-memory",
+  "version": "2.0.0",
+  "description": "Tools: one app database in step across your machines on your own Turso, checked first, and clipboard recall with Paste.",
+  "metadata": {
+    "module": 12
+  }
+}

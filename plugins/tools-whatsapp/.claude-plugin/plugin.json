@@ -1,0 +1,22 @@
+{
+  "name": "tools-whatsapp",
+  "version": "2.0.0",
+  "description": "Keep a searchable copy of your WhatsApp chats on your own Mac with the public whatscribe, voice notes transcribed locally, then find what was agreed: every date, time and price, with the message it came from.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "whatsapp",
+    "voice notes",
+    "transcripts",
+    "whatscribe",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

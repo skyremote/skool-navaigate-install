@@ -1,0 +1,39 @@
+{
+  "name": "tools-narration",
+  "version": "2.0.0",
+  "description": "Narrate slides, lessons and videos in your own cloned voice on your own ElevenLabs account, as one consistent take cut cleanly per slide.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "narration",
+    "elevenlabs",
+    "voiceover",
+    "voice clone",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  },
+  "userConfig": {
+    "elevenlabs_api_key": {
+      "type": "string",
+      "title": "ElevenLabs API key",
+      "description": "Your own key from elevenlabs.io (profile menu, API Keys). Stored in your keychain.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    },
+    "voice_id": {
+      "type": "string",
+      "title": "Your ElevenLabs voice id",
+      "description": "The id of YOUR voice (your clone, or a voice you chose). Find it with: tools-narration voices.",
+      "required": false,
+      "default": ""
+    }
+  }
+}

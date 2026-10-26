@@ -1,0 +1,9 @@
+{
+  "name": "tools-tasks",
+  "source": "./plugins/tools-tasks",
+  "version": "2.0.0",
+  "description": "Tools: briefs into checked tasks in your own ClickUp, through ClickUp's official MCP server, and three for today.",
+  "metadata": {
+    "module": 12
+  }
+}

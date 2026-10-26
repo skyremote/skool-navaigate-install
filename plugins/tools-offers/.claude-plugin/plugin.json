@@ -1,0 +1,22 @@
+{
+  "name": "tools-offers",
+  "version": "2.0.0",
+  "description": "Build and fix your offer, leads and pricing with the public Hormozi Growth Engine, grounded in a corpus you make from the books you own, with James Smith's public teaching as a second view.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "offers",
+    "pricing",
+    "hormozi",
+    "lead generation",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

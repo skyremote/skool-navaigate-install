@@ -1,0 +1,9 @@
+{
+  "name": "tools-research",
+  "source": "./plugins/tools-research",
+  "version": "2.0.0",
+  "description": "Tools: papers, Substack, Reddit on your own app and YouTube consensus, in a ledger with links and honest confidence.",
+  "metadata": {
+    "module": 12
+  }
+}

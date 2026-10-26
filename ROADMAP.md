@@ -25,7 +25,7 @@ each pack's `plugin.json`. A pack appears for members once its stream's
 | 9 | Working methods | aios-methods | Built on stream branch aios2/d-methods-models-ship |
 | 10 | Models, effort and cost | aios-models | Built on stream branch aios2/d-methods-models-ship |
 | 11 | Ship it to others | aios-ship | Built on stream branch aios2/d-methods-models-ship |
-| 12 | The shelf | shelf-* packs below | shelf-video and shelf-decks built on aios2/e-shelf |
+| 12 | The shelf and the tools | shelf-* and tools-* packs below | shelf-video and shelf-decks built on aios2/e-shelf; 14 tools-* packs on aios2/tool-packs |
 | All | The whole framework | aios-complete | Core: depends on every core pack in the marketplace |
 
 ## Module 12 shelf
@@ -46,6 +46,28 @@ The audit keeps "Ask your numbers" on the shelf. It belongs to shelf-research as
 an optional data lesson rather than disappearing because there is no core data
 module. The old Social Content Psychology and Chart gallery lessons stay under
 content/design; neither is a separate 1.x skill directory.
+
+
+## Module 12 tools
+
+Tool packs are named `tools-<job>`. Each one installs a public tool on the member's own account, then adds our skill for using it our way. Built on `aios2/tool-packs`, merged 26 October 2026.
+
+| Pack | What it does |
+|---|---|
+| tools-boards | Build presentation-ready, editable BluPlai whiteboards from a brief, a screenshot or a call transcript, as native shapes your team can move, validated before they are written |
+| tools-images | Make images and AI video on your own Higgsfield account with Higgsfield's own skills, using our shot-by-shot prompt method, a check before credits are spent, and a manifest of every generation |
+| tools-inbox | Inbox triage that never sends: read your own Gmail through your own Composio account, sort it into what needs you, and draft replies for you to send |
+| tools-meetings | Pull the words said in your Granola meetings with your own key, then turn each call into a checked record of decisions, owners and open questions |
+| tools-memory | Keep one SQLite database in step across your machines on your own free Turso account with db-sync, check it is safe to share first, and let agents recall what you copied with Paste |
+| tools-narration | Narrate slides, lessons and videos in your own cloned voice on your own ElevenLabs account, as one consistent take cut cleanly per slide |
+| tools-notebooklm | Turn your own files into Google NotebookLM notebooks, audio overviews, quizzes, flashcards and study guides on your own Google account, with the public notebooklm-py CLI and a check of which files can go in |
+| tools-offers | Build and fix your offer, leads and pricing with the public Hormozi Growth Engine, grounded in a corpus you make from the books you own, with James Smith's public teaching as a second view |
+| tools-research | Research beyond a normal web search: papers from OpenAlex, Substack posts, Reddit through your own free app, and YouTube consensus, written into a findings ledger with a link and an honest confidence label on every finding |
+| tools-reverse | Explain how a shipped app, website bundle or binary works with REA (public, MIT), inside a scope you are allowed to work in, with evidence behind every claim and the unknowns kept honest |
+| tools-social | Turn one source into posts for every platform and publish them through your own Blotato account, with a release gate: nothing goes out without "publish now" or a date, time and timezone you gave |
+| tools-tasks | Turn briefs and call notes into tasks that get done, in your own ClickUp through ClickUp's official MCP server: a verb, an owner, a date and a "done when" on every task, and three for today |
+| tools-voice | Build a writing-voice skill from your own transcripts and corrections with the public voice-skill-builder, then check every draft against it so it sounds like you |
+| tools-whatsapp | Keep a searchable copy of your WhatsApp chats on your own Mac with the public whatscribe, voice notes transcribed locally, then find what was agreed: every date, time and price, with the message it came from |
 
 ## Every old skill
 

@@ -1,0 +1,22 @@
+{
+  "name": "tools-tasks",
+  "version": "2.0.0",
+  "description": "Turn briefs and call notes into tasks that get done, in your own ClickUp through ClickUp's official MCP server: a verb, an owner, a date and a \"done when\" on every task, and three for today.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "tasks",
+    "clickup",
+    "projects",
+    "planning",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

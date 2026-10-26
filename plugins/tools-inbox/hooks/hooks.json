@@ -1,0 +1,13 @@
+{
+  "description": "tools-inbox: never send email. Blocks MCP tools that send, reply or forward mail; drafts stay allowed.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}\"/bin/tools-inbox guard", "timeout": 10 }
+        ]
+      }
+    ]
+  }
+}

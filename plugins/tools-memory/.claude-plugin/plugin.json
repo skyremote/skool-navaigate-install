@@ -1,0 +1,23 @@
+{
+  "name": "tools-memory",
+  "version": "2.0.0",
+  "description": "Keep one SQLite database in step across your machines on your own free Turso account with db-sync, check it is safe to share first, and let agents recall what you copied with Paste.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "memory",
+    "sqlite",
+    "turso",
+    "sync",
+    "clipboard",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

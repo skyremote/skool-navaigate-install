@@ -141,6 +141,132 @@
       }
     },
     {
+      "name": "tools-boards",
+      "source": "./plugins/tools-boards",
+      "version": "2.0.0",
+      "description": "Tools: editable BluPlai whiteboards from a brief or a transcript, native shapes, validated before they are written.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-images",
+      "source": "./plugins/tools-images",
+      "version": "2.0.0",
+      "description": "Tools: images and AI video on your own Higgsfield, shot-by-shot prompts checked before credits are spent.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-inbox",
+      "source": "./plugins/tools-inbox",
+      "version": "2.0.0",
+      "description": "Tools: inbox triage on your own Composio and Gmail. Sorted into what needs you, drafts only, never sends.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-meetings",
+      "source": "./plugins/tools-meetings",
+      "version": "2.0.0",
+      "description": "Tools: Granola meetings on your own key, turned into checked decisions, owners and open questions.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-memory",
+      "source": "./plugins/tools-memory",
+      "version": "2.0.0",
+      "description": "Tools: one app database in step across your machines on your own Turso, checked first, and clipboard recall with Paste.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-narration",
+      "source": "./plugins/tools-narration",
+      "version": "2.0.0",
+      "description": "Tools: narration in your own cloned voice on your own ElevenLabs account, one consistent take per deck.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-notebooklm",
+      "source": "./plugins/tools-notebooklm",
+      "version": "2.0.0",
+      "description": "Tools: your files into NotebookLM notebooks, audio overviews and quizzes on your own Google account.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-offers",
+      "source": "./plugins/tools-offers",
+      "version": "2.0.0",
+      "description": "Tools: the Hormozi Growth Engine on the books you own, with cited answers, and the James Smith second view.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-research",
+      "source": "./plugins/tools-research",
+      "version": "2.0.0",
+      "description": "Tools: papers, Substack, Reddit on your own app and YouTube consensus, in a ledger with links and honest confidence.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-reverse",
+      "source": "./plugins/tools-reverse",
+      "version": "2.0.0",
+      "description": "Tools: how shipped software works, explained with REA inside a scope you may work in, every claim with evidence.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-social",
+      "source": "./plugins/tools-social",
+      "version": "2.0.0",
+      "description": "Tools: one source to every platform on your own Blotato, with a release gate. Nothing posts without your go.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-tasks",
+      "source": "./plugins/tools-tasks",
+      "version": "2.0.0",
+      "description": "Tools: briefs into checked tasks in your own ClickUp, through ClickUp's official MCP server, and three for today.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-voice",
+      "source": "./plugins/tools-voice",
+      "version": "2.0.0",
+      "description": "Tools: your own writing voice, built from your own words and corrections, and a check for every draft.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "tools-whatsapp",
+      "source": "./plugins/tools-whatsapp",
+      "version": "2.0.0",
+      "description": "Tools: WhatsApp archived on your own Mac with whatscribe, voice notes as text, and every date and price found.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
       "name": "aios-complete",
       "source": "./plugins/aios-complete",
       "version": "2.0.0",

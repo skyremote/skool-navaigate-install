@@ -1,0 +1,46 @@
+{
+  "name": "tools-research",
+  "version": "2.0.0",
+  "description": "Research beyond a normal web search: papers from OpenAlex, Substack posts, Reddit through your own free app, and YouTube consensus, written into a findings ledger with a link and an honest confidence label on every finding.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "papers",
+    "reddit",
+    "substack",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  },
+  "userConfig": {
+    "reddit_client_id": {
+      "type": "string",
+      "title": "Reddit app id",
+      "description": "From your own free Reddit app (reddit.com/prefs/apps, type script). Optional: only Reddit needs it.",
+      "required": false,
+      "default": ""
+    },
+    "reddit_client_secret": {
+      "type": "string",
+      "title": "Reddit app secret",
+      "description": "The secret of that same app. Stored in your keychain.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    },
+    "openalex_email": {
+      "type": "string",
+      "title": "Your email for OpenAlex (optional)",
+      "description": "OpenAlex answers faster for callers who give a contact email. Leave blank to stay anonymous.",
+      "required": false,
+      "default": ""
+    }
+  }
+}

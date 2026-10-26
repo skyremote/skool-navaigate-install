@@ -1,0 +1,32 @@
+{
+  "name": "tools-social",
+  "version": "2.0.0",
+  "description": "Turn one source into posts for every platform and publish them through your own Blotato account, with a release gate: nothing goes out without \"publish now\" or a date, time and timezone you gave.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "social",
+    "blotato",
+    "linkedin",
+    "scheduling",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  },
+  "userConfig": {
+    "blotato_api_key": {
+      "type": "string",
+      "title": "Blotato API key",
+      "description": "Your own key from Blotato: Settings, API. The plugin connects Blotato's official MCP server with it. Stored in your keychain.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    }
+  }
+}
