@@ -70,10 +70,11 @@ DEFAULT_VAT_WORDING = {
     "reverse_charge_eu": {"label": "EU business customer: ",
                           "text": "reverse charge, no VAT charged; the customer accounts for the VAT"},
     "outside_scope": {"label": "Customer outside {country}: ",
-                      "text": "no VAT charged (place of supply outside {country}); the customer accounts for any "
-                              "local tax"},
+                      "text": "no VAT charged (place of supply outside {country}); reverse charge, the customer "
+                              "accounts for any VAT"},
     "outside_eu": {"label": "Customer outside the EU: ",
-                   "text": "no VAT charged (place of supply outside the EU); the customer accounts for any local tax"},
+                   "text": "no VAT charged (place of supply outside the EU); reverse charge, the customer accounts "
+                           "for any VAT"},
     "domestic_reverse_charge": {"label": "Domestic reverse charge: ",
                                 "text": "VAT at {rate}% not charged; the customer accounts for the VAT to the tax "
                                         "authority"},
@@ -515,7 +516,12 @@ def render_pdf(docx):
     profile = Path(tempfile.mkdtemp(prefix="shelf-invoices-lo-"))  # own profile: works while LibreOffice is open
     try:
         subprocess.run([soffice, "-env:UserInstallation=%s" % profile.as_uri(), "--headless", "--convert-to", "pdf",
-                        "--outdir", str(docx.parent), str(docx)], check=True, capture_output=True, timeout=180)
+                        "--outdir", str(docx.parent), str(docx)], check=True, capture_output=True, timeout=600)
+    except subprocess.TimeoutExpired:
+        raise InvoiceError("LibreOffice took more than ten minutes and was stopped. The .docx is made (%s); run "
+                           "`make` again when the computer is less busy, or open the .docx and export the PDF." % docx)
+    except subprocess.CalledProcessError as e:
+        raise InvoiceError("LibreOffice could not convert %s: %s" % (docx, (e.stderr or b"").decode(errors="ignore")[-300:]))
     finally:
         shutil.rmtree(profile, ignore_errors=True)
     pdf = docx.with_suffix(".pdf")

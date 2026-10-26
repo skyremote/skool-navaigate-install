@@ -19,6 +19,6 @@
     }
   ],
   "service_date": "20–22 October 2026",
-  "vat": "reverse_charge_eu",
+  "vat": "outside_scope",
   "payment_days": 14
 }

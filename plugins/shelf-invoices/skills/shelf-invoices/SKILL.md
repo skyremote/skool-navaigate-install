@@ -40,8 +40,9 @@ If this session cannot run commands, give the member the exact commands in order
    each), amounts or days × day rate, currency, service date or period, payment terms if not the default.
    Ask only for what is missing. If the member has a PO, use its currency, amount and terms exactly.
 2. **Choose the VAT treatment by the client's legal situation, not where the work happened.**
-   `standard` (the member's rate), `reverse_charge_eu` (EU business abroad; needs `client_vat_id`),
-   `outside_scope` / `outside_eu` (customer outside the member's country or the EU), `domestic_reverse_charge`,
+   `standard` (the member's rate), `reverse_charge_eu` (an EU member billing a business in another EU country;
+   needs `client_vat_id`), `outside_scope` (a business customer abroad when the member is outside the EU, e.g. a UK
+   company billing a German one), `outside_eu` (an EU member billing outside the EU), `domestic_reverse_charge`,
    `not_registered`. If the member is unsure, say so and suggest they ask their accountant. This is not tax advice.
 3. **Check the number.** `shelf-invoices next-number` (add `--code NW` for a per-client series). It reads the
    books folder and returns the highest number used + 1. Leave `invoice_number` out of the spec and `make` uses

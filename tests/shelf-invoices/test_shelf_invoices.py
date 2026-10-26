@@ -173,7 +173,7 @@ class BuildTests(unittest.TestCase):
 
     def test_reverse_charge_needs_client_vat_id(self):
         with self.assertRaises(gi.InvoiceError):
-            gi.build(sample_company(), sample_spec("contoso-workshop.json", client_vat_id=""))
+            gi.build(sample_company(), sample_spec("contoso-workshop.json", client_vat_id="", vat="reverse_charge_eu"))
 
     def test_not_registered_cannot_charge_vat(self):
         c = sample_company()

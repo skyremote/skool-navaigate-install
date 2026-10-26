@@ -45,8 +45,8 @@ the default. Fields you can use: `{rate}`, `{net}`, `{client_vat_id}`, `{country
 | Mode | Use when | VAT row shows |
 |---|---|---|
 | `standard` | you charge VAT at `vat_rate` | the VAT amount; the total includes VAT |
-| `reverse_charge_eu` | an EU business in another country (needs `client_vat_id`) | the total |
-| `outside_scope` | the customer is outside your country's VAT system | the total |
+| `reverse_charge_eu` | you are in the EU and the customer is a business in another EU country (needs `client_vat_id`) | the total |
+| `outside_scope` | a business customer abroad, when you are outside the EU (a UK company billing a German one, for example) | the total |
 | `outside_eu` | the customer is outside the EU | the total |
 | `domestic_reverse_charge` | a domestic reverse-charge sector (construction, for example) | the total |
 | `not_registered` | you are not registered for VAT | the total |
