@@ -1,0 +1,180 @@
+#!/usr/bin/env python3
+"""Build the member prompt library from bb-kit/prompts-src/*.md.
+
+Each source file holds one module. The shared blocks (get the pack, ground rules,
+show the result) live here once, so every prompt says them the same way.
+
+Usage:
+  python3 bb-kit/scripts/build_prompts.py            write bb-kit/prompts/*.md and prompts.json
+  python3 bb-kit/scripts/build_prompts.py --check    exit 1 if the built files are stale
+  python3 bb-kit/scripts/build_prompts.py --lessons <dir>
+                                                     also write <dir>/<NN-slug>/prompts_v1.md
+"""
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+KIT = Path(__file__).resolve().parent.parent
+SRC = KIT / "prompts-src"
+OUT = KIT / "prompts"
+JSON_OUT = KIT / "plugin" / "prompts.json"
+
+INSTALL = (
+    "Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run "
+    "`claude plugin marketplace add skyremote/skool-navaigate-install`. Then run "
+    "`claude plugin install {pack}@navaigate-aios` (\"already installed\" is fine; it also brings the start pack `aios`). "
+    "Until I restart Claude, call the pack's command by its full path: "
+    "`\"$(ls -d \"${{CLAUDE_CONFIG_DIR:-$HOME/.claude}}\"/plugins/cache/navaigate-aios/{pack}/*/bin | tail -1)/{cmd}\"`. "
+    "Below, `{cmd}` means that full path."
+)
+
+RULES = (
+    "Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: "
+    "if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real "
+    "command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the "
+    "check again. Do not stop to ask me anything unless a step needs my decision."
+)
+
+FINISH = (
+    "When you are done, show me the result:\n"
+    "1. Write a one-page HTML report to `80_aios/reports/{name}_v1.html` (create the folder if needed; if that file "
+    "exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check "
+    "(the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: "
+    "no web fonts, scripts or internet links.\n"
+    "2. If the `BB_THREAD_ID` environment variable is set, you are in bb. Then put "
+    "`::inline-vis{{file=\"80_aios/reports/{name}_v1.html\"}}` on its own line in your final reply, outside any code "
+    "block. Then move this chat to the Review lane: run `bb thread section list --json`, create a section called "
+    "Review with `bb thread section create Review` if there is none, and run "
+    "`bb thread update --self --section <the Review id>`.\n"
+    "3. End with at most five plain lines: what works, what failed, and the one thing I do next."
+)
+
+HEAD_RE = re.compile(r"^# (\d\d) · (.+)$")
+PROMPT_RE = re.compile(r"^## (\d+[a-z]?\.\d+) · (.+)$")
+
+
+def expand(body, pack, cmd):
+    def install(m):
+        parts = m.group(1).split()
+        p = parts[0] if len(parts) > 1 else pack
+        c = parts[-1] if parts else cmd
+        return INSTALL.format(pack=p, cmd=c)
+    body = re.sub(r"<<INSTALL ?([^>]*)>>", install, body)
+    body = body.replace("<<RULES>>", RULES)
+    body = re.sub(r"<<FINISH (\S+)>>", lambda m: FINISH.format(name=m.group(1)), body)
+    left = re.findall(r"<<[A-Z]+[^>]*>>", body)
+    if left:
+        raise SystemExit("Unexpanded block %s" % left)
+    return body.strip()
+
+
+def parse(path):
+    lines = path.read_text().splitlines()
+    m = HEAD_RE.match(lines[0])
+    if not m:
+        raise SystemExit("%s: first line must be '# NN · Title'" % path)
+    mod = {"number": m.group(1), "title": m.group(2), "slug": path.stem, "prompts": []}
+    meta, i = {}, 1
+    while i < len(lines) and not lines[i].startswith("## "):
+        if ":" in lines[i]:
+            k, v = lines[i].split(":", 1)
+            meta[k.strip()] = v.strip()
+        i += 1
+    mod.update(pack=meta["pack"], cmd=meta["cmd"], intro=meta.get("intro", ""))
+    cur = None
+    in_body = False
+    for line in lines[i:]:
+        pm = PROMPT_RE.match(line)
+        if pm and not in_body:
+            cur = {"id": pm.group(1), "title": pm.group(2), "what": "", "check": "", "body": []}
+            mod["prompts"].append(cur)
+            continue
+        if line.strip() == "~~~":
+            in_body = not in_body
+            continue
+        if in_body:
+            cur["body"].append(line)
+        elif line.startswith("what:"):
+            cur["what"] = line[5:].strip()
+        elif line.startswith("check:"):
+            cur["check"] = line[6:].strip()
+    for p in mod["prompts"]:
+        p["body"] = expand("\n".join(p["body"]), mod["pack"], mod["cmd"])
+    return mod
+
+
+def render(mod):
+    n = int(mod["number"])
+    out = [
+        "# Module %d · %s: prompts" % (n, mod["title"]),
+        "",
+        "Paste one prompt at a time into a new Claude chat in bb, opened on your AIOS folder. "
+        "Run them in order. If a prompt has lines marked \"edit\", change them to your own details first. "
+        "Each prompt sets something up, checks it, and shows you the result.",
+        "",
+        "These prompts are instructions to Claude. They also work in Claude Code in a terminal, opened in the same folder.",
+        "",
+    ]
+    if mod["intro"]:
+        out += [mod["intro"], ""]
+    for p in mod["prompts"]:
+        out += [
+            "## Prompt %s · %s" % (p["id"], p["title"]),
+            "",
+            "**What it does:** %s" % p["what"],
+            "",
+            "**How you know it worked:** %s" % p["check"],
+            "",
+            "~~~text",
+            p["body"],
+            "~~~",
+            "",
+        ]
+    return "\n".join(out).rstrip() + "\n"
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--check", action="store_true")
+    ap.add_argument("--lessons")
+    a = ap.parse_args()
+    mods = [parse(p) for p in sorted(SRC.glob("*.md"))]
+    stale = []
+    for mod in mods:
+        text = render(mod)
+        target = OUT / (mod["slug"] + ".md")
+        if a.check:
+            if not target.exists() or target.read_text() != text:
+                stale.append(str(target))
+        else:
+            OUT.mkdir(parents=True, exist_ok=True)
+            target.write_text(text)
+            if a.lessons:
+                d = Path(a.lessons) / mod["slug"]
+                d.mkdir(parents=True, exist_ok=True)
+                (d / "prompts_v1.md").write_text(text)
+    data = {"version": 1, "modules": [
+        {k: mod[k] for k in ("number", "title", "slug", "pack")} |
+        {"prompts": [{k: p[k] for k in ("id", "title", "what", "check", "body")} for p in mod["prompts"]]}
+        for mod in mods]}
+    js = json.dumps(data, indent=1, ensure_ascii=False) + "\n"
+    if a.check:
+        if not JSON_OUT.exists() or JSON_OUT.read_text() != js:
+            stale.append(str(JSON_OUT))
+        if stale:
+            print("Stale: " + ", ".join(stale))
+            return 1
+        print("OK: %d modules, %d prompts" % (len(mods), sum(len(m["prompts"]) for m in mods)))
+        return 0
+    JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
+    JSON_OUT.write_text(js)
+    for mod in mods:
+        print("%s  %d prompt(s)" % (mod["slug"], len(mod["prompts"])))
+    print("Total: %d modules, %d prompts" % (len(mods), sum(len(m["prompts"]) for m in mods)))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
