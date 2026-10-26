@@ -72,7 +72,7 @@ The job (edit this line): write a one-page proposal for Northwind Ltd in `20_off
 Here is how:
 1. Do the job yourself in this chat. Say in one line why one loop is enough (or why it is not).
 2. Write a short brief to `80_aios/briefs/check-proposal_v1.md`: "Read 20_offers/northwind-proposal_v1.md. List every mistake: wrong or missing numbers, unclear promises, spelling. Do not edit any file. Done when you have listed each problem with its line, or said there are none."
-3. Start one child thread: `bb thread spawn --parent-self --project "$BB_PROJECT_ID" --title "Check: Northwind proposal" --prompt-file 80_aios/briefs/check-proposal_v1.md --json`.
+3. Start one child thread: `bb thread spawn --parent-self --project "$BB_PROJECT_ID" --environment "$BB_ENVIRONMENT_ID" --title "Check: Northwind proposal" --prompt-file 80_aios/briefs/check-proposal_v1.md --json`.
 4. Wait for it: `bb thread wait <its id> --timeout 15m`, then read its answer with `bb thread output <its id>`.
 5. Fix the real mistakes it found in the proposal (as `_v2`, keep `_v1`), and list the ones you did not agree with and why.
 

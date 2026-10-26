@@ -108,10 +108,19 @@ export default async function plugin(bb: BbPluginApi) {
   async function start(promptId: string, projectId: string) {
     const found = findPrompt(promptId);
     if (!found) throw new Error(`No prompt ${promptId}. Run "bb aios-kit list" to see them.`);
+    // The project's own checkout on the machine that holds it, never a new worktree: each prompt builds on the
+    // files the last one made. Without a known source machine, fall back to bb's project default.
+    const project = (await bb.sdk.projects.get({ projectId })) as unknown as {
+      sources?: { hostId?: string | null; isDefault?: boolean }[];
+      project?: { sources?: { hostId?: string | null; isDefault?: boolean }[] };
+    };
+    const sources = project.sources ?? project.project?.sources ?? [];
+    const hostId = (sources.find((s) => s.isDefault) ?? sources[0])?.hostId ?? null;
     const thread = await bb.sdk.threads.spawn({
       projectId,
-      // The project's own checkout, never a new worktree: each prompt builds on the files the last one made.
-      environment: { type: "host", workspace: { type: "unmanaged", path: null } },
+      environment: hostId
+        ? { type: "host", hostId, workspace: { type: "unmanaged", path: null } }
+        : { type: "project-default" },
       prompt: found.prompt.body,
       title: `AIOS ${found.prompt.id} · ${found.prompt.title}`,
       providerId: "claude-code",
