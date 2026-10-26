@@ -27,9 +27,7 @@ Codex and Cursor, from your checkout of this repository:
 
 None. D2 is free and installs from d2lang.com.
 
-Put keys in `~/.claude/.env`, one `NAME=value` per line, and run `chmod 600 ~/.claude/.env`. Never paste a key into a chat.
-The optional settings this pack declares are stored in your system keychain; the skill's own scripts read `~/.claude/.env`
-or your shell, so the `.env` file is the one that always works.
+This pack needs no key.
 
 D2 is a command-line tool. Install it first: `curl -fsSL https://d2lang.com/install.sh | sh -s --`
 (or `brew install d2` on macOS). The skill will prove it with a one-box diagram before it draws yours.

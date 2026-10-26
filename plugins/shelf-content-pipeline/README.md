@@ -27,9 +27,7 @@ Codex and Cursor, from your checkout of this repository:
 
 None. Notion (`NOTION_API_TOKEN`) is optional, only for a team-visible calendar.
 
-Put keys in `~/.claude/.env`, one `NAME=value` per line, and run `chmod 600 ~/.claude/.env`. Never paste a key into a chat.
-The optional settings this pack declares are stored in your system keychain; the skill's own scripts read `~/.claude/.env`
-or your shell, so the `.env` file is the one that always works.
+This pack needs no key.
 
 Python 3.10+ with `python-dotenv` (`python3 -m pip install --user python-dotenv`; if pip answers `externally-managed-environment`, use a virtual environment as described under the other packs' install steps: `python3 -m venv ~/.venvs/aios`, then `~/.venvs/aios/bin/python -m pip install python-dotenv`, and put `~/.venvs/aios/bin` first on your PATH). Every command runs from your
 project folder, where `data/content.db` and `content/` live. Nothing here publishes anything.

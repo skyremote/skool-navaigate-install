@@ -27,9 +27,7 @@ Codex and Cursor, from your checkout of this repository:
 
 None.
 
-Put keys in `~/.claude/.env`, one `NAME=value` per line, and run `chmod 600 ~/.claude/.env`. Never paste a key into a chat.
-The optional settings this pack declares are stored in your system keychain; the skill's own scripts read `~/.claude/.env`
-or your shell, so the `.env` file is the one that always works.
+This pack needs no key.
 
 The brief is one self-contained HTML file. Open it in a browser and print to PDF. It never uses a chart library.
 

@@ -27,9 +27,7 @@ Codex and Cursor, from your checkout of this repository:
 
 None. You need your own copies of the three books for the cited answers.
 
-Put keys in `~/.claude/.env`, one `NAME=value` per line, and run `chmod 600 ~/.claude/.env`. Never paste a key into a chat.
-The optional settings this pack declares are stored in your system keychain; the skill's own scripts read `~/.claude/.env`
-or your shell, so the `.env` file is the one that always works.
+This pack needs no key.
 
 This pack is the front door. The cited answers need the Hormozi skills built from **your own** copies of the books,
 which you get from the Inner Circle gold lesson. Nothing in this pack contains the books, and it never will.
