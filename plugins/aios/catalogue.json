@@ -19,19 +19,25 @@
       "number": 2,
       "title": "Your folders and your rules",
       "lesson": "https://www.skool.com/navaigate/classroom",
-      "packs": []
+      "packs": [
+        "aios-rules"
+      ]
     },
     {
       "number": 3,
       "title": "The harnesses",
       "lesson": "https://www.skool.com/navaigate/classroom",
-      "packs": []
+      "packs": [
+        "aios-harnesses"
+      ]
     },
     {
       "number": 4,
       "title": "bb as the cockpit",
       "lesson": "https://www.skool.com/navaigate/classroom",
-      "packs": []
+      "packs": [
+        "aios-bb"
+      ]
     },
     {
       "number": 5,
@@ -45,43 +51,59 @@
       "number": 6,
       "title": "Skills that earn their place",
       "lesson": "https://www.skool.com/navaigate/classroom",
-      "packs": []
+      "packs": [
+        "aios-skills"
+      ]
     },
     {
       "number": 7,
       "title": "Agents without sprawl",
       "lesson": "https://www.skool.com/navaigate/classroom",
-      "packs": []
+      "packs": [
+        "aios-agents"
+      ]
     },
     {
       "number": 8,
       "title": "Make it verifiable",
       "lesson": "https://www.skool.com/navaigate/classroom",
-      "packs": []
+      "packs": [
+        "aios-verify"
+      ]
     },
     {
       "number": 9,
       "title": "Working methods",
       "lesson": "https://www.skool.com/navaigate/classroom",
-      "packs": []
+      "packs": [
+        "aios-methods"
+      ]
     },
     {
       "number": 10,
       "title": "Models, effort and cost",
       "lesson": "https://www.skool.com/navaigate/classroom",
-      "packs": []
+      "packs": [
+        "aios-models"
+      ]
     },
     {
       "number": 11,
       "title": "Ship it to others",
       "lesson": "https://www.skool.com/navaigate/classroom",
-      "packs": []
+      "packs": [
+        "aios-ship"
+      ]
     },
     {
       "number": 12,
       "title": "The shelf",
       "lesson": "https://www.skool.com/navaigate/classroom",
-      "packs": []
+      "packs": [
+        "shelf-decks",
+        "shelf-invoices",
+        "shelf-video"
+      ]
     }
   ],
   "packs": [
@@ -124,6 +146,99 @@
       "user_config": [],
       "tour": true,
       "capabilities": []
+    },
+    {
+      "name": "aios-rules",
+      "kind": "core",
+      "module": 2,
+      "version": "2.0.0",
+      "description": "Module 2: your folder map, one short AGENTS.md, path-scoped rules, a budget check and a monthly audit.",
+      "source": "./plugins/aios-rules",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "rules",
+        "rules-audit"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "aios-rules"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "rules",
+        "agents.md",
+        "folders",
+        "claude.md"
+      ]
+    },
+    {
+      "name": "aios-harnesses",
+      "kind": "core",
+      "module": 3,
+      "version": "2.0.0",
+      "description": "Module 3: set up Claude Code, Codex, Cursor and Grok Bot on one folder, and check they match.",
+      "source": "./plugins/aios-harnesses",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "harness-check",
+        "harness-setup"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "harness"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "harness",
+        "codex",
+        "cursor",
+        "grok",
+        "mcp list"
+      ]
+    },
+    {
+      "name": "aios-bb",
+      "kind": "core",
+      "module": 4,
+      "version": "2.0.0",
+      "description": "Module 4: bb as the cockpit - project setup, the board and the daily loop.",
+      "source": "./plugins/aios-bb",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "bb-cockpit",
+        "bb-daily",
+        "bb-setup"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "aios-bb"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "bb",
+        "board",
+        "kanban",
+        "cockpit",
+        "threads"
+      ]
     },
     {
       "name": "aios-brain",
@@ -170,6 +285,280 @@
       ]
     },
     {
+      "name": "aios-skills",
+      "kind": "core",
+      "module": 6,
+      "version": "2.0.0",
+      "description": "Module 6. Write, measure, hide and test skills, and scaffold new ones with their evals.",
+      "source": "./plugins/aios-skills",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "new-skill",
+        "skill-craft"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "aios-skill"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "skill",
+        "skills",
+        "evals"
+      ]
+    },
+    {
+      "name": "aios-agents",
+      "kind": "core",
+      "module": 7,
+      "version": "2.0.0",
+      "description": "Module 7. When a sub-agent earns its place, a brief template and checker, and a small read-only crew.",
+      "source": "./plugins/aios-agents",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "agent-brief",
+        "agent-or-not"
+      ],
+      "agents": [
+        "code-reviewer",
+        "design-critic",
+        "researcher"
+      ],
+      "commands": [],
+      "bin": [
+        "aios-agent"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "agent",
+        "agents",
+        "sub-agent",
+        "crew",
+        "delegate"
+      ]
+    },
+    {
+      "name": "aios-verify",
+      "kind": "core",
+      "module": 8,
+      "version": "2.0.0",
+      "description": "Module 8. Checks, a Stop gate, REVIEW.md and a PR template, and hooks for no secrets, no destructive git and confirm before production.",
+      "source": "./plugins/aios-verify",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "pr-ready",
+        "verify-setup"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "aios-verify"
+      ],
+      "hooks": [
+        "PreToolUse",
+        "Stop"
+      ],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "verify",
+        "tests",
+        "review",
+        "hooks"
+      ]
+    },
+    {
+      "name": "aios-methods",
+      "kind": "core",
+      "module": 9,
+      "version": "2.0.0",
+      "description": "Module 9. Loops with a check, worktrees for parallel work, interview before you build.",
+      "source": "./plugins/aios-methods",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "grill",
+        "methods"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "aios-methods"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "loop",
+        "worktree",
+        "interview",
+        "methods",
+        "grill"
+      ]
+    },
+    {
+      "name": "aios-models",
+      "kind": "core",
+      "module": 10,
+      "version": "2.0.0",
+      "description": "Module 10. Which model does what, medium effort first, the advisor, and two logins.",
+      "source": "./plugins/aios-models",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "models",
+        "models-check"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "models-check"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "model",
+        "models",
+        "effort",
+        "cost",
+        "usage"
+      ]
+    },
+    {
+      "name": "aios-ship",
+      "kind": "core",
+      "module": 11,
+      "version": "2.0.0",
+      "description": "Module 11. Package a skill as a pack with tests, evals and installers, then validate it.",
+      "source": "./plugins/aios-ship",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "ship",
+        "ship-pack"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "ship-pack"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "ship",
+        "package",
+        "publish",
+        "plugin"
+      ]
+    },
+    {
+      "name": "shelf-decks",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: a deck in your own brand. HTML first, every slide reviewed, then an editable PowerPoint and a PDF.",
+      "source": "./plugins/shelf-decks",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "shelf-decks"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "shelf-decks"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "deck",
+        "slides",
+        "powerpoint",
+        "presentation"
+      ]
+    },
+    {
+      "name": "shelf-invoices",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: invoices and credit notes as PDF from your own company details, numbered, filed and verified.",
+      "source": "./plugins/shelf-invoices",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "shelf-invoices"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "shelf-invoices"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "invoice",
+        "invoices",
+        "billing"
+      ]
+    },
+    {
+      "name": "shelf-video",
+      "kind": "shelf",
+      "module": 12,
+      "version": "2.0.0",
+      "description": "The shelf: edit a talking-head recording locally. Whisper transcript, filler words out, captions in, MP4 out.",
+      "source": "./plugins/shelf-video",
+      "dependencies": [
+        "aios"
+      ],
+      "skills": [
+        "shelf-video"
+      ],
+      "agents": [],
+      "commands": [],
+      "bin": [
+        "shelf-video"
+      ],
+      "hooks": [],
+      "mcp_servers": [],
+      "user_config": [],
+      "tour": true,
+      "capabilities": [
+        "video",
+        "captions",
+        "filler"
+      ]
+    },
+    {
       "name": "aios-complete",
       "kind": "bundle",
       "module": null,
@@ -178,7 +567,16 @@
       "source": "./plugins/aios-complete",
       "dependencies": [
         "aios",
-        "aios-brain"
+        "aios-rules",
+        "aios-harnesses",
+        "aios-bb",
+        "aios-brain",
+        "aios-skills",
+        "aios-agents",
+        "aios-verify",
+        "aios-methods",
+        "aios-models",
+        "aios-ship"
       ],
       "skills": [],
       "agents": [],

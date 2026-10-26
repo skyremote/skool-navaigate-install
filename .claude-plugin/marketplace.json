@@ -24,12 +24,120 @@
       }
     },
     {
+      "name": "aios-rules",
+      "source": "./plugins/aios-rules",
+      "version": "2.0.0",
+      "description": "Module 2: your folder map, one short AGENTS.md, path-scoped rules, a budget check and a monthly audit.",
+      "metadata": {
+        "module": 2
+      }
+    },
+    {
+      "name": "aios-harnesses",
+      "source": "./plugins/aios-harnesses",
+      "version": "2.0.0",
+      "description": "Module 3: set up Claude Code, Codex, Cursor and Grok Bot on one folder, and check they match.",
+      "metadata": {
+        "module": 3
+      }
+    },
+    {
+      "name": "aios-bb",
+      "source": "./plugins/aios-bb",
+      "version": "2.0.0",
+      "description": "Module 4: bb as the cockpit - project setup, the board and the daily loop.",
+      "metadata": {
+        "module": 4
+      }
+    },
+    {
       "name": "aios-brain",
       "source": "./plugins/aios-brain",
       "version": "2.0.0",
       "description": "Your own local memory, with optional sync to your own Turso database.",
       "metadata": {
         "module": 5
+      }
+    },
+    {
+      "name": "aios-skills",
+      "source": "./plugins/aios-skills",
+      "version": "2.0.0",
+      "description": "Module 6. Write, measure, hide and test skills, and scaffold new ones with their evals.",
+      "metadata": {
+        "module": 6
+      }
+    },
+    {
+      "name": "aios-agents",
+      "source": "./plugins/aios-agents",
+      "version": "2.0.0",
+      "description": "Module 7. When a sub-agent earns its place, a brief template and checker, and a small read-only crew.",
+      "metadata": {
+        "module": 7
+      }
+    },
+    {
+      "name": "aios-verify",
+      "source": "./plugins/aios-verify",
+      "version": "2.0.0",
+      "description": "Module 8. Checks, a Stop gate, REVIEW.md and a PR template, and hooks for no secrets, no destructive git and confirm before production.",
+      "metadata": {
+        "module": 8
+      }
+    },
+    {
+      "name": "aios-methods",
+      "source": "./plugins/aios-methods",
+      "version": "2.0.0",
+      "description": "Module 9. Loops with a check, worktrees for parallel work, interview before you build.",
+      "metadata": {
+        "module": 9
+      }
+    },
+    {
+      "name": "aios-models",
+      "source": "./plugins/aios-models",
+      "version": "2.0.0",
+      "description": "Module 10. Which model does what, medium effort first, the advisor, and two logins.",
+      "metadata": {
+        "module": 10
+      }
+    },
+    {
+      "name": "aios-ship",
+      "source": "./plugins/aios-ship",
+      "version": "2.0.0",
+      "description": "Module 11. Package a skill as a pack with tests, evals and installers, then validate it.",
+      "metadata": {
+        "module": 11
+      }
+    },
+    {
+      "name": "shelf-decks",
+      "source": "./plugins/shelf-decks",
+      "version": "2.0.0",
+      "description": "The shelf: a deck in your own brand. HTML first, every slide reviewed, then an editable PowerPoint and a PDF.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-invoices",
+      "source": "./plugins/shelf-invoices",
+      "version": "2.0.0",
+      "description": "The shelf: invoices and credit notes as PDF from your own company details, numbered, filed and verified.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-video",
+      "source": "./plugins/shelf-video",
+      "version": "2.0.0",
+      "description": "The shelf: edit a talking-head recording locally. Whisper transcript, filler words out, captions in, MP4 out.",
+      "metadata": {
+        "module": 12
       }
     },
     {

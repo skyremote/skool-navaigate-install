@@ -430,3 +430,14 @@ class StartStatusTests(unittest.TestCase):
 
 if __name__=='__main__':
     unittest.main()
+
+
+class CaptionArgumentsTest(unittest.TestCase):
+    def test_captions_ask_yt_dlp_to_write_files(self):
+        """--dump-single-json implies --simulate: without --no-simulate no caption file is written."""
+        import inspect
+        from aios_brain import media
+        source = inspect.getsource(media.captions)
+        self.assertIn("'--dump-single-json'", source)
+        self.assertIn("'--no-simulate'", source)
+

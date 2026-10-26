@@ -41,8 +41,12 @@ def captions(url):
     if not binary:
         raise ValueError('yt-dlp is not installed. Install yt-dlp, or set your own SUPADATA_API_KEY.')
     with tempfile.TemporaryDirectory(prefix='aios-captions-') as folder:
+        # Only plain English tracks: 'en.*' also matches dozens of machine translations (en-ar...),
+        # which multiplies requests and trips YouTube's 429 rate limit.
+        # --dump-single-json implies --simulate, which writes no caption file; --no-simulate keeps
+        # the JSON on stdout and still writes the .json3 captions next to it.
         proc = subprocess.run([binary,'--ignore-config','--skip-download','--no-playlist','--write-subs',
-            '--write-auto-subs','--sub-langs','en.*,en','--sub-format','json3','--dump-single-json',
+            '--write-auto-subs','--sub-langs','en,en-orig,en-GB,en-US','--sub-format','json3','--dump-single-json','--no-simulate',
             '-o',str(Path(folder)/'video.%(ext)s'),'--',url],capture_output=True,text=True,timeout=120,env=subprocess_env())
         paths = sorted(Path(folder).glob('*.json3'))
         # Read the caption output as well as checking the exit code.

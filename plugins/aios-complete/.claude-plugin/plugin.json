@@ -8,6 +8,15 @@
   "license": "MIT",
   "dependencies": [
     "aios",
-    "aios-brain"
+    "aios-rules",
+    "aios-harnesses",
+    "aios-bb",
+    "aios-brain",
+    "aios-skills",
+    "aios-agents",
+    "aios-verify",
+    "aios-methods",
+    "aios-models",
+    "aios-ship"
   ]
 }
