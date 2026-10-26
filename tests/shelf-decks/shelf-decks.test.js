@@ -231,7 +231,8 @@ test("no removed profile, client brand or private string survives in the pack", 
   const hits = [];
   (function walk(dir) {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-      if (["node_modules", ".git"].includes(e.name)) continue;
+      // node_modules and local eval results are gitignored, never shipped
+      if (["node_modules", ".git", "results"].includes(e.name)) continue;
       const p = path.join(dir, e.name);
       if (e.isDirectory()) { walk(p); continue; }
       if (!/\.(js|json|md|css|html|txt)$|^shelf-decks$/.test(e.name)) continue;

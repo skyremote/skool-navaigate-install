@@ -310,7 +310,7 @@ module.exports = function (pptx, P, opts = {}) {
     });
     y += 0.06;
     s.addShape(pptx.shapes.RECTANGLE, { x: M, y: y - 0.04, w: W, h: 0.02, fill: { color: P.line }, line: { type: "none" } });
-    s.addText("Custom Total", { x: M + 0.35, y: y + 0.04, w: 6, h: 0.45, fontFace: P.displayXB, fontSize: 17, color: P.accentD, margin: 0, align: "left", valign: "middle" });
+    s.addText(o.totalLabel || "Total", { x: M + 0.35, y: y + 0.04, w: 6, h: 0.45, fontFace: P.displayXB, fontSize: 17, color: P.accentD, margin: 0, align: "left", valign: "middle" });
     s.addText(o.total, { x: M + W - 3, y: y + 0.04, w: 2.65, h: 0.5, fontFace: P.display, italic: false, fontSize: 28, color: P.ink, margin: 0, align: "right", valign: "middle", charSpacing: -0.5 });
     footer(s, o.footer); return s;
   };

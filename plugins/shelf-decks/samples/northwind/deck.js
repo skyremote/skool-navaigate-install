@@ -73,7 +73,7 @@ module.exports = {
         { name: "Hiring and training, eight weeks", price: "£15,000" },
         { name: "Opening stock and launch", price: "£9,000" },
       ],
-      total: "£212,000",
+      total: "£212,000", totalLabel: "Total to open",
       footer: "Source: supplier quotes, Sep 2026 (fictional sample figures)",
       talk: `Read the total, then the biggest line.\n\n"Two hundred and twelve thousand pounds, and most of it is the ovens and the fit-out."` },
 

@@ -17,7 +17,7 @@ the bottom: put the source of any number here).
 | `outcomeBars` | Before and after | `titleParts, outcomes[{title,stat,subLabel,desc,baselineRatio,baselineLabel,withLabel,barCaption}]` |
 | `darkGrid` | Four points as a 2x2 | `titleParts, items[{num?,title,desc,tone?}]` (`tone`: `light` or `gold`) |
 | `cards` | Three to six parallel items | `title, dek, items[{num?,title,desc}], top?, cardH?` |
-| `calculator` | A price or budget | `title, foundation{name,sub,price}, modules[{name,price}], total` |
+| `calculator` | A price or budget | `title, foundation{name,sub,price}, modules[{name,price}], total, totalLabel?` |
 | `modules` | An ecosystem on a foundation | `numeral, title, sub, items[{name}], foundationLabel, foundationSub, gridCols?` |
 | `compare` | Two options side by side | `title, dek, left{title,items[],dark?}, right{title,items[],dark?}` |
 | `diagram` | A live diagram | `diagram, kicker, title, footer, image, data{...}, hint?` |

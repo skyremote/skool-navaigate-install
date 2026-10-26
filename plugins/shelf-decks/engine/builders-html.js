@@ -170,7 +170,7 @@ module.exports = function (P) {
          <div class="calc-name">${m.name}</div><div class="calc-price">${m.price}</div>
          <div class="toggle"><div class="knob"></div></div></div>`).join("")}
        <div class="calc-total anim" style="--d:${(0.5 + o.modules.length * 0.07).toFixed(2)}s">
-         <div class="lbl">Custom Total</div><div class="val">${o.total}</div></div>
+         <div class="lbl">${o.totalLabel || "Total"}</div><div class="val">${o.total}</div></div>
      </div>` + footer(o.footer) });
 
   // o.gridCols: opt-in multi-row module grid (e.g. 8 deliverables as 2x4 instead of
