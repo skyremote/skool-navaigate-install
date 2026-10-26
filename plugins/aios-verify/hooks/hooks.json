@@ -1,0 +1,20 @@
+{
+  "description": "AIOS verify: three hard rules on Bash (no secrets in commits, no destructive git, confirm before live production) and a Stop gate that only acts in projects with .aios/verify.json.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}\"/bin/aios-verify guard", "timeout": 30 }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}\"/bin/aios-verify gate", "timeout": 600 }
+        ]
+      }
+    ]
+  }
+}

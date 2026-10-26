@@ -1,0 +1,6 @@
+{
+  "name": "aios-agents",
+  "source": "./plugins/aios-agents",
+  "version": "2.0.0",
+  "description": "Module 7. When a sub-agent earns its place, a brief template and checker, and a small read-only crew."
+}

@@ -1,0 +1,11 @@
+{
+  "name": "meeting-actions",
+  "version": "0.1.0",
+  "description": "Turn meeting notes into a numbered action list with an owner and a due date on every line.",
+  "author": {
+    "name": "Acme Studio"
+  },
+  "skills": [
+    "./"
+  ]
+}

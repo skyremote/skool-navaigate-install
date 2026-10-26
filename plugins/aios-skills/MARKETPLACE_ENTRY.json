@@ -1,0 +1,6 @@
+{
+  "name": "aios-skills",
+  "source": "./plugins/aios-skills",
+  "version": "2.0.0",
+  "description": "Module 6. Write, measure, hide and test skills, and scaffold new ones with their evals."
+}

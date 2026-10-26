@@ -1,0 +1,5 @@
+#!/bin/sh
+# AIOS verify: block a commit that adds a secret or fails the checks.
+# Installed by `aios-verify init --git-hook`. Works for any tool that commits: Codex, Cursor or a person.
+aios-verify scan || exit 1
+aios-verify run --gate-only || { echo "Commit stopped: fix the failing check, or commit with --no-verify if you are sure."; exit 1; }

@@ -1,0 +1,15 @@
+{
+  "name": "aios-skills",
+  "version": "2.0.0",
+  "description": "Skills that earn their place: write them short, measure their cost, hide the long tail and prove them with three evals.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 6
+  }
+}

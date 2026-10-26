@@ -1,0 +1,15 @@
+{
+  "name": "aios-verify",
+  "version": "2.0.0",
+  "description": "Make it verifiable: checks the agent runs itself, a Stop gate, REVIEW.md and a PR template, and hooks for three hard rules.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 8
+  }
+}

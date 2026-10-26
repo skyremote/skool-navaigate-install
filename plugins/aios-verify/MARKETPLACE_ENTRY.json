@@ -1,0 +1,6 @@
+{
+  "name": "aios-verify",
+  "source": "./plugins/aios-verify",
+  "version": "2.0.0",
+  "description": "Module 8. Checks, a Stop gate, REVIEW.md and a PR template, and hooks for no secrets, no destructive git and confirm before production."
+}
