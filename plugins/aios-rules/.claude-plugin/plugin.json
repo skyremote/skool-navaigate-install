@@ -1,0 +1,12 @@
+{
+  "name": "aios-rules",
+  "version": "2.0.0",
+  "description": "Your folders and your rules: a short AGENTS.md, a one-line CLAUDE.md bridge, path-scoped rules, a budget checker and a monthly audit.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "dependencies": [
+    "aios"
+  ]
+}

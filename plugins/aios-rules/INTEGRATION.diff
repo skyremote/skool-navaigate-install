@@ -1,0 +1,59 @@
+--- a/scripts/install_pack.py	2026-10-26 10:04:38
++++ b/scripts/install_pack.py	2026-10-26 10:22:37
+@@ -64,14 +64,18 @@
+     return result
+ 
+ 
++def available_packs():
++    return sorted(p.name for p in (ROOT/'plugins').iterdir() if (p/'.claude-plugin/plugin.json').is_file())
++
++
+ def install(pack):
+     home = Path.home()
+     plugin = ROOT/'plugins'/pack
+     if not plugin.is_dir():
+-        raise ValueError('Unknown pack. Available: aios, aios-brain')
+-    if pack=='aios-brain' and not all((home/d/'aios').is_symlink() and (home/d/'aios').resolve()==(ROOT/'plugins/aios/skills/aios').resolve() for d in ('.codex/skills','.cursor/skills','.agents/skills')):
+-        raise ValueError('aios-brain depends on aios. First run: ./install.sh aios')
++        raise ValueError('Unknown pack. Available: '+', '.join(available_packs()))
+     manifest = json.loads((plugin/'.claude-plugin/plugin.json').read_text())
++    if 'aios' in manifest.get('dependencies',[]) and not all((home/d/'aios').is_symlink() and (home/d/'aios').resolve()==(ROOT/'plugins/aios/skills/aios').resolve() for d in ('.codex/skills','.cursor/skills','.agents/skills')):
++        raise ValueError(pack+' depends on aios. First run: ./install.sh aios')
+     links = []
+     for parent in ('.codex/skills','.cursor/skills','.agents/skills'):
+         for source in sorted((plugin/'skills').iterdir()):
+@@ -80,12 +84,16 @@
+                 if not dest.is_symlink() or ROOT not in dest.resolve().parents:
+                     raise ValueError('Existing skill preserved: '+str(dest)+'. Move it aside yourself before opting into 2.0.')
+             links.append((source,dest))
++    # Every executable in the pack's bin/ is linked into ~/.local/bin, never over a foreign file.
++    if (plugin/'bin').is_dir():
++        for source in sorted(p for p in (plugin/'bin').iterdir() if p.is_file() and os.access(p,os.X_OK)):
++            command = home/'.local/bin'/source.name
++            if (command.exists() or command.is_symlink()) and (not command.is_symlink() or ROOT not in command.resolve().parents):
++                raise ValueError('Existing '+source.name+' executable preserved; move it aside before opting into this pack')
++            links.append((source,command))
+     configs = []
+     if pack=='aios-brain':
+         command = home/'.local/bin/brain'
+-        if (command.exists() or command.is_symlink()) and (not command.is_symlink() or ROOT not in command.resolve().parents):
+-            raise ValueError('Existing brain executable preserved; move it aside before opting into this pack')
+-        links.append((plugin/'bin/brain',command))
+         codex = home/'.codex/config.toml'
+         old = codex.read_text() if codex.exists() else ''
+         configs.append((codex,codex_config(old,command)))
+@@ -121,12 +129,12 @@
+         print('Linked '+str(dest.relative_to(home)))
+     receipt = home/'.local/share/aios/packs'/f'{pack}.json'
+     atomic_write(receipt,json.dumps({'name':pack,'version':manifest['version'],'root':str(plugin),'harnesses':['codex','cursor','agents']},indent=2)+'\n')
+-    print('Installed '+pack+' '+manifest['version']+'. Restart Codex and Cursor. Add ~/.local/bin to PATH for brain.')
++    print('Installed '+pack+' '+manifest['version']+'. Restart Codex and Cursor. Add ~/.local/bin to PATH for the pack commands.')
+ 
+ 
+ def main():
+     parser = argparse.ArgumentParser(description='Install one AIOS 2.0 pack for Codex and Cursor. No Claude config is changed.')
+-    parser.add_argument('pack',choices=['aios','aios-brain'])
++    parser.add_argument('pack',choices=available_packs())
+     args = parser.parse_args()
+     try:
+         install(args.pack)
