@@ -107,7 +107,6 @@
         "shelf-design-brain",
         "shelf-diagrams",
         "shelf-exec-brief",
-        "shelf-hormozi",
         "shelf-invoices",
         "shelf-podcasts",
         "shelf-thumbnails",
@@ -669,28 +668,6 @@
       ],
       "skills": [
         "exec-brief"
-      ],
-      "agents": [],
-      "commands": [],
-      "bin": [],
-      "hooks": [],
-      "mcp_servers": [],
-      "user_config": [],
-      "tour": true,
-      "capabilities": []
-    },
-    {
-      "name": "shelf-hormozi",
-      "kind": "shelf",
-      "module": 12,
-      "version": "2.0.0",
-      "description": "The shelf: run the Hormozi offer engine on your own offer, grounded in the books you own, citing book, chapter and page and refusing to invent.",
-      "source": "./plugins/shelf-hormozi",
-      "dependencies": [
-        "aios"
-      ],
-      "skills": [
-        "hormozi"
       ],
       "agents": [],
       "commands": [],

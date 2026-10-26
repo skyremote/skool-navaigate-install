@@ -6,7 +6,7 @@ When a 1.x skill changes, run this, then the tests:
 
     python3 tests/shelf-wrappers/sync_copies.py            # recopy every pack
     python3 tests/shelf-wrappers/sync_copies.py --check    # report drift, change nothing (exit 1 on drift)
-    python3 tests/shelf-wrappers/sync_copies.py shelf-hormozi shelf-diagrams   # only these packs
+    python3 tests/shelf-wrappers/sync_copies.py shelf-diagrams shelf-exec-brief   # only these packs
 
 It only ever writes inside plugins/shelf-<name>/skills/. It never touches the root skills/ folders.
 """
@@ -30,7 +30,6 @@ PACKS = {
     'shelf-daily-brief': ['daily-brief'],
     'shelf-content-pipeline': ['content-pipeline'],
     'shelf-exec-brief': ['exec-brief'],
-    'shelf-hormozi': ['hormozi'],
     'shelf-writing-style': ['writing-style'],
 }
 IGNORE = ('__pycache__', '*.pyc', '.DS_Store')

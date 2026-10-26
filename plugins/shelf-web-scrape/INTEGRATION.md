@@ -39,8 +39,8 @@ The same object is in `MARKETPLACE_ENTRY.json`.
 Four packs carry a `web-scrape` copy (`shelf-web-scrape`, `shelf-deep-research`, `shelf-transcripts`,
 `shelf-podcasts`), because their SKILL.md files call its scripts "from this plugin". Claude Code namespaces plugin
 skills, so there is no clash there. `scripts/install_pack.py` links by skill name, so the second pack would stop with
-"Existing skill preserved". `plugins/shelf-web-scrape/install_pack.diff` (tested in `tests/shelf-wrappers`) lets the
-installer treat an already linked, byte-identical copy as installed. Apply it once, before merging any of the four.
+"Existing skill preserved". On `aios2/shelf-v2` the installer now treats an already linked, byte-identical copy as
+installed (`shared_copy` in `scripts/install_pack.py`, tested in `tests/shelf-wrappers`). The old diff file is gone.
 
 ## Known limits
 

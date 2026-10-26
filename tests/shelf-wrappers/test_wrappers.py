@@ -1,4 +1,4 @@
-"""Tests for the twelve shelf wrapper packs.
+"""Tests for the eleven shelf wrapper packs (shelf-hormozi was dropped: tools-offers ships the Hormozi engine).
 
 Run: python3 -m unittest discover -s tests/shelf-wrappers
 
@@ -61,9 +61,14 @@ def frontmatter(text):
 
 class CopyTests(unittest.TestCase):
     def test_every_pack_exists(self):
-        self.assertEqual(len(PACKS), 12)
+        self.assertEqual(len(PACKS), 11)
         for pack in PACKS:
             self.assertTrue(pack_dir(pack).is_dir(), pack)
+
+    def test_no_separate_hormozi_pack(self):
+        """The Hormozi engine ships in tools-offers; a second pack would compete with it."""
+        self.assertNotIn('shelf-hormozi', PACKS)
+        self.assertFalse(pack_dir('shelf-hormozi').exists())
 
     def test_skill_copy_matches_source_byte_for_byte(self):
         """The drift guard."""
@@ -283,7 +288,8 @@ class PrivacyTests(unittest.TestCase):
 
 
 class InstallerTests(unittest.TestCase):
-    """Several packs carry web-scrape. Codex and Cursor link skills by name, so the installer needs the tested patch."""
+    """Several packs carry web-scrape. Codex and Cursor link skills by name, so the installer accepts a byte-identical
+    copy that another pack already linked (merged into scripts/install_pack.py on aios2/shelf-v2)."""
 
     PACKS_USED = ('aios', 'shelf-web-scrape', 'shelf-deep-research', 'shelf-transcripts')
 
@@ -294,35 +300,14 @@ class InstallerTests(unittest.TestCase):
         shutil.copy(ROOT / 'scripts/install_pack.py', checkout / 'scripts/install_pack.py')
         for pack in self.PACKS_USED:
             shutil.copytree(ROOT / 'plugins' / pack, checkout / 'plugins' / pack, ignore=shutil.ignore_patterns('evals', '__pycache__'))
-        if patched:
-            diff = ROOT / 'plugins/shelf-web-scrape/install_pack.diff'
-            subprocess.run(['patch', '-p0', '-s', str(checkout / 'scripts/install_pack.py'), str(diff)], check=True)
         return checkout
 
     def run_installer(self, checkout, home, *args):
         env = dict(os.environ, HOME=str(home), CODEX_HOME=str(home / '.codex'))
         return subprocess.run([sys.executable, str(checkout / 'scripts/install_pack.py'), *args], env=env, capture_output=True, text=True)
 
-    def test_the_diff_applies_to_the_current_installer(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            target = Path(tmp) / 'install_pack.py'
-            shutil.copy(ROOT / 'scripts/install_pack.py', target)
-            if 'def shared_copy' in target.read_text():
-                self.skipTest('installer already has the change')
-            result = subprocess.run(['patch', '-p0', '--dry-run', str(target), str(ROOT / 'plugins/shelf-web-scrape/install_pack.diff')],
-                                    capture_output=True, text=True)
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-
-    def test_unpatched_installer_stops_on_the_second_pack_with_web_scrape(self):
-        if 'def shared_copy' in (ROOT / 'scripts/install_pack.py').read_text():
-            self.skipTest('installer already has the change')
-        with tempfile.TemporaryDirectory() as tmp:
-            checkout, home = self.make_checkout(tmp, patched=False), Path(tmp) / 'home'
-            first = self.run_installer(checkout, home, 'shelf-web-scrape')
-            self.assertEqual(first.returncode, 0, first.stderr)
-            second = self.run_installer(checkout, home, 'shelf-deep-research')
-            self.assertEqual(second.returncode, 1)
-            self.assertIn('Existing skill preserved', second.stderr)
+    def test_the_installer_has_the_shared_copy_change(self):
+        self.assertIn('def shared_copy', (ROOT / 'scripts/install_pack.py').read_text())
 
     def test_patched_installer_installs_all_packs_that_share_web_scrape(self):
         with tempfile.TemporaryDirectory() as tmp:
