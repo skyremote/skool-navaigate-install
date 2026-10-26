@@ -132,6 +132,10 @@ def main():
              'Reproduce: `python3 tests/aios-rules/sandbox_proof_v1.py --with-claude-audit`.', '']
     for n, (note, cmd, out, code, cwd) in enumerate(LOG, 1):
         lines += ['## %d. %s' % (n, note), '', 'In `%s`:' % cwd, '', '```sh', cmd, '```', '```text', out, '[exit %d]' % code, '```', '']
+    audits = sorted((FOLDER / '80_aios' / 'audits').glob('*_rules-audit_v*.md'))
+    if with_claude and audits:
+        lines += ['## Appendix: the full audit file the member gets (%s)' % audits[-1].name, '', '````markdown',
+                  sanitise(audits[-1].read_text()).rstrip(), '````', '']
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text('\n'.join(lines))
     print('Wrote', OUT)

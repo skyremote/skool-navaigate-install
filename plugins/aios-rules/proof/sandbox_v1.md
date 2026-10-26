@@ -39,9 +39,9 @@ In `<checkout>`:
 claude plugin validate plugins/aios-rules --strict
 ```
 ```text
-Validating plugin manifest: /private<checkout>/plugins/aios-rules/.claude-plugin/plugin.json
+Validating plugin manifest: <checkout>/plugins/aios-rules/.claude-plugin/plugin.json
 
-Plugin directory checks for /private<checkout>/plugins/aios-rules. The plugin directory is the catalog that plugins are submitted to; this is a subset of what it runs.
+Plugin directory checks for <checkout>/plugins/aios-rules. The plugin directory is the catalog that plugins are submitted to; this is a subset of what it runs.
 
 ⚠ Found 1 plugin directory warning:
 
@@ -64,7 +64,7 @@ In `<checkout>`:
 claude plugin validate .claude-plugin/marketplace.json --strict
 ```
 ```text
-Validating marketplace manifest: /private<checkout>/.claude-plugin/marketplace.json
+Validating marketplace manifest: <checkout>/.claude-plugin/marketplace.json
 
 ✔ Validation passed
 [exit 0]
@@ -185,25 +185,25 @@ ls -l ~/.codex/skills ~/.cursor/skills ~/.agents/skills ~/.local/bin | sed "s/^.
 ```text
 $HOME/.agents/skills:
 total 0
-aios -> /private<checkout>/plugins/aios/skills/aios
-rules -> /private<checkout>/plugins/aios-rules/skills/rules
-rules-audit -> /private<checkout>/plugins/aios-rules/skills/rules-audit
+aios -> <checkout>/plugins/aios/skills/aios
+rules -> <checkout>/plugins/aios-rules/skills/rules
+rules-audit -> <checkout>/plugins/aios-rules/skills/rules-audit
 
 $HOME/.codex/skills:
 total 0
-aios -> /private<checkout>/plugins/aios/skills/aios
-rules -> /private<checkout>/plugins/aios-rules/skills/rules
-rules-audit -> /private<checkout>/plugins/aios-rules/skills/rules-audit
+aios -> <checkout>/plugins/aios/skills/aios
+rules -> <checkout>/plugins/aios-rules/skills/rules
+rules-audit -> <checkout>/plugins/aios-rules/skills/rules-audit
 
 $HOME/.cursor/skills:
 total 0
-aios -> /private<checkout>/plugins/aios/skills/aios
-rules -> /private<checkout>/plugins/aios-rules/skills/rules
-rules-audit -> /private<checkout>/plugins/aios-rules/skills/rules-audit
+aios -> <checkout>/plugins/aios/skills/aios
+rules -> <checkout>/plugins/aios-rules/skills/rules
+rules-audit -> <checkout>/plugins/aios-rules/skills/rules-audit
 
 $HOME/.local/bin:
 total 0
-aios-rules -> /private<checkout>/plugins/aios-rules/bin/aios-rules
+aios-rules -> <checkout>/plugins/aios-rules/bin/aios-rules
 [exit 0]
 ```
 
@@ -332,10 +332,14 @@ CLAUDE CODE: WARN
 In `$HOME/acme-studio`:
 
 ```sh
-edit AGENTS.md
+grep -nE 'Acme Studio|cafe|Invoices:|client list' AGENTS.md
 ```
 ```text
-
+1:# Acme Studio: rules for every agent
+7:- Sam Rivera runs Acme Studio. Acme Studio designs brand kits for small cafes.
+8:- Customers: cafe owners with one to three sites.
+43:- Invoices: the total equals the sum of the lines in the source sheet.
+47:- The client list lives in 10_clients/README.md, not in a spreadsheet.
 [exit 0]
 ```
 
@@ -396,7 +400,7 @@ exit 1
 In `$HOME/acme-studio`:
 
 ```sh
-git init -q . 2>/dev/null; python3 - <<'EOF'
+python3 - <<'EOF'
 from pathlib import Path
 p = Path("AGENTS.md")
 p.write_text("".join(l for l in p.read_text().splitlines(True) if l != "- old rule\n"))
@@ -462,3 +466,169 @@ Wrote ./80_aios/audits/2026-10-26_rules-audit_v1.md
 Budget ok; prompt audit skipped; skill doctor skipped.
 [exit 0]
 ```
+
+## 26. Full audit on the member sign-in (claude -p, read-only tools)
+
+In `$HOME/acme-studio`:
+
+```sh
+aios-rules audit --timeout 900
+```
+```text
+Wrote ./80_aios/audits/2026-10-26_rules-audit_v2.md
+Budget ok; prompt audit ok; skill doctor unavailable.
+[exit 0]
+```
+
+## 27. The dated audit files
+
+In `$HOME/acme-studio`:
+
+```sh
+ls 80_aios/audits && tail -3 80_aios/audits/*_v2.md
+```
+```text
+2026-10-26_rules-audit_v1.md
+2026-10-26_rules-audit_v2.md
+- [ ] Next audit date:
+
+Status: budget ok; prompt audit ok; skill doctor unavailable.
+[exit 0]
+```
+
+## 28. Claude Code read AGENTS.md through the bridge (answered from session context, no tools)
+
+In `$HOME/acme-studio`:
+
+```sh
+claude -p 'Without reading any file, quote the line in your loaded instructions that says where invoices go. Reply with that line only.'
+```
+```text
+| `30_finance/` | Invoices, receipts and contracts. Never bank logins or card numbers. |
+[exit 0]
+```
+
+## 29. Claude Code sees both pack skills
+
+In `$HOME/acme-studio`:
+
+```sh
+claude -p 'List the names of any skills you have whose names contain "rules". Names only, one per line.'
+```
+```text
+aios-rules:rules
+aios-rules:rules-audit
+[exit 0]
+```
+
+## Appendix: the full audit file the member gets (2026-10-26_rules-audit_v2.md)
+
+````markdown
+# Rules audit, 2026-10-26
+
+Folder: `acme-studio`. Nothing in your rules was changed by this audit.
+
+## 1. Always-loaded budget (aios-rules check)
+
+```text
+CLAUDE CODE: OK
+  Always loaded: 2 files, 48 lines, about 620 tokens (budget 300 lines, 4000 tokens).
+        1 lines       3 tokens  project       ./CLAUDE.md
+       47 lines     617 tokens  import        ./AGENTS.md  (via ./CLAUDE.md)
+  On demand (loads only for matching files):
+        6 lines      79 tokens  ./.claude/rules/clients.md  paths: 10_clients/**
+        6 lines      62 tokens  ./.claude/rules/content.md  paths: 40_content/**
+        6 lines      78 tokens  ./.claude/rules/finance.md  paths: 30_finance/**
+  Note: Plugin skills, MCP tool names and the system prompt are not counted. Run /context in a session for the full picture.
+
+CODEX: OK
+  Always loaded: 1 files, 47 lines, about 617 tokens (budget 300 lines, 4000 tokens).
+       47 lines     617 tokens  agents        ./AGENTS.md
+  Note: Codex does not expand @imports and does not read CLAUDE.md or .claude/rules/.
+
+CURSOR: OK
+  Always loaded: 1 files, 47 lines, about 617 tokens (budget 300 lines, 4000 tokens).
+       47 lines     617 tokens  agents        ./AGENTS.md
+  On demand (loads only for matching files):
+        6 lines     107 tokens  ./.cursor/rules/clients.mdc  paths: 10_clients/**
+        6 lines      90 tokens  ./.cursor/rules/content.mdc  paths: 40_content/**
+        6 lines     106 tokens  ./.cursor/rules/finance.mdc  paths: 30_finance/**
+  Note: Cursor user rules live in its settings, not in files, so they are not counted.
+```
+
+## 2. Prompt audit (/doctor prompt-audit)
+
+## Prompt audit: Acme Studio Claude Code configuration
+
+The project's configuration has nothing to fix, so the proposed diff is empty. Nothing was edited. The only real findings are two in one plugin skill, and those are reported only, as you asked.
+
+To check the work, I read every file in scope and tied each finding to a `file:line`, a named pattern, and something in the repository or the model's documented behaviour.
+
+### Assumptions
+- **Target model:** Claude Opus 5.5 (`claude-opus-5-5`), the model running this session. None of the files pins a model.
+- **Scope:** only Claude Code configuration that loads into sessions here. Settings files, `.mcp.json` and `~/.claude.json` were not read.
+- **User-level configuration:** I took `~/.claude` to be `$HOME/.claude`, because the plugin cache and auto-memory live there. It has no `CLAUDE.md`, rules, skills, commands, agents or output styles. I couldn't confirm any other home directory, so that part is unverified.
+- **No git repository,** so I couldn't trace where any line came from.
+- **No non-Anthropic provider markers** were found.
+
+### What I read
+| File | Loads |
+|---|---|
+| `CLAUDE.md` | every session (contains only `@AGENTS.md`) |
+| `AGENTS.md` | every session, through the import |
+| `.claude/rules/clients.md`, `finance.md`, `content.md` | only for `10_clients/**`, `30_finance/**` and `40_content/**` |
+| Plugin skills `aios`, `aios-rules:rules`, `aios-rules:rules-audit` | when triggered; report only |
+
+- There are no `CLAUDE.md`, `AGENTS.md` or `CLAUDE.local.md` files in the folders above the project or nested inside it.
+- There is no `.claude/CLAUDE.md`, no `.claude/AGENTS.md`, and no managed-policy `CLAUDE.md`.
+- `AGENTS.md` imports nothing.
+- I didn't audit `.cursor/rules/*.mdc` or `80_aios/audits/2026-10-26_rules-audit_v1.md`, because Claude Code doesn't load them.
+
+### Summary
+- **Project files:** clean. There is no emphatic or pressure language, no step-by-step scripts for judgement tasks, no leftovers written for older models, and no contradictions.
+- **Rules that overlap:** where the rule files repeat `AGENTS.md`, they agree with it. `finance.md` adds tax IDs to the "never write bank logins" rule, and `content.md` says nothing is published without your yes. Both just narrow `AGENTS.md`, so I left them alone.
+- **Findings by group:**
+  - Group 1 (dated prompt text): 0
+  - Group 2 (brittle configuration files): 1 low-confidence flag in the project, plus 2 plugin findings reported only
+  - Group 3 (tool descriptions): not applicable
+  - Group 4 (request code): not applicable
+
+### Findings
+
+| Location | Evidence | Pattern | Why | Confidence | Action |
+|---|---|---|---|---|---|
+| plugin `aios/2.0.0/skills/aios/SKILL.md:32` | "Only `aios` and `aios-brain` ship in phase 1. Say when a pack is planned; do not try to install it." | Group 2, out-of-date facts | `aios-rules` 2.0.0 comes from the same marketplace, is installed here, and its skills load in this session. The skill would wrongly call it "planned". | High | Report only (plugin file) |
+| plugin `aios/2.0.0/skills/aios/SKILL.md:46` | "For this unpublished review, add the local checkout path instead of GitHub." | Group 2, time-sensitive content | It describes one stage of a release and will go stale once the pack is published. | Medium | Report only (plugin file) |
+| `AGENTS.md:51` | "The client list lives in 10_clients/README.md, not in a spreadsheet." | Group 2, out-of-date facts / a rule written for one incident | Neither `10_clients/` nor that README exists yet. The folder map looks like a plan, so a missing file doesn't prove the line wrong. But the section's own rule says a gotcha needs two mistakes behind it, and this project has no history to show any. | Low | Flag |
+
+### Proposed diff
+None. No project finding reaches medium confidence, and the plugin findings are report-only.
+
+### Your decision
+- **The client-list gotcha (`AGENTS.md:51`):** keep it if an agent really did look for a spreadsheet twice. If not, delete it, or keep it once you've created `10_clients/README.md`.
+- **The `aios` plugin skill:** to fix it, tell the plugin's maintainer, not this project.
+
+## 3. Skill usage (/skill-doctor)
+
+**Not available in this session.** Open Claude Code in a terminal on this machine, run `/skill-doctor`, and paste its report under this heading.
+
+> `/skill-doctor` isn't installed in this session, so it did not run.
+> 
+> I looked for skills it could check by hand. This folder has none: there are no `SKILL.md` files. `.claude/` holds only three path-scoped rules (`clients.md`, `finance.md`, `content.md`). The skills you can use here all come from plugins (`aios`, `aios-rules`) or are built in.
+> 
+> Your options:
+> - **Run `/aios-rules:rules-audit`.** It's your monthly audit. It runs the rules budget check and lists `/skill-doctor` as one of its steps, so it may say how to get that command.
+> - **Add `/skill-doctor`** as an organisation plugin or a project skill, if you need that exact command. I'm not sure of the install steps, so I won't guess them.
+> 
+> Do you want me to run `/aios-rules:rules-audit` now?
+
+## 4. Decisions
+
+- [ ] Lines to cut from AGENTS.md (move detail to a skill or a path-scoped rule):
+- [ ] Skills to hide or turn off (from section 3):
+- [ ] Findings from section 2 to apply (ask Claude to apply only the ones you tick):
+- [ ] Next audit date:
+
+Status: budget ok; prompt audit ok; skill doctor unavailable.
+````
+
