@@ -1,7 +1,7 @@
 {
   "name": "shelf-decks",
-  "version": "2.0.0",
-  "description": "Build a deck in your own brand as an HTML page first, review every slide, then export an editable PowerPoint that matches it.",
+  "version": "2.0.1",
+  "description": "One deck spec renders an animated HTML deck you review slide by slide, then a matching editable PowerPoint and a PDF, in your own brand.",
   "author": {
     "name": "skyremote"
   },
@@ -9,6 +9,7 @@
   "keywords": [
     "presentations",
     "pptx",
+    "reveal.js",
     "slides",
     "brand",
     "aios"

@@ -7,61 +7,63 @@ Never overwrite a deck. If a check fails, stop, fix that one thing, and check ag
 ## Step 1: Find the command
 - **Do:** check that the pack's command runs.
 - **Command:** `shelf-decks --version` (Claude Code: `"${CLAUDE_PLUGIN_ROOT}/bin/shelf-decks" --version`).
-- **They should see:** `shelf-decks 2.0.0`.
+- **They should see:** `shelf-decks 2.0.1`.
 - **Check:** exit code 0. If the command is missing, run `export PATH="$HOME/.local/bin:$PATH"` (Codex and Cursor),
-  or run `aios-guide --harness claude install shelf-decks` (what `/aios install shelf-decks` runs), then `/reload-plugins`.
+  or `/aios install shelf-decks` then `/reload-plugins` (Claude Code). If Node is missing or older than 18,
+  install it from https://nodejs.org/.
 
-## Step 2: Check the tools
-- **Do:** confirm python-pptx, Pillow and Playwright with Chromium.
-- **Command:** `python3 -c "import pptx, PIL, playwright; print('ok')" && python3 -m playwright install chromium`
-- **They should see:** `ok`, then Chromium already installed or downloading.
-- **Check:** if the import fails, run `python3 -m pip install --user python-pptx Pillow playwright`, then again.
+## Step 2: Install the tools
+- **Do:** install the three Node packages once, then check.
+- **Command:** `shelf-decks setup && shelf-decks check`
+- **They should see:** `ok` for node, pptxgenjs, puppeteer-core, pdf-lib and a browser, then `Ready.`
+- **Check:** for a `MISSING` browser, install Google Chrome (or `npx playwright install chromium`), then check again.
 
 ## Step 3: Practise on the sample
-- **Do:** make the fictional Acme Studio deck, which carries its own brand file and logo.
-- **Command:** `shelf-decks sample ~/Decks/acme-sample`
-- **They should see:** `Sample deck: .../acme-sample/deck.md`.
-- **Check:** `cat ~/Decks/acme-sample/deck.md` shows slides separated by `---`, each starting with a `[layout]`.
+- **Do:** copy the fictional Northwind Bakery deck, which carries its own brand.json and logo.
+- **Command:** `shelf-decks sample ~/Decks/northwind`
+- **They should see:** `Sample deck: .../northwind/deck.js (fictional Northwind Bakery, with its own brand.json)`.
+- **Check:** `ls ~/Decks/northwind` shows `deck.js`, `brand.json`, `logo.png` and `images/`.
 
-## Step 4: Build, review, export the sample
-- **Do:** run the full path once.
-- **Command:** `shelf-decks build ~/Decks/acme-sample && shelf-decks review ~/Decks/acme-sample && shelf-decks export ~/Decks/acme-sample --pdf`
-- **They should see:** `Built .../deck_v1.html`, `PASS: review of deck_v1.html`, `Exported .../deck_v1.pptx`.
-- **Check:** they open `out/review_v1/montage.png`, then the PPTX in PowerPoint or Keynote, and click into a title
-  to see it is editable text.
+## Step 4: Render it, HTML first
+- **Do:** render the HTML and the PPTX, then open the HTML.
+- **Command:** `shelf-decks render ~/Decks/northwind/deck.js`
+- **They should see:** `Profile: member`, then `HTML: .../Northwind_Second_Shop_v1.html (10 slides ...)` and
+  `PPTX: .../Northwind_Second_Shop_v1.pptx`.
+- **Check:** they open the HTML in a browser: arrow keys move, `T` shows the talk track, the flow diagram animates.
 
-## Step 5: Set their brand
-- **Do:** ask for their real colours, fonts and logo. Never invent them.
-- **Command:** `shelf-decks brand set name="Their Company"`, then `colours.accent=#hex`, `colours.text=#hex`,
-  `fonts.heading=<font name>`, `fonts.body=<font name>`, `logo=<path to PNG>`
-- **They should see:** the brand printed after each change.
-- **Check:** `shelf-decks brand check` lists every pair as `ok`. If one says TOO LOW, change that colour.
+## Step 5: Review every slide
+- **Do:** screenshot every slide and look at each one.
+- **Command:** `shelf-decks shots ~/Decks/northwind/Northwind_Second_Shop_v1.html`
+- **They should see:** `Slides: .../slide-01.png ... slide-10.png` and a contact sheet.
+- **Check:** open the contact sheet, then each slide at full size. Name one thing to improve on one slide (for
+  example cut a sentence), change `deck.js`, render again, and see `_v2` appear while `_v1` stays.
 
-## Step 6: Plan their deck
-- **Do:** agree one point per slide, as a list of titles, before writing any slide.
-- **Command:** `shelf-decks new ~/Decks/<name> --title "<their title>"`
-- **They should see:** `Started .../deck.md`.
-- **Check:** the titles read as a story on their own. Any number has a source they can name.
+## Step 6: The PowerPoint and the PDF
+- **Do:** open the PPTX, then make the PDF.
+- **Command:** `shelf-decks pdf ~/Decks/northwind/Northwind_Second_Shop_v2.html`
+- **They should see:** `PDF: .../Northwind_Second_Shop_v2.pdf (10 pages ...)`.
+- **Check:** in PowerPoint or Keynote they click into a title and type: it is real text. The PDF matches the HTML.
 
-## Step 7: Write the slides
-- **Do:** fill `deck.md` with the layouts in the guide (`[bullets]`, `[stat]`, `[bars]`, `[two-column]`, `[quote]`,
-  `[image]`, `[section]`, `[closing]`). Put what they will say under `notes:`.
-- **Command:** `shelf-decks build ~/Decks/<name>`
-- **They should see:** `Built .../deck_v1.html (N slides, brand: Their Company)`.
-- **Check:** they open the HTML. Arrow keys move, N shows the notes.
+## Step 7: Set their brand
+- **Do:** ask for their real company name, colours, fonts, logo and the look of their images. Never invent them.
+- **Command:** `shelf-decks init --name "Their Company" --accent <hex> --ink <hex> --bg <hex> --display "<font>" --body "<font>" --logo <path> --image-style "<one sentence>"`
+- **They should see:** `Wrote .../brand.json`, then their brand and a contrast line per colour pair.
+- **Check:** every line says `ok`. For a `LOW` line, darken the text colour or lighten the ground and run init again.
 
-## Step 8: Review
-- **Do:** render and check every slide.
-- **Command:** `shelf-decks review ~/Decks/<name>`
-- **They should see:** `PASS`, or problems such as "the body text does not fit".
-- **Check:** for each problem, cut words or split the slide, then build and review again. Never shrink the type.
-  Then look at `montage.png` together for repeated layouts and crowding.
+## Step 8: Their own deck
+- **Do:** agree the slide titles first, one point per slide. Then start the deck and pick a builder per slide
+  (`shelf-decks builders` lists them).
+- **Command:** `shelf-decks new ~/Decks/<name>`, edit `deck.js`, then `shelf-decks render ~/Decks/<name>/deck.js`
+- **They should see:** `Profile: member (<their brand.json>)` and the two files.
+- **Check:** six or more builders, no more than three `cards`, every number with its source in the slide footer.
 
-## Step 9: Export and verify
-- **Do:** write the PowerPoint and the PDF, then read it back.
-- **Command:** `shelf-decks export ~/Decks/<name> --pdf && shelf-decks verify ~/Decks/<name>`
-- **They should see:** `Exported`, then `PASS: deck_v1.pptx, N slides, ... fonts: <their fonts>`.
-- **Check:** only their brand fonts are listed. If they send the file outside, they send the PDF too.
+## Step 9: Review, then send
+- **Do:** shots, fix, render again until every slide passes the gate in the skill; then the PDF.
+- **Command:** `shelf-decks shots <html>` ... `shelf-decks pdf <html>`
+- **They should see:** a clean contact sheet, then the PDF.
+- **Check:** crowding is fixed by cutting words or splitting slides, never by smaller type. They send the PDF
+  outside their team.
 
 ## Recap
-Brand once, plan the titles, write `deck.md`, build, review until PASS, export, verify. Each build is a new `_vN`.
+Setup once, brand once, agree the titles, write the spec, render, look at every slide, fix, render again (a new
+`_vN`), then the PPTX and the PDF.

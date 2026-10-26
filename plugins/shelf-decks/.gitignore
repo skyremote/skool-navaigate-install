@@ -1,0 +1,8 @@
+node_modules/
+package-lock.json
+samples/*/*_v[0-9]*.*
+samples/*/revealjs/
+samples/*/brand/
+samples/*/.crop/
+samples/*/images/*.baked.png
+samples/*/review/
