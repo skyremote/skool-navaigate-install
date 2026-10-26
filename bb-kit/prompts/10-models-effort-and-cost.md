@@ -13,7 +13,7 @@ These prompts are instructions to Claude. They also work in Claude Code in a ter
 ~~~text
 Set up module 10 on this computer: see my models, then set a sensible default.
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-models@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-models/*/bin | tail -1)/models-check"`. Below, `models-check` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-models@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-models/*/bin | tail -1)/models-check"`. Below, `models-check` means that full path.
 
 1. Run `models-check`. For each harness, show me the login, model and effort lines, and where each was set. If it warns that `ANTHROPIC_API_KEY` is set, tell me plainly that this terminal bills the paid API, and ask whether I meant that.
 2. Set my Claude Code effort to medium the way the pack's `models` skill says. Change only that one setting, and back up the settings file first.
@@ -21,7 +21,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 4. Explain the split in four short lines: Sonnet for daily building, Opus for planning, hard bugs and reviews, Haiku for summaries and volume work, and Codex for GPT models.
 5. List the commands I type myself in Claude Code, because an agent cannot run them for me: `/model sonnet`, `/effort medium`, `/advisor opus` and `/usage`. Say in one line what each does.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m10-models_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
@@ -38,7 +38,7 @@ When you are done, show me the result:
 ~~~text
 I have a second Claude subscription. Prepare a second login called "work" so I can switch to it when my main plan runs out.
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-models@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-models/*/bin | tail -1)/models-check"`. Below, `models-check` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-models@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-models/*/bin | tail -1)/models-check"`. Below, `models-check` means that full path.
 
 1. Run `models-check login add work`. Show me the sign-in command and the alias line it prints.
 2. Do not run the sign-in yourself: it opens a browser and needs me. Tell me to run it in a terminal.
@@ -48,7 +48,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 
 If I do not have a second subscription, this prompt is not for me: say so and stop.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m10-second-login_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.

@@ -13,7 +13,7 @@ These prompts are instructions to Claude. They also work in Claude Code in a ter
 ~~~text
 Set up module 4: make this folder my bb cockpit. This chat runs inside bb.
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-bb@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-bb/*/bin | tail -1)/aios-bb"`. Below, `aios-bb` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-bb@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-bb/*/bin | tail -1)/aios-bb"`. Below, `aios-bb` means that full path.
 
 1. Run `aios-bb doctor`. Show me each line. A warning about no kanban plugin is fine.
 2. If doctor says this folder is not a git repository, run `git init && git add -A && git commit -m "Start"`, then show `git log --oneline -1`.
@@ -21,7 +21,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 4. Run `aios-bb setup --name "My AIOS"` once more and show that it says "Kept it".
 5. Run `bb thread section list --json` and show that Backlog, In progress, Review and Done exist.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m04-cockpit_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
@@ -38,7 +38,7 @@ When you are done, show me the result:
 ~~~text
 Module 4, part two. Hand one small job to two agents at once, so I can compare their work. The cockpit is already set up (if not, stop and tell me to run prompt 4.1 first).
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-bb@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-bb/*/bin | tail -1)/aios-bb"`. Below, `aios-bb` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-bb@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-bb/*/bin | tail -1)/aios-bb"`. Below, `aios-bb` means that full path.
 
 1. Write `brief.md` in this folder with this job: "Write a one-page list of our services in `20_offers/services_v1.md`: three services, one line each on who it is for and what they get. When there is something for me to check, run: aios-bb card review --note 'services list ready'". Commit it: `git add brief.md && git commit -m "Brief: services list"`.
 2. Run `aios-bb hand "Services list (Claude)" --prompt-file brief.md --provider claude`.
@@ -48,7 +48,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 
 Do not wait for the two threads to finish. They will move themselves to Review.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m04-two-agents_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
@@ -65,7 +65,7 @@ When you are done, show me the result:
 ~~~text
 Run my daily loop in bb for this folder. The cockpit is already set up (if not, stop and tell me to run prompt 4.1 first).
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-bb@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-bb/*/bin | tail -1)/aios-bb"`. Below, `aios-bb` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-bb@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-bb/*/bin | tail -1)/aios-bb"`. Below, `aios-bb` means that full path.
 
 1. Run `aios-bb today` and show me the Waiting, Review, In progress and Backlog lists.
 2. For each thread in Review, show its title and the note on its card, and read the file it made (for example `20_offers/services_v1.md`). Tell me in one line whether it did the job.
@@ -73,7 +73,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 4. Run `aios-bb close` (without `--archive-done`) and show me the end-of-day summary.
 5. Tell me that `aios-bb close --archive-done` archives everything in Done, and that `bb thread search "<word>"` still finds archived threads.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m04-daily-loop_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.

@@ -13,7 +13,7 @@ These prompts are instructions to Claude. They also work in Claude Code in a ter
 ~~~text
 Set up the decks pack from the shelf and practise on the sample deck.
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install shelf-decks@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/shelf-decks/*/bin | tail -1)/shelf-decks"`. Below, `shelf-decks` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install shelf-decks@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/shelf-decks/*/bin | tail -1)/shelf-decks"`. Below, `shelf-decks` means that full path.
 
 1. Check the tools: `python3 -c "import pptx, PIL, playwright; print('ok')"`. If it fails, run `python3 -m pip install --user python-pptx Pillow playwright` and check again. Then run `python3 -m playwright install chromium`.
 2. Make the sample in this folder: `shelf-decks sample 40_content/decks/acme-sample`. Show the first slides of its `deck.md`.
@@ -21,7 +21,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 4. Run `shelf-decks verify 40_content/decks/acme-sample` and show the result.
 5. In the report, show the review montage image (`out/review_v1/montage.png`) by copying it next to the report and using a relative image link.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m12-decks-sample_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
@@ -45,7 +45,7 @@ My brand and my deck (edit these lines before you send):
 
 Make this deck with the shelf decks pack.
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install shelf-decks@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/shelf-decks/*/bin | tail -1)/shelf-decks"`. Below, `shelf-decks` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install shelf-decks@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/shelf-decks/*/bin | tail -1)/shelf-decks"`. Below, `shelf-decks` means that full path.
 
 1. Set my brand: `shelf-decks brand set name="<Company>"`, then `colours.accent=<hex>`, `colours.text=<hex>`, `fonts.heading=<font>`, `fonts.body=<font>`. Do not invent a logo; skip it if I gave none.
 2. Run `shelf-decks brand check`. Every pair must say ok. If one says TOO LOW, tell me which colour to change and stop.
@@ -55,7 +55,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 6. Export and verify: `shelf-decks export 40_content/decks/new-clients --pdf && shelf-decks verify 40_content/decks/new-clients`.
 7. In the report, show the review montage image by copying it next to the report and using a relative image link.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m12-decks-own_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.

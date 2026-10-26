@@ -20,7 +20,7 @@ About my business (edit these lines before you send):
 
 Set up module 2, my folders and my rules, in this folder.
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-rules@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-rules/*/bin | tail -1)/aios-rules"`. Below, `aios-rules` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-rules@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-rules/*/bin | tail -1)/aios-rules"`. Below, `aios-rules` means that full path.
 
 1. Run `ls -A`. If this folder already has my own top-level folders, add `--no-folders` to the commands in steps 2 and 3.
 2. Preview the set-up: `aios-rules init --business "<Business>" --owner "<Owner>" --dry-run`, using my details above. Show me the CREATED and KEPT lines, then check with `ls -A` that nothing new exists yet.
@@ -30,7 +30,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 6. Run `aios-rules check`. It must say `CLAUDE CODE: OK`.
 7. Run `aios-rules cursor-rules`, then `aios-rules check --harness all`, and show the result for each harness.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m02-folders-and-rules_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
@@ -40,21 +40,21 @@ When you are done, show me the result:
 
 ## Prompt 2.2 · Add a rule for one folder and prove Claude reads it
 
-**What it does:** Adds a rule that loads only when Claude works in one folder, then asks a fresh Claude, without opening files, where invoices go.
+**What it does:** Adds a rule that loads only when Claude works in your offers folder, then asks a fresh Claude, without opening files, where invoices go.
 
 **How you know it worked:** The new rule shows under "On demand" in the budget check, and the fresh Claude quotes the `30_finance/` line from your AGENTS.md.
 
 ~~~text
 Module 2, part two. My folders and AGENTS.md are already set up in this folder (if they are not, stop and tell me to run prompt 2.1 first).
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-rules@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-rules/*/bin | tail -1)/aios-rules"`. Below, `aios-rules` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-rules@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-rules/*/bin | tail -1)/aios-rules"`. Below, `aios-rules` means that full path.
 
 1. Show me the top of the finance rule: `head -5 .claude/rules/finance.md`. Explain in one sentence when it loads.
-2. Make a rule for my content folder: copy `.claude/rules/finance.md` to `.claude/rules/my-content.md`, change its path to `40_content/**`, and replace its lines with two short rules: "Every post has a draft date in its file name." and "Never publish; drafts only."
-3. Run `aios-rules check`. Show that `my-content.md` is listed under "On demand", not in the always-loaded list.
+2. Make a rule for my offers folder, which has none yet: run `ls .claude/rules` first. If `offers.md` already exists, keep it and skip to step 3. Otherwise copy `.claude/rules/finance.md` to `.claude/rules/offers.md`, change its path to `20_offers/**`, and replace its rule lines with two short rules: "Every price shows its currency and the date it was set." and "Never send an offer to a client; drafts only."
+3. Run `aios-rules check`. Show that `offers.md` is listed under "On demand", not in the always-loaded list.
 4. Prove a fresh Claude reads AGENTS.md: run `claude -p "Without reading any file, quote the line in your instructions that says where invoices go."` and show the answer. It should quote the `30_finance/` line.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m02-folder-rule_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
@@ -71,7 +71,7 @@ When you are done, show me the result:
 ~~~text
 Run my monthly rules audit for this folder. My folders and AGENTS.md are already set up (if not, stop and tell me to run prompt 2.1 first).
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-rules@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-rules/*/bin | tail -1)/aios-rules"`. Below, `aios-rules` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-rules@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-rules/*/bin | tail -1)/aios-rules"`. Below, `aios-rules` means that full path.
 
 1. Run `aios-rules audit`. It takes a few minutes. Wait for it.
 2. Open the file it wrote under `80_aios/audits/`. Tell me the status of each part.
@@ -79,7 +79,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 4. Check with `git status` or `ls -l` that nothing in my rules changed: the audit only reads.
 5. Suggest the first working day of each month as my audit day, and write that date into section 4 of the audit file.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m02-rules-audit_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.

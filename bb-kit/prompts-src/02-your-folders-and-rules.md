@@ -31,7 +31,7 @@ Set up module 2, my folders and my rules, in this folder.
 ~~~
 
 ## 2.2 · Add a rule for one folder and prove Claude reads it
-what: Adds a rule that loads only when Claude works in one folder, then asks a fresh Claude, without opening files, where invoices go.
+what: Adds a rule that loads only when Claude works in your offers folder, then asks a fresh Claude, without opening files, where invoices go.
 check: The new rule shows under "On demand" in the budget check, and the fresh Claude quotes the `30_finance/` line from your AGENTS.md.
 ~~~
 Module 2, part two. My folders and AGENTS.md are already set up in this folder (if they are not, stop and tell me to run prompt 2.1 first).
@@ -39,8 +39,8 @@ Module 2, part two. My folders and AGENTS.md are already set up in this folder (
 <<INSTALL>>
 
 1. Show me the top of the finance rule: `head -5 .claude/rules/finance.md`. Explain in one sentence when it loads.
-2. Make a rule for my content folder: copy `.claude/rules/finance.md` to `.claude/rules/my-content.md`, change its path to `40_content/**`, and replace its lines with two short rules: "Every post has a draft date in its file name." and "Never publish; drafts only."
-3. Run `aios-rules check`. Show that `my-content.md` is listed under "On demand", not in the always-loaded list.
+2. Make a rule for my offers folder, which has none yet: run `ls .claude/rules` first. If `offers.md` already exists, keep it and skip to step 3. Otherwise copy `.claude/rules/finance.md` to `.claude/rules/offers.md`, change its path to `20_offers/**`, and replace its rule lines with two short rules: "Every price shows its currency and the date it was set." and "Never send an offer to a client; drafts only."
+3. Run `aios-rules check`. Show that `offers.md` is listed under "On demand", not in the always-loaded list.
 4. Prove a fresh Claude reads AGENTS.md: run `claude -p "Without reading any file, quote the line in your instructions that says where invoices go."` and show the answer. It should quote the `30_finance/` line.
 
 <<RULES>>

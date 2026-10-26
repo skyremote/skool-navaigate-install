@@ -15,7 +15,7 @@ Set up module 11: package one of my skills so someone else can install it.
 
 My name for the pack's author line (edit this line): Sam Lee
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-ship@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-ship/*/bin | tail -1)/ship-pack"`. Below, `ship-pack` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-ship@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-ship/*/bin | tail -1)/ship-pack"`. Below, `ship-pack` means that full path.
 
 1. Find a skill to package: list the folders in `~/.claude/skills` (or `$CLAUDE_CONFIG_DIR/skills`) that hold a SKILL.md. Pick the smallest one. If I have none, create a small practice skill `meeting-actions` in `~/.claude/skills/meeting-actions/SKILL.md` that turns meeting notes into actions with an owner and a due date.
 2. Make a home for my packs: `mkdir -p ~/my-tools && cd ~/my-tools && git init` (skip `git init` if it is already a repository). Work in `~/my-tools` from now on.
@@ -24,7 +24,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 5. Run `ship-pack check <name>` until it ends with `0 error(s)`.
 6. Run `python3 -m unittest discover <name>/tests` (it must print OK) and `claude plugin validate <name> --strict` (it must say `Validation passed`).
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m11-make-pack_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
@@ -41,7 +41,7 @@ When you are done, show me the result:
 ~~~text
 Module 11, part two. Prove my pack installs for a stranger. The pack must already exist in `~/my-tools` (if not, stop and tell me to run prompt 11.1 first).
 
-Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-ship@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-ship/*/bin | tail -1)/ship-pack"`. Below, `ship-pack` means that full path.
+Step 0, get the pack. These commands change Claude's own plugin folder in my home folder, outside this folder. I allow that for these commands only: if the sandbox blocks them, run them outside the sandbox. Run `claude plugin marketplace list`. If `navaigate-aios` is not listed, run `claude plugin marketplace add skyremote/skool-navaigate-install`. Then run `claude plugin install aios-ship@navaigate-aios` ("already installed" is fine; it also brings the start pack `aios`). Until I restart Claude, call the pack's command by its full path: `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios-ship/*/bin | tail -1)/ship-pack"`. Below, `ship-pack` means that full path.
 
 1. In `~/my-tools`, run `ship-pack marketplace <name> --file .claude-plugin/marketplace.json --name my-tools --owner "<the author name in the pack>"`, then `claude plugin validate .`, then `git add . && git commit -m "<name> 0.1.0"`.
 2. Make an empty test home: `mkdir -p /tmp/new-member`. Run the next commands with `env -u CLAUDE_CONFIG_DIR HOME=/tmp/new-member` in front, so they use that empty home:
@@ -50,7 +50,7 @@ Step 0, get the pack. Run `claude plugin marketplace list`. If `navaigate-aios` 
 4. Remove only the test home you just made: `rm -rf /tmp/new-member`.
 5. Tell me how others install it once I push `~/my-tools` to GitHub: `/plugin marketplace add <github-name>/my-tools`.
 
-Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. Do not stop to ask me anything unless a step needs my decision.
+Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a folder the step names), I allow exactly that command: if the sandbox blocks it, run it outside the sandbox. Do not stop to ask me anything unless a step needs my decision.
 
 When you are done, show me the result:
 1. Write a one-page HTML report to `80_aios/reports/m11-stranger-install_v1.html` (create the folder if needed; if that file exists, use the next free `_vN` and use that name below). Put in it: what you set up, a table of every check (the command, a short piece of its real output, PASS or FAIL) and my one next step. Keep it simple: no web fonts, scripts or internet links.
