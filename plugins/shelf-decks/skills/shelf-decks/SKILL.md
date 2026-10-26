@@ -16,7 +16,8 @@ in one `brand.json`. Never write slides by hand in HTML or PowerPoint; write the
 
 First time on a machine: `shelf-decks check`. If it lists missing Node packages, run `shelf-decks setup` (installs
 pptxgenjs, puppeteer-core and pdf-lib; no browser download). It needs Node 18+ and a Chrome, Edge, Brave or
-Chromium for screenshots and the PDF. If the session cannot run commands, give the member the commands in order.
+Chromium for screenshots and the PDF. If the session cannot run commands, give the member the commands in order,
+including `render`, `shots` (and looking at every slide) and `pdf`, and propose the slide titles.
 
 ## The method (HTML first)
 
@@ -33,12 +34,16 @@ Chromium for screenshots and the PDF. If the session cannot run commands, give t
 5. **Review every slide.** `shelf-decks shots <name>_vN.html` writes one 1920x1080 PNG per slide and a
    contact sheet. Open and look at **every** slide image at full size, then the contact sheet as a sequence. Check
    the gate below. Fix the spec and render again until it passes. Show the member the HTML (arrow keys,
-   `T` talk track, `S` speaker view) before any export.
+   `T` talk track, `S` speaker view) before any export. **Never skip this review**, even when the member says
+   "just send the PowerPoint": you may skip asking them to review, but you still render the HTML, run `shots`
+   and look at every slide yourself before you hand anything over, and you say so in one line (crowding, clipped
+   text and missing sources only show when someone looks).
 6. **Send.** The PPTX is already there. `shelf-decks pdf <name>_vN.html` makes the PDF. Send the PDF outside the
    team: fonts must exist on the opening machine, and the PDF carries them.
 
 `shelf-decks sample <folder>` copies the fictional Northwind Bakery deck (10 slides, its own brand.json) for
-practice.
+practice. To see that practice deck in the member's own brand, use `shelf-decks new <folder>` instead: same
+slides, no bakery `brand.json`, so the member's saved brand applies.
 
 ## The spec
 
