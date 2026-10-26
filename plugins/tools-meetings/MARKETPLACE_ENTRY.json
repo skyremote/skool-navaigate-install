@@ -1,0 +1,9 @@
+{
+  "name": "tools-meetings",
+  "source": "./plugins/tools-meetings",
+  "version": "2.0.0",
+  "description": "Tools: Granola meetings on your own key, turned into checked decisions, owners and open questions.",
+  "metadata": {
+    "module": 12
+  }
+}

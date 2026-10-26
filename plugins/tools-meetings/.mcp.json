@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "tools-meetings": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/bin/tools-meetings",
+      "args": [
+        "mcp"
+      ],
+      "env": {
+        "GRANOLA_API_KEY": "${user_config.granola_api_key}"
+      }
+    }
+  }
+}

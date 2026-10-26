@@ -1,0 +1,32 @@
+{
+  "name": "tools-meetings",
+  "version": "2.0.0",
+  "description": "Pull the words said in your Granola meetings with your own key, then turn each call into a checked record of decisions, owners and open questions.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "meetings",
+    "granola",
+    "transcripts",
+    "actions",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  },
+  "userConfig": {
+    "granola_api_key": {
+      "type": "string",
+      "title": "Granola API key",
+      "description": "Your own key from the Granola app: Settings, Connectors, API keys (starts grn_). Needs a Business or Enterprise plan. Stored in your keychain.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    }
+  }
+}
