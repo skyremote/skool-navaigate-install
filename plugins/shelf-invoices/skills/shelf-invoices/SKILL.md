@@ -21,6 +21,8 @@ number in your head.
 Needs Python 3.9+ with lxml (`python3 -m pip install --user lxml`) and LibreOffice for the PDF. Without
 LibreOffice the .docx is still made, and the command says "Install LibreOffice for the PDF".
 If this session cannot run commands, give the member the exact commands in order.
+Whenever you show the member a command, write it as `shelf-invoices <subcommand> ...` (the name they type after
+installing), never a long plugin path or a shell variable, so they can repeat it later.
 
 ## Books folder
 
@@ -30,6 +32,8 @@ If this session cannot run commands, give the member the exact commands in order
   bank details, legal footer lines, signatory, invoice prefix such as `ACME-`) and put their PNG logo at
   `<books>/logo.png`. Then `shelf-invoices company check` until it says `Company details complete.`
   Never guess or invent a VAT ID, company number, address or bank detail. Field list: [settings](references/settings.md).
+  When you ask a new member for their details, also show the set-up commands you will run with them
+  (`shelf-invoices init ~/Documents/Invoices`, then `shelf-invoices company check`).
 - Practice: `shelf-invoices sample ~/Invoices-practice` makes books for the fictional Acme Studio Ltd (every ID
   and bank detail marked SAMPLE) with one earlier invoice already filed. Use `--books` with it.
 
