@@ -3,19 +3,21 @@ pack: shelf-decks
 cmd: shelf-decks
 
 ## 12d.1 · Show me the shelf, then practise on the sample deck
-what: Checks the tools, then builds, reviews and exports the fictional Acme Studio sample deck as HTML, an editable PowerPoint and a PDF.
-check: The review says PASS, the export writes `deck_v1.pptx`, and the report shows the slide montage.
+what: Shows the shelf packs, sets up the decks pack, and renders the fictional Northwind Bakery sample deck: HTML first, a screenshot of every slide, then the PowerPoint and the PDF.
+check: The report shows the contact sheet of every slide, and the HTML, PPTX and PDF paths.
 ~~~
 Show me the shelf and recommend the one tool I should install first for my business, in two lines. Then set up the decks pack and practise on the sample deck.
 
 <<INSTALL>>
 
 1. Run `"$(ls -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}"/plugins/cache/navaigate-aios/aios/*/bin | tail -1)/aios-guide" list` and show the shelf packs (module 12) with one line each. Recommend one in two lines.
-2. Check the tools: `python3 -c "import pptx, PIL, playwright; print('ok')"`. If it fails, run `python3 -m pip install --user python-pptx Pillow playwright` and check again. Then run `python3 -m playwright install chromium`.
-3. Make the sample in this folder: `shelf-decks sample 40_content/decks/acme-sample`. Show the first slides of its `deck.md`.
-4. Build, review and export: `shelf-decks build 40_content/decks/acme-sample && shelf-decks review 40_content/decks/acme-sample && shelf-decks export 40_content/decks/acme-sample --pdf`.
-5. Run `shelf-decks verify 40_content/decks/acme-sample` and show the result.
-6. In the report, show the review montage image (`out/review_v1/montage.png`) by copying it next to the report and using a relative image link.
+2. Check the command: `shelf-decks --version` should print `shelf-decks 2.0.1` or later. If Node is missing or older than 18, tell me to install it from nodejs.org, and stop.
+3. Install the tools once and check them: `shelf-decks setup && shelf-decks check`. It should end with `Ready.` If the browser is MISSING, tell me to install Google Chrome, and stop.
+4. Copy the fictional sample into this folder: `shelf-decks sample 40_content/decks/northwind`. Show what is in the folder.
+5. Render it, HTML first: `shelf-decks render 40_content/decks/northwind/deck.js`. Show the HTML and PPTX paths it prints.
+6. Screenshot every slide: `shelf-decks shots <the HTML path>`. Look at the contact sheet, and name one thing on one slide you would improve.
+7. Make the PDF: `shelf-decks pdf <the HTML path>`.
+8. In the report, show the contact sheet image by copying it next to the report and using a relative image link.
 
 <<RULES>>
 
@@ -23,27 +25,29 @@ Show me the shelf and recommend the one tool I should install first for my busin
 ~~~
 
 ## 12d.2 · Make a short deck in my brand, check every slide, then export it
-what: Sets your brand once (name, colours, fonts), plans five slides as a story, builds them, reviews every slide and exports a PowerPoint and a PDF.
-check: `shelf-decks brand check` shows every colour pair as ok, the review says PASS and `shelf-decks verify` lists only your brand fonts.
+what: Sets your brand once (name, colours, fonts) with a readability check, agrees five slide titles as a story, builds the deck, screenshots every slide and fixes what is crowded, then makes the PowerPoint and the PDF.
+check: Every colour pair in the brand check says ok, the contact sheet shows five clean slides, and the PPTX and PDF exist.
 ~~~
 My brand and my deck (edit these lines before you send):
 - Company: Acme Studio
-- Accent colour: #C8553D. Text colour: #1F1F1F.
+- Accent colour: #C2410C. Text colour: #1C1917. Background: #FAF7F2.
 - Heading font: Georgia. Body font: Arial.
+- How my images should look: warm documentary photography, no text in the image.
 - Deck title: How we work with new clients
 - The five points, one per slide: who we are; the three things we make; how a project runs, in four steps; what it costs to start; how to book a first call.
 
-Make this deck with the shelf decks pack.
+Make this deck with the shelf decks pack. If the pack is not set up yet, run prompt 12d.1 first.
 
 <<INSTALL>>
 
-1. Set my brand: `shelf-decks brand set name="<Company>"`, then `colours.accent=<hex>`, `colours.text=<hex>`, `fonts.heading=<font>`, `fonts.body=<font>`. Do not invent a logo; skip it if I gave none.
-2. Run `shelf-decks brand check`. Every pair must say ok. If one says TOO LOW, tell me which colour to change and stop.
-3. Start the deck: `shelf-decks new 40_content/decks/new-clients --title "<Deck title>"`.
-4. Write `deck.md`: one slide per point above, using the layouts in the pack's guide (for example `[section]`, `[bullets]`, `[two-column]`, `[closing]`). Put what I would say under `notes:`. Do not invent numbers; if a slide needs one, write "[your price]".
-5. Build and review: `shelf-decks build 40_content/decks/new-clients && shelf-decks review 40_content/decks/new-clients`. For each problem, cut words or split the slide, never shrink the type, then build and review again until it says PASS.
-6. Export and verify: `shelf-decks export 40_content/decks/new-clients --pdf && shelf-decks verify 40_content/decks/new-clients`.
-7. In the report, show the review montage image by copying it next to the report and using a relative image link.
+1. Set my brand: `shelf-decks init --name "<Company>" --accent <hex> --ink <text hex> --bg <background hex> --display "<heading font>" --body "<body font>" --image-style "<how my images look>"`. Do not invent a logo: leave it out if I gave none.
+2. Read the contrast lines it prints. Every line must say ok. If one says LOW, tell me which colour to change and stop.
+3. Start the deck: `shelf-decks new 40_content/decks/new-clients`. Run `shelf-decks builders` to see the slide layouts.
+4. Write `deck.js`: one slide per point above, in that order, with the deck title on the first. Use different builders so neighbouring slides do not look the same. Do not invent numbers: if a slide needs one, write "[your price]".
+5. Render it: `shelf-decks render 40_content/decks/new-clients/deck.js`, then screenshot every slide: `shelf-decks shots <the HTML path>`.
+6. Look at every slide at full size. If something is crowded, cut words or split the slide, never make the text smaller, then render and shoot again (a new `_v2` appears, `_v1` stays).
+7. When every slide is clean, make the PDF: `shelf-decks pdf <the latest HTML path>`.
+8. In the report, show the contact sheet image by copying it next to the report and using a relative image link.
 
 <<RULES>>
 
