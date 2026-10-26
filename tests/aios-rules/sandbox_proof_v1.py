@@ -57,7 +57,9 @@ def prepare():
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, dest)
     # Apply the shared-file changes this stream proposes, so the sandbox models the merged branch.
-    subprocess.run(['patch', '-s', '-p1', '-i', str(CHECKOUT / 'plugins/aios-rules/INTEGRATION.diff')], cwd=CHECKOUT, check=True)
+    core = subprocess.run(['git', 'show', 'origin/aios2/core:scripts/install_pack.py'], cwd=REPO, capture_output=True, text=True)
+    if core.returncode == 0:   # the core thread's generic installer, until it is merged
+        (CHECKOUT / 'scripts/install_pack.py').write_text(core.stdout)
     market = CHECKOUT / '.claude-plugin/marketplace.json'
     data = json.loads(market.read_text())
     entry = json.loads((CHECKOUT / 'plugins/aios-rules/MARKETPLACE_ENTRY.json').read_text())
@@ -133,7 +135,7 @@ def main():
     lines = ['# aios-rules sandbox install, v1', '',
              'A new member installs module 2 in a throwaway HOME. Every command below ran for real; output is unedited',
              'apart from paths: `$HOME` is `/tmp/aios2-sandbox-a-foundations` and `<checkout>` is a copy of this branch',
-             'with `INTEGRATION.diff` and `MARKETPLACE_ENTRY.json` applied (the merge this stream proposes).',
+             'with the core installer (`origin/aios2/core`) and `MARKETPLACE_ENTRY.json` applied (the merge this stream proposes).',
              'Environment: HOME, CLAUDE_CONFIG_DIR and CODEX_HOME all point into the sandbox. The business is fictional.', '',
              'Reproduce: `python3 tests/aios-rules/sandbox_proof_v1.py --out <folder> --with-claude-audit`.', '']
     for n, (note, cmd, out, code, cwd) in enumerate(LOG, 1):
