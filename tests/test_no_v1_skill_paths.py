@@ -5,8 +5,10 @@ A path such as `~/.claude/skills/<skill>/scripts/...` exists only after a 1.x `i
 scripts as "the scripts/ folder next to this SKILL.md" (and Python must use Path(__file__).resolve().parent).
 
 Rule 1 (no exceptions): no shipped file names a script, reference, template or asset under `.claude/skills/<skill>/`.
-Rule 2: no shipped file names the personal skills folder itself (`~/.claude/skills`), except the files listed in
-ALLOWED, which name it on purpose as a destination the member chooses, never as the place this pack's code lives.
+Rule 2: no shipped file names `~/.claude/skills/<name>` where <name> is a skill this repo ships under `plugins/`,
+because that is where a 1.x install put it, not a 2.0 install. Naming the personal skills folder as a destination the
+member chooses (for example `git clone <public skill> ~/.claude/skills/<their name>`) is fine. ALLOWED lists the only
+exceptions, each with its reason.
 """
 import re
 import unittest
@@ -20,27 +22,18 @@ SKIP_DIRS = {'node_modules', '__pycache__', '.git', 'results'}
 HOME_FORMS = r'(~|\$HOME|\$\{HOME\}|__HOME__)'
 SKILLS_DIR = r'/\.claude/skill' + 's'
 RULE_1 = re.compile(r'\.claude/skill' + r's/[\w.-]+/(scripts|references|templates|assets)/')
-RULE_2 = re.compile(HOME_FORMS + SKILLS_DIR + r'\b')
+RULE_2 = re.compile(HOME_FORMS + SKILLS_DIR + r'/([\w.-]+)')
 
 ALLOWED = {
-    # Core packs that teach and manage the member's personal skills folder (Claude Code's documented location).
-    'plugins/aios-harnesses/README.md': 'harness setup links shared skills into the personal skills folder',
-    'plugins/aios-harnesses/skills/harness-check/SKILL.md': 'checks the personal skills folder',
-    'plugins/aios-harnesses/skills/harness-setup/SKILL.md': 'creates links in the personal skills folder',
-    'plugins/aios-harnesses/skills/harness-setup/reference.md': 'table of each harness\'s skills folders',
-    'plugins/aios-skills/README.md': '`aios-skill new` writes a new skill there by default',
-    'plugins/aios-skills/TOUR.md': 'the tour checks the skill the member just created there',
-    'plugins/aios-skills/aios_skills/audit.py': 'the audit reads personal skills',
-    'plugins/aios-skills/aios_skills/cli.py': 'help text for the default destination',
-    'plugins/aios-skills/evals/hide-long-tail/prompt.md': 'an eval prompt in the member\'s words',
-    'plugins/aios-skills/skills/new-skill/SKILL.md': 'personal versus project destination',
-    'plugins/aios-skills/skills/skill-craft/SKILL.md': 'skillOverrides for personal skills',
-    # Design Brain's corpus is a separate zip the member unzips into their own skills folder.
-    'plugins/shelf-design-brain/README.md': 'where the member unzips the corpus',
+    # Design Brain's corpus is a separate zip the member downloads and unzips into their own skills folder, where it
+    # makes its own design-brain folder. The pack's skill points the member there on purpose.
     'plugins/shelf-design-brain/TOUR.md': 'checks the unzipped corpus',
-    'plugins/shelf-design-brain/INTEGRATION.md': 'explains where the corpus goes',
     'plugins/shelf-design-brain/skills/design-brain/SKILL.md': 'where the member unzips the corpus (1.x copy)',
 }
+
+
+def shipped_skill_names():
+    return {d.name for d in PLUGINS.glob('*/skills/*') if d.is_dir()}
 
 
 def shipped_files():
@@ -57,23 +50,27 @@ class NoFirstGenerationSkillPaths(unittest.TestCase):
                 for n, line in enumerate(text.splitlines(), 1) if RULE_1.search(line)]
         self.assertEqual(hits, [], 'name "the scripts/ folder next to this SKILL.md" instead')
 
-    def test_personal_skills_folder_only_where_allowed(self):
+    def test_no_shipped_skill_named_in_the_personal_skills_folder(self):
+        names = shipped_skill_names()
         hits = [f'{rel}:{n}' for rel, text in shipped_files() if rel not in ALLOWED
-                for n, line in enumerate(text.splitlines(), 1) if RULE_2.search(line)]
-        self.assertEqual(hits, [], 'a 2.0 install does not put this pack there')
+                for n, line in enumerate(text.splitlines(), 1)
+                for m in RULE_2.finditer(line) if m.group(2) in names]
+        self.assertEqual(hits, [], 'a 2.0 install does not put this skill there')
 
     def test_every_allowed_file_still_exists_and_still_needs_it(self):
-        texts = dict(shipped_files())
+        texts, names = dict(shipped_files()), shipped_skill_names()
         for rel in ALLOWED:
             self.assertIn(rel, texts, rel + ' is gone: drop it from ALLOWED')
-            self.assertRegex(texts[rel], RULE_2, rel + ' no longer names the folder: drop it from ALLOWED')
+            self.assertTrue(any(m.group(2) in names for m in RULE_2.finditer(texts[rel])),
+                            rel + ' no longer names a shipped skill there: drop it from ALLOWED')
 
     def test_the_scan_catches_the_old_forms(self):
-        old = '~' + SKILLS_DIR.replace('\\', '') + '/web-scrape/scripts/webscrape.py'
+        folder = SKILLS_DIR.replace('\\', '')
+        old = '~' + folder + '/web-scrape/scripts/webscrape.py'
         self.assertTrue(RULE_1.search(old))
-        self.assertTrue(RULE_2.search(old))
-        self.assertTrue(RULE_2.search('__HOME__' + SKILLS_DIR.replace('\\', '') + '/daily-brief'))
-
+        self.assertEqual(RULE_2.search(old).group(2), 'web-scrape')
+        self.assertEqual(RULE_2.search('__HOME__' + folder + '/daily-brief/x').group(2), 'daily-brief')
+        self.assertIn('web-scrape', shipped_skill_names())
 
 if __name__ == '__main__':
     unittest.main()
