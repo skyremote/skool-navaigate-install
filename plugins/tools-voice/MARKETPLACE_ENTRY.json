@@ -1,0 +1,9 @@
+{
+  "name": "tools-voice",
+  "source": "./plugins/tools-voice",
+  "version": "2.0.0",
+  "description": "Tools: your own writing voice, built from your own words and corrections, and a check for every draft.",
+  "metadata": {
+    "module": 12
+  }
+}

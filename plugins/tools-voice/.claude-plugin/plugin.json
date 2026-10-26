@@ -1,0 +1,22 @@
+{
+  "name": "tools-voice",
+  "version": "2.0.0",
+  "description": "Build a writing-voice skill from your own transcripts and corrections with the public voice-skill-builder, then check every draft against it so it sounds like you.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "writing",
+    "voice",
+    "style",
+    "de-slop",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

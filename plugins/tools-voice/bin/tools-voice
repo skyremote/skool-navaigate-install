@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+"""tools-voice: runs from the plugin cache or a linked checkout."""
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from tools_voice.cli import main
+raise SystemExit(main())
