@@ -1,0 +1,6 @@
+{
+  "name": "shelf-deep-research",
+  "source": "./plugins/shelf-deep-research",
+  "version": "2.0.0",
+  "description": "The shelf: run a multi-source research pass: scope the question, recon the sources, read them in parallel, run a critic pass, then write up with confidence labels."
+}

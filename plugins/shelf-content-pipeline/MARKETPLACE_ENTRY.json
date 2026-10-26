@@ -1,0 +1,6 @@
+{
+  "name": "shelf-content-pipeline",
+  "source": "./plugins/shelf-content-pipeline",
+  "version": "2.0.0",
+  "description": "The shelf: capture content ideas, develop each against your strategy, and schedule them with a make-by date, in one local file you can open."
+}

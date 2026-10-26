@@ -1,0 +1,22 @@
+{
+  "name": "shelf-exec-brief",
+  "version": "2.0.0",
+  "description": "Build a cream-paper A4 decision brief as one HTML file, with your own figures, ready to print to PDF.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "brief",
+    "report",
+    "html",
+    "a4",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

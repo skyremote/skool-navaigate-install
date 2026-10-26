@@ -1,0 +1,32 @@
+{
+  "name": "shelf-thumbnails",
+  "version": "2.0.0",
+  "description": "Make four on-brand video thumbnail concepts from your own photos, then add the headline as a real text layer so it is spelled correctly.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "thumbnails",
+    "youtube",
+    "images",
+    "gemini",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  },
+  "userConfig": {
+    "gemini_api_key": {
+      "type": "string",
+      "title": "Gemini API key",
+      "description": "Draws the thumbnail images (Nano Banana 2). Get one at aistudio.google.com. The skill reads GEMINI_API_KEY from ~/.claude/.env.",
+      "required": false,
+      "sensitive": true,
+      "default": ""
+    }
+  }
+}

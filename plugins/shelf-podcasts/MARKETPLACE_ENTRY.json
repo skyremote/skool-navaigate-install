@@ -1,0 +1,6 @@
+{
+  "name": "shelf-podcasts",
+  "source": "./plugins/shelf-podcasts",
+  "version": "2.0.0",
+  "description": "The shelf: find the right podcast episodes, rank a shortlist, and pull the full transcripts of the ones you pick."
+}

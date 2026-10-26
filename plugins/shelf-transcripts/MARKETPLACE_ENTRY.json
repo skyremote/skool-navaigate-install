@@ -1,0 +1,6 @@
+{
+  "name": "shelf-transcripts",
+  "source": "./plugins/shelf-transcripts",
+  "version": "2.0.0",
+  "description": "The shelf: pull the full words of a YouTube, TikTok, Instagram or X video, then extract decisions, objections and quotes from them."
+}
