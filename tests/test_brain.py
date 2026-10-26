@@ -397,7 +397,8 @@ class InstallerTests(unittest.TestCase):
             self.assertFalse((home/'.claude').exists())
             self.assertEqual(json.loads((home/'.cursor/mcp.json').read_text())['mcpServers']['other'],cursor['mcpServers']['other'])
             self.assertTrue(any(p.read_text()==toml for p in (home/'.codex').glob('config.toml.backup-*')))
-            self.assertEqual(len(list((home/'.cursor').glob('mcp.json.backup-*'))),2)
+            # 2.0 installs are idempotent: the repeat run finds nothing to change, so it writes no second backup.
+            self.assertEqual(len(list((home/'.cursor').glob('mcp.json.backup-*'))),1)
 
 
 class StartStatusTests(unittest.TestCase):

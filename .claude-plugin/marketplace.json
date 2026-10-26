@@ -18,13 +18,25 @@
       "name": "aios",
       "source": "./plugins/aios",
       "version": "2.0.0",
-      "description": "Start here. Check your harnesses and choose your next module."
+      "description": "Start here. Check your harnesses and choose your next module.",
+      "metadata": {
+        "module": 1
+      }
     },
     {
       "name": "aios-brain",
       "source": "./plugins/aios-brain",
       "version": "2.0.0",
-      "description": "Your own local memory, with optional sync to your own Turso database."
+      "description": "Your own local memory, with optional sync to your own Turso database.",
+      "metadata": {
+        "module": 5
+      }
+    },
+    {
+      "name": "aios-complete",
+      "source": "./plugins/aios-complete",
+      "version": "2.0.0",
+      "description": "The whole framework in one install: aios, the brain and every core pack for modules 2 to 11."
     }
   ]
 }

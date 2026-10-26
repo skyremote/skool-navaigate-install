@@ -1,63 +1,156 @@
 # YOUR AIOS 2.0
 
-Start with **aios**. Check what you have, follow the next module, and install one
-pack when you need it. Phase 1 includes **aios** and **aios-brain**.
+Install **one thing**: the start pack `aios`. It works straight away. It knows every
+pack in this repository (its module, dependencies, hooks, MCP servers and settings),
+installs what you need when you need it, and teaches each module inside your own
+folder, one checked step at a time.
 
 The lessons and tutorial videos for every module are in the YOUR AIOS classroom on
-Skool (members only). This repo holds the plugins, the skills and the instructions to
-install them. The first-generation (v1) bundle stays at its original `skills/`,
-`references/` and `templates/` paths, with the `skool-navaigate-install` catalogue
-entry retained. A v1 member can pull this branch without breaking their skill
-links. **V1 receives fixes-only support for six months, until 26 April 2027.**
-No member is migrated automatically. The old manifest retains its original
-0.1.0 version; “v1” describes that generation. See [ROADMAP.md](ROADMAP.md) for the twelve modules and every old skill.
+Skool (members only). This repository holds the plugins, the skills and the
+instructions to install them. Nothing else.
 
-## Claude Code: local review install
+## Install
 
-Requires Claude Code with plugin dependencies and userConfig support (verified
-with 2.1.310), plus Python 3.9+ with SQLite FTS5. From this checkout:
+### Claude Code
 
 ```sh
-claude plugin marketplace add ./
+claude plugin marketplace add skyremote/skool-navaigate-install
 claude plugin install aios@navaigate-aios
 ```
 
-Restart Claude Code and type `/aios` (or `/aios:aios` when namespaced). It asks
-whether your machine is empty, halfway or already running, checks packs across
-harnesses, and gives you the next step. The brain is optional:
+In an open session, type `/reload-plugins` (or restart). Then type `/aios`
+(or `/aios:aios` if Claude Code shows it namespaced). It asks whether your
+machine is empty, halfway or already running, and gives you one next step.
+
+Reviewing before release? GitHub still serves the old version, so add your
+local clone instead: `claude plugin marketplace add ./` from the clone.
+
+### Codex and Cursor
 
 ```sh
-claude plugin install aios-brain@navaigate-aios
-```
-
-`aios-brain` declares `aios` as its dependency. It contains `bin/`, so this pack
-is for Claude Code on your computer; claude.ai and Cowork skip it.
-
-After Daniel approves and publishes, the marketplace-add command will be
-`/plugin marketplace add skyremote/skool-navaigate-install`. That GitHub command
-still resolves to the old public version until release. Do not use it to review 2.0.
-
-## Codex and Cursor
-
-From this checkout:
-
-```sh
+git clone https://github.com/skyremote/skool-navaigate-install.git
+cd skool-navaigate-install
 ./install.sh aios
-./install.sh aios-brain
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-The installer links only the named pack's skills into `~/.codex/skills`,
-`~/.cursor/skills` and `~/.agents/skills`. Install `aios` before a dependent pack.
-It does not write Claude Code configuration. The brain command is linked to
-`~/.local/bin/brain`. Keep the checkout where it is: these are links, not copies.
+Restart Codex or Cursor, then type `/aios`. The first run records where your
+clone lives, so `/aios` can install every later pack from any folder.
+Keep the clone where it is: the installer links to it, it does not copy.
 
-For the brain it merges an `aios-brain` MCP server into `~/.codex/config.toml`
-and `~/.cursor/mcp.json`, backing up each file first. Other server entries stay.
-It refuses conflicting skills, commands, custom Codex brain tables and
-symlinked config files, preserving dotfiles links. It locks its config edits and
-re-reads both files before writing, stopping if another process changed them. Review the reported paths if it stops. Restart the
-harness to load the links and server.
+## Build it step by step
+
+`/aios` installs each pack when you reach its module, or when you ask for a
+capability ("set up my brain"). It uses the same command in every harness:
+
+```sh
+aios-guide next                     # what you have and the one next step
+aios-guide list                     # every pack and its module
+aios-guide install aios-brain       # install a pack and its dependencies, then prove it
+aios-guide verify aios-brain        # prove it again at any time
+aios-guide learn 1                  # walk a module's tour inside your folder
+```
+
+In Claude Code, `/aios` runs `claude plugin install <pack>@navaigate-aios`.
+Claude Code installs the pack's dependencies with it. Type `/reload-plugins` after.
+
+In Codex and Cursor, `/aios` runs `install.sh <pack>` from your clone. The
+installer installs dependencies first, in order, once each. It stops on a
+dependency cycle and writes nothing until every check passes. Running it twice
+changes nothing. `./install.sh <pack> --check` proves a pack is in place, and
+`./install.sh <pack> --dry-run` shows what it would change.
+
+### The whole framework in one go
+
+```sh
+claude plugin install aios-complete@navaigate-aios   # Claude Code
+./install.sh aios-complete                            # Codex and Cursor
+```
+
+`aios-complete` installs `aios`, `aios-brain` and every core pack for modules
+2 to 11. Shelf packs (module 12) stay optional.
+
+## Hooks in each harness
+
+- **Claude Code** runs a pack's hooks itself. `aios-guide verify <pack>` checks
+  they are active (`claude plugin details <pack>`).
+- **Cursor:** the installer merges a pack's hooks into `~/.cursor/hooks.json`.
+  It backs the file up first, keeps every existing entry, and never adds a hook
+  twice. It tells you about any hook that has no Cursor event.
+- **Codex:** the installer writes the same rule into `~/.codex/AGENTS.md`, in a
+  marked block. Codex does not enforce it: it is a written rule only.
+
+## What each pack touches (Codex and Cursor)
+
+- Skills: linked into `~/.codex/skills`, `~/.cursor/skills` and `~/.agents/skills`.
+- Commands in a pack's `bin/`: linked into `~/.local/bin`.
+- MCP servers: merged into `~/.codex/config.toml` and `~/.cursor/mcp.json`.
+- Hooks: as above.
+
+Every config file is backed up before a change. Other entries stay. The
+installer refuses to replace a skill or command it did not create, and it
+preserves symlinked (dotfiles) config files. It locks its config edits and
+re-reads each file before writing, stopping if another program changed it.
+Claude Code configuration is never written by `install.sh`.
+
+## The packs
+
+`plugins/aios/catalogue.json` lists every pack. It is generated:
+
+```sh
+python3 scripts/build_catalogue.py --merge-entries   # after merging a new pack
+python3 scripts/build_catalogue.py --check           # in CI: exit 1 if anything is stale
+```
+
+The generator copies each pack's `MARKETPLACE_ENTRY.json` into the marketplace,
+adds its module number, keeps `aios-complete`'s dependency list equal to the
+core packs, and fails when the catalogue and the marketplace disagree.
+See [ROADMAP.md](ROADMAP.md) for the twelve modules.
+
+## v1 members
+
+The first-generation (v1) bundle stays at its original `skills/`, `references/`
+and `templates/` paths, with the `skool-navaigate-install` marketplace entry.
+A v1 member can pull this repository without breaking their skill links.
+**V1 receives fixes-only support until 26 April 2027.** No member is moved
+automatically. `./install.sh` with no arguments still runs the v1 installer.
+
+### v1: the guided, optional move
+
+Run `/aios` to detect old skill links and review the choice. Continue v1 if you
+prefer; its paths and marketplace ID remain available until 26 April 2027.
+For a reviewed Codex/Cursor move, explicitly run:
+
+```sh
+./install.sh aios --migrate-v1
+./install.sh aios-brain
+```
+
+The first command preserves the three conflicting v1 start links under
+`~/.local/share/aios/v1-backups/` before linking the new start skill. It does not
+delete anything, touch the Claude v1 skill, or change the other v1 tools. Without
+the flag a conflict stops the installer. With no arguments, `./install.sh` still
+runs the v1 installer. Claude Code can install the new namespaced plugins beside
+the old `skool-navaigate-install` plugin.
+
+## Release (maintainers)
+
+`scripts/release_tags.sh --dry-run` lists every pack whose `plugin.json` version
+has no `<pack>--v<version>` git tag. Without `--dry-run` it creates them with
+`claude plugin tag`. Version ranges such as `^2.0` resolve against these tags.
+
+## Tests
+
+```sh
+python3 -m unittest discover -s tests
+for p in plugins/*/ ./ .claude-plugin/marketplace.json; do claude plugin validate "$p" --strict; done
+```
+
+## The brain (module 5)
+
+Requires Python 3.9+ with SQLite FTS5. Install it with
+`aios-guide install aios-brain`. `aios-brain` contains `bin/`, so it is for
+Claude Code on your computer; claude.ai and Cowork skip it.
 
 ## Your first memory
 
@@ -117,7 +210,7 @@ chmod 600 ~/.config/aios-brain/env
 Edit that file privately, putting your own values against these names:
 
 ```text
-AIOS_BRAIN_TURSO_URL=libsql://YOUR_DATABASE.turso.io
+AIOS_BRAIN_TURSO_URL=YOUR_DATABASE_URL_FROM_turso_db_show_--url
 AIOS_BRAIN_TURSO_TOKEN=YOUR_DATABASE_TOKEN
 ```
 
@@ -140,24 +233,6 @@ comparison replace CLI success markers and embedded-replica heartbeats.
 FTS indexes remain local; Turso stores session/media/digest bundles. The local index is not sent to Turso; remote catalogue pages contain only
 small metadata rows.
 
-
-## Existing v1 member: guided, optional move
-
-Run `/aios` to detect old skill links and review the choice. Continue v1 if you
-prefer; its paths and marketplace ID remain available until 26 April 2027.
-For a reviewed Codex/Cursor move, explicitly run:
-
-```sh
-./install.sh aios --migrate-v1
-./install.sh aios-brain
-```
-
-The first command preserves the three conflicting v1 start links under
-`~/.local/share/aios/v1-backups/` before linking the new start skill. It does not
-delete anything, touch the Claude v1 skill, or change the other v1 tools. Without
-the flag a conflict stops the installer. With no arguments, `./install.sh` still
-runs the v1 installer. Claude Code can install the new namespaced plugins beside
-the old `skool-navaigate-install` plugin.
 
 ## Credential handling and clearing failures
 

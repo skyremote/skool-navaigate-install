@@ -1,0 +1,13 @@
+{
+  "name": "aios-complete",
+  "version": "2.0.0",
+  "description": "The whole AIOS framework in one install: the start pack, the brain and every core pack for modules 2 to 11. Shelf packs stay optional.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "dependencies": [
+    "aios",
+    "aios-brain"
+  ]
+}

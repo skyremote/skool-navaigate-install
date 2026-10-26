@@ -1,9 +1,9 @@
 {
   "name": "aios",
   "version": "2.0.0",
-  "description": "Start your AIOS: check your machine, follow twelve modules, install one pack at a time.",
+  "description": "Start your AIOS: one install that knows every pack, installs what you need with its dependencies, and teaches each module in your own folder.",
   "author": {
-    "name": "NavAIgate"
+    "name": "skyremote"
   },
   "license": "MIT"
 }
