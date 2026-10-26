@@ -10,7 +10,7 @@ Set up the invoices pack from the shelf and practise on sample books. These are 
 
 <<INSTALL>>
 
-1. Check the command: `shelf-invoices --version` should print `shelf-invoices 2.0.1` or later.
+1. Check the command: `shelf-invoices --version` should print `shelf-invoices 2.0.1` or later. If it prints an older version, update the pack (this also changes Claude's plugin folder, and I allow it): `claude plugin marketplace update navaigate-aios`, then `claude plugin update shelf-invoices@navaigate-aios`, and check again.
 2. Check the tools: `python3 -c "import lxml; print('ok')"` and `soffice --version`. If lxml is missing, install it with `python3 -m pip install --user lxml` and check again. If LibreOffice is missing, tell me to install it from libreoffice.org: until then only the Word file is made.
 3. Make the practice books in this folder: `shelf-invoices sample 30_finance/invoices-practice`. Then `shelf-invoices next-number --books 30_finance/invoices-practice` should print `ACME-002`.
 4. Make the practice invoice from the example: `shelf-invoices make 30_finance/invoices-practice/examples/contoso-workshop.json --books 30_finance/invoices-practice`. Show the number, the total, the file paths and the checks line.
@@ -34,7 +34,7 @@ My company details (edit these lines before you send; leave a line empty if you 
 - Currency: GBP
 - Bank IBAN:
 
-Set up my own invoice books with the shelf invoices pack. If the pack is not set up yet, run prompt 12i.1 first.
+Set up my own invoice books with the shelf invoices pack, version 2.0.1 or later. If the pack is not set up yet, or `shelf-invoices --version` is older, run prompt 12i.1 first.
 
 <<INSTALL>>
 
