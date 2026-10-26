@@ -134,8 +134,8 @@
     {
       "name": "shelf-decks",
       "source": "./plugins/shelf-decks",
-      "version": "2.0.0",
-      "description": "The shelf: a deck in your own brand. HTML first, every slide reviewed, then an editable PowerPoint and a PDF.",
+      "version": "2.0.1",
+      "description": "The shelf: decks in your own brand. One spec renders an animated HTML deck to review, a matching editable PowerPoint and a PDF.",
       "metadata": {
         "module": 12
       }
