@@ -26,8 +26,8 @@ aios-guide progress --complete 1
 
 ## Install
 Claude Code: `claude plugin install aios@navaigate-aios`, then `/reload-plugins`.
-Codex and Cursor: `./install.sh aios` from your clone. That links `/aios` into each
-harness, links `aios-guide` into `~/.local/bin`, and records the clone's path so later
+Codex and Cursor: `./install.sh aios` from your clone. That links the `aios` skill into each
+harness (call it with `$aios` in Codex and `/aios` in Cursor), links `aios-guide` into `~/.local/bin`, and records the clone's path so later
 installs work from any folder.
 
 ## Files

@@ -34,8 +34,9 @@ cd skool-navaigate-install
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-Restart Codex or Cursor, then type `/aios`. The first run records where your
-clone lives, so `/aios` can install every later pack from any folder.
+Restart Codex or Cursor. In Cursor, type `/aios` in the Agent chat. In Codex, type
+`$aios` (Codex calls a skill by name with `$`), or ask "use the aios skill". The first
+run records where your clone lives, so the skill can install every later pack from any folder.
 Keep the clone where it is: the installer links to it, it does not copy.
 
 ## Build it step by step
@@ -54,7 +55,7 @@ aios-guide learn 1                  # walk a module's tour inside your folder
 In Claude Code, `/aios` runs `claude plugin install <pack>@navaigate-aios`.
 Claude Code installs the pack's dependencies with it. Type `/reload-plugins` after.
 
-In Codex and Cursor, `/aios` runs `install.sh <pack>` from your clone. The
+In Codex (`$aios`) and Cursor (`/aios`), the skill runs `install.sh <pack>` from your clone. The
 installer installs dependencies first, in order, once each. It stops on a
 dependency cycle and writes nothing until every check passes. Running it twice
 changes nothing. `./install.sh <pack> --check` proves a pack is in place, and
