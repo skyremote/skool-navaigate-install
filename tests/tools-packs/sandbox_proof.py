@@ -51,6 +51,8 @@ def environment(home):
     for key in list(env):
         if key.startswith('CLAUDE_PLUGIN_') or key in ('CURSOR_CONFIG_DIR', 'AIOS_CONFIG_DIR') or key.endswith('_API_KEY'):
             env.pop(key, None)
+    # Tools that find their sign-in through the account's home folder, not $HOME, get the member's folder too.
+    env['NOTEBOOKLM_HOME'] = str(home / '.notebooklm')
     env['PATH'] = ':'.join([str(home / '.local/bin'), env['PATH']])
     return env
 

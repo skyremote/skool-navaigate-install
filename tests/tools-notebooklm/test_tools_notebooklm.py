@@ -49,6 +49,15 @@ class Plan(unittest.TestCase):
         self.assertEqual([len(b) for b in plan.batches(rows)], [50, 50, 20])
 
 
+class SignIn(unittest.TestCase):
+    def test_reads_json_status_not_exit_code(self):
+        from tools_notebooklm import cli
+        self.assertTrue(cli.signed_in_status('{"status": "ok", "checks": {}}'))
+        self.assertFalse(cli.signed_in_status('{"status": "error", "checks": {"storage_exists": false}}'))
+        self.assertFalse(cli.signed_in_status('Error: Storage file not found'))
+        self.assertFalse(cli.signed_in_status('[]'))
+
+
 class Cli(unittest.TestCase):
     def test_commands(self):
         with tempfile.TemporaryDirectory() as tmp:

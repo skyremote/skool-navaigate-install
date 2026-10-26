@@ -1,5 +1,6 @@
 """tools-notebooklm: turn your own files into NotebookLM notebooks, audio overviews, quizzes and study guides, with the public notebooklm-py CLI."""
 import argparse
+import json
 import shutil
 import subprocess
 import sys
@@ -17,9 +18,17 @@ def doctor(_args):
         print('notebooklm-py: not installed. ' + INSTALL)
         print('It is an unofficial client for your own Google account; Google can change NotebookLM at any time.')
         return 2
-    check = subprocess.run([cli, 'auth', 'check'], capture_output=True, text=True, timeout=60)
-    print('notebooklm-py: installed, ' + ('signed in' if check.returncode == 0 else 'not signed in. Run: notebooklm login'))
-    return 0 if check.returncode == 0 else 2
+    signed_in = signed_in_status(subprocess.run([cli, 'auth', 'check', '--json'], capture_output=True, text=True, timeout=60).stdout)
+    print('notebooklm-py: installed, ' + ('signed in' if signed_in else 'not signed in. Run: notebooklm login'))
+    return 0 if signed_in else 2
+
+
+def signed_in_status(output):
+    """notebooklm auth check exits 0 even when the sign-in is missing, so read its JSON status instead."""
+    try:
+        return json.loads(output).get('status') == 'ok'
+    except (ValueError, AttributeError):
+        return False
 
 
 def do_plan(args):
