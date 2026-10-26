@@ -46,6 +46,8 @@ Do one step at a time. Show the real output, then ask the member to confirm befo
 
 - Do: `claude plugin eval <name> --runs 1`
 - Expect: a score with the pack, a score without it, and the difference.
+- If both columns score the same, the cases are too easy: Claude manages without the skill. Add a grader that
+  checks something only the skill knows (a rate, a house rule, a file it writes), then run it again.
 - If the `skill-fired` result is false in every case and the pack lists `dependencies`, evaluate a copy without
   `dependencies`: the eval cannot load a pack whose dependency it cannot find.
 
@@ -61,6 +63,8 @@ Do one step at a time. Show the real output, then ask the member to confirm befo
 
 ## Step 7: install it as a stranger would
 
+- If `CLAUDE_CONFIG_DIR` is set in this terminal (a second login from module 10), run `unset CLAUDE_CONFIG_DIR` first,
+  or the install goes into that folder instead of the empty one.
 - Do:
   ```
   mkdir /tmp/new-member

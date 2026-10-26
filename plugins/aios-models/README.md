@@ -4,21 +4,11 @@ Module 10 of YOUR AIOS 2.0: models, effort and cost. Depends on `aios`. Needs Py
 
 ## Install
 
-Claude Code:
+Install the start plugin `aios` first (module 1). Then:
 
-```
-/plugin marketplace add skyremote/skool-navaigate-install
-/plugin install aios-models@navaigate-aios
-```
-
-Codex and Cursor, from your checkout of this repository:
-
-```
-./install.sh aios
-./install.sh aios-models
-```
-
-Then restart the harness. Codex and Cursor find the check at `~/.local/bin/models-check`.
+- Claude Code: type `/aios install the aios-models pack`, or run `claude plugin install aios-models@navaigate-aios`. Then `/reload-plugins`.
+- Codex and Cursor, from your checkout of this repository: `./install.sh aios-models`, then restart the harness.
+  Codex and Cursor find `models-check` in `~/.local/bin`.
 
 ## What is inside
 

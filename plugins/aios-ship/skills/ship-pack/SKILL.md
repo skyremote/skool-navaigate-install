@@ -27,6 +27,8 @@ Work through them with the member:
 1. `skills/<skill>/SKILL.md`: description first (one or two sentences with the words a member would type), then steps.
 2. Three eval cases in `evals/`: `happy-path`, `edge-case` and `must-refuse`. Write each prompt the way a member
    would type it, and set each `graders/result.md` pattern to a word or command the right answer must contain.
+   Prefer something only the skill knows (a rate, a house rule, a file name it writes): if Claude can pass the case
+   without the skill, the eval shows a zero difference and proves nothing.
 3. `README.md`: the member's GitHub name, repository and marketplace name.
 4. Secrets: if the skill needs a key, add it to `userConfig` in plugin.json with `"sensitive": true`. Never in a file.
 

@@ -4,21 +4,11 @@ Module 11 of YOUR AIOS 2.0: ship it to others. Depends on `aios`. Needs Python 3
 
 ## Install
 
-Claude Code:
+Install the start plugin `aios` first (module 1). Then:
 
-```
-/plugin marketplace add skyremote/skool-navaigate-install
-/plugin install aios-ship@navaigate-aios
-```
-
-Codex and Cursor, from your checkout of this repository:
-
-```
-./install.sh aios
-./install.sh aios-ship
-```
-
-Then restart the harness. Codex and Cursor find the tool at `~/.local/bin/ship-pack`.
+- Claude Code: type `/aios install the aios-ship pack`, or run `claude plugin install aios-ship@navaigate-aios`. Then `/reload-plugins`.
+- Codex and Cursor, from your checkout of this repository: `./install.sh aios-ship`, then restart the harness.
+  Codex and Cursor find `ship-pack` in `~/.local/bin`.
 
 ## What is inside
 

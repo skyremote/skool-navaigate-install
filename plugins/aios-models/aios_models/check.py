@@ -58,9 +58,9 @@ def run(cmd, env=None, timeout=15):
 
 def claude_settings(config_dir, project):
     """Merge the keys we report from user, project and local settings, highest last."""
-    files = [('user', config_dir / 'settings.json'),
-             ('project', project / '.claude/settings.json'),
-             ('local', project / '.claude/settings.local.json')]
+    files = [('user', config_dir / 'settings.json')]
+    if (project / '.claude').resolve() != config_dir.resolve():   # in the home folder, ~/.claude is the user file, not a project
+        files += [('project', project / '.claude/settings.json'), ('local', project / '.claude/settings.local.json')]
     merged, sources = {}, {}
     for scope, path in files:
         data = read_json(path)

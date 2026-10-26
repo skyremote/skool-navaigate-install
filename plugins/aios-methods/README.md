@@ -4,21 +4,11 @@ Module 9 of YOUR AIOS 2.0: working methods. Depends on `aios`. Needs git and Pyt
 
 ## Install
 
-Claude Code:
+Install the start plugin `aios` first (module 1). Then:
 
-```
-/plugin marketplace add skyremote/skool-navaigate-install
-/plugin install aios-methods@navaigate-aios
-```
-
-Codex and Cursor, from your checkout of this repository:
-
-```
-./install.sh aios
-./install.sh aios-methods
-```
-
-Then restart the harness. Codex and Cursor find the helper at `~/.local/bin/aios-methods`.
+- Claude Code: type `/aios install the aios-methods pack`, or run `claude plugin install aios-methods@navaigate-aios`. Then `/reload-plugins`.
+- Codex and Cursor, from your checkout of this repository: `./install.sh aios-methods`, then restart the harness.
+  Codex and Cursor find `aios-methods` in `~/.local/bin`.
 
 ## What is inside
 

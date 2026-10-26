@@ -83,6 +83,12 @@ class ModelsCheck(unittest.TestCase):
         self.settings({'model': 'haiku'}, 'local')
         self.assertIn('model    haiku   <- local', self.run_check().stdout)
 
+    def test_home_folder_is_not_a_project(self):
+        self.settings({'model': 'sonnet'})
+        result = subprocess.run([sys.executable, str(TOOL), '--project', str(self.home)], text=True, capture_output=True,
+                                env={'HOME': str(self.home), 'PATH': str(self.bin) + ':/usr/bin:/bin'})
+        self.assertIn('model    sonnet   <- user', result.stdout)
+
     def test_env_overrides_and_routing_warnings(self):
         self.settings({'model': 'sonnet'})
         result = self.run_check(env={'ANTHROPIC_MODEL': 'opus', 'CLAUDE_CODE_EFFORT_LEVEL': 'high',
