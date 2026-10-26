@@ -1,0 +1,110 @@
+{
+  "aggregates": {
+    "casesTotal": 3,
+    "casesPassed": 2,
+    "overallScore": 0.9166666666666666,
+    "overallPassRate": 0.6666666666666666,
+    "meanDelta": 0.6666666666666666
+  },
+  "claudeVersion": "2.1.310",
+  "costUsd": 0.568094,
+  "cases": [
+    {
+      "name": "fresh-setup",
+      "aggregates": {
+        "score": 1,
+        "passRate": 1,
+        "scoreWithout": 0.25,
+        "passRateWithout": 0,
+        "delta": 0.75
+      },
+      "with_graders": [
+        {
+          "name": "bridge",
+          "passed": true
+        },
+        {
+          "name": "check",
+          "passed": true
+        },
+        {
+          "name": "init",
+          "passed": true
+        },
+        {
+          "name": "scoped",
+          "passed": true
+        },
+        {
+          "name": "skill-fired",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "halfway-move",
+      "aggregates": {
+        "score": 1,
+        "passRate": 1,
+        "scoreWithout": 0.5,
+        "passRateWithout": 0,
+        "delta": 0.5
+      },
+      "with_graders": [
+        {
+          "name": "agents",
+          "passed": true
+        },
+        {
+          "name": "check",
+          "passed": true
+        },
+        {
+          "name": "limit",
+          "passed": true
+        },
+        {
+          "name": "scoped",
+          "passed": true
+        },
+        {
+          "name": "skill-fired",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "monthly-audit",
+      "aggregates": {
+        "score": 0.75,
+        "passRate": 0,
+        "scoreWithout": 0,
+        "passRateWithout": 0,
+        "delta": 0.75
+      },
+      "with_graders": [
+        {
+          "name": "dated-file",
+          "passed": true
+        },
+        {
+          "name": "no-edit",
+          "passed": false
+        },
+        {
+          "name": "prompt-audit",
+          "passed": true
+        },
+        {
+          "name": "skill-doctor",
+          "passed": true
+        },
+        {
+          "name": "skill-fired",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "plugin_loaded": true
+}
