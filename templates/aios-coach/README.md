@@ -22,8 +22,9 @@ npx vercel dev
 
 ## Knowledge
 
-`knowledge/your-aios.json` is the twenty-six authored lessons plus the
-community skill fronts. That is the scrape of this classroom.
+`knowledge/your-aios.json` holds the titles and Skool links of the twenty-six
+lessons, plus the community skill fronts. The lesson text lives on Skool only, so
+add your own notes in `extra/` if you want the coach to answer from more.
 
 Do not scrape live Skool pages. If you want more, drop markdown in
 `knowledge/extra/` or list URLs in `knowledge/extra-urls.txt`, pull them

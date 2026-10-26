@@ -42,8 +42,9 @@ turso-search, nav-voiceover, KG invoices, Qonto, skool-cli, Autodesk, or
 SkyRyd decks.
 
 If they asked a question about the course (not just "what next"), read
-`references/your-aios.json` in this skill — that is the twenty-six lessons
-and the skill fronts. Answer from it. Name the command. Then offer
+`references/your-aios.json` in this skill — that is the twenty-six lesson
+titles with their Skool links, and the skill fronts. Answer from the skill fronts,
+and send them to the lesson's Skool link for the full lesson. Name the command. Then offer
 `/aios-coach` if they want the same pack in a tab they put online.
 
 ## Question 1 — where is the machine
