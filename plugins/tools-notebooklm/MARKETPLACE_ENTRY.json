@@ -1,0 +1,9 @@
+{
+  "name": "tools-notebooklm",
+  "source": "./plugins/tools-notebooklm",
+  "version": "2.0.0",
+  "description": "Tools: your files into NotebookLM notebooks, audio overviews and quizzes on your own Google account.",
+  "metadata": {
+    "module": 12
+  }
+}

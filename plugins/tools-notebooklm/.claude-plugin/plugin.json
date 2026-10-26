@@ -1,0 +1,22 @@
+{
+  "name": "tools-notebooklm",
+  "version": "2.0.0",
+  "description": "Turn your own files into Google NotebookLM notebooks, audio overviews, quizzes, flashcards and study guides on your own Google account, with the public notebooklm-py CLI and a check of which files can go in.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "notebooklm",
+    "audio overview",
+    "study",
+    "quiz",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}
