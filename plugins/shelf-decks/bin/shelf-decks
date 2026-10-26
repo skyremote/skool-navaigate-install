@@ -94,7 +94,7 @@ function cmdSetup() {
   console.log(`Installing ${Object.keys(DEPS).join(", ")} into ${dir} (no browser download; it uses your Chrome)...`);
   const npm = process.platform === "win32" ? "npm.cmd" : "npm";
   const r = spawnSync(npm, ["install", "--no-audit", "--no-fund", "--omit=dev", "--prefix", dir, ...Object.entries(DEPS).map(([k, v]) => `${k}@${v}`)],
-    { stdio: "inherit", env: Object.assign({}, process.env, { PUPPETEER_SKIP_DOWNLOAD: "1" }) });
+    { stdio: "inherit", env: Object.assign({}, process.env, { PUPPETEER_SKIP_DOWNLOAD: "1", npm_config_update_notifier: "false" }) });
   if (r.error) { console.error(`Could not run npm: ${r.error.message}. Install Node.js (it includes npm) from https://nodejs.org/`); return 1; }
   if (r.status !== 0) return r.status;
   console.log("Done. Next: shelf-decks check");
