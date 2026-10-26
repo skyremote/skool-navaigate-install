@@ -44,7 +44,7 @@ def generate(conn: sqlite3.Connection) -> str:
     add()
     add(f"> Auto-generated from database. Last updated: {today}")
     add(
-        "> Source: `data/content.db` | Regenerate: `python3 ~/.claude/skills/content-pipeline/scripts/generate_pipeline.py`"
+        f"> Source: `data/content.db` | Regenerate: `python3 {Path(__file__).resolve()}`"
     )
     add()
 
@@ -138,7 +138,7 @@ def generate(conn: sqlite3.Connection) -> str:
 def main():
     if not DB_PATH.exists():
         print(f"Database not found at {DB_PATH}")
-        print("Run 'python3 ~/.claude/skills/content-pipeline/scripts/db.py' first to initialise.")
+        print(f"Run 'python3 {Path(__file__).resolve().parent / 'db.py'}' first to initialise.")
         return
 
     conn = sqlite3.connect(str(DB_PATH))

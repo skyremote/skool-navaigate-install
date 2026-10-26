@@ -19,9 +19,10 @@ look — not Daniel's face, not a Canva midnight job.
 2. Their brand rules if they have them (colours, type, what they will never
    publish). If they do not, ask three questions and write a one-page rule
    file in this project.
-3. A Gemini key in `~/.claude/.env` as `GEMINI_API_KEY` (Nano Banana 2 /
-   `gemini-3.1-flash-image`). If the key is missing, tell them exactly
-   where to put it.
+3. A Gemini key in `~/.claude/.env` as `GEMINI_API_KEY`. Model: Nano
+   Banana 2.1, `gemini-nano-banana-2.1` (Google's recommended image model
+   in the Gemini API docs, checked 26 October 2026; not yet tested with
+   this skill). If the key is missing, tell them exactly where to put it.
 
 Do not use Daniel's reference photo. Do not install `social-trio`.
 

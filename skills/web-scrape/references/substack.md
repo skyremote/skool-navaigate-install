@@ -17,7 +17,7 @@ credible voices on X and what's their actual argument", weaker for breaking news
 ## CLI
 
 ```bash
-SS=~/.claude/skills/web-scraping/scripts/sources/substack.py
+SS="<the scripts/ folder next to the web-scrape SKILL.md>/sources/substack.py"
 
 # Discover posts on a topic (Exa semantic, Firecrawl fallback)
 python3 $SS search "AI agents in production" --limit 10

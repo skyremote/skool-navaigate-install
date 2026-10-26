@@ -5,6 +5,7 @@ it, which offer it feeds, and the packaging. Two stops for confirmation.
 Never blast through.
 
 All commands run from their project folder.
+`$S` below is the `scripts/` folder next to this SKILL.md. Set it once: `export S="<that folder>"`.
 
 ## Load
 
@@ -17,7 +18,7 @@ All commands run from their project folder.
    - `content/packaging-strategy.md` if they wrote one (their own titles-and-thumbnails notes)
 3. The last seven days:
    ```bash
-   python3 ~/.claude/skills/content-pipeline/scripts/context_aggregator.py --full
+   python3 "$S/context_aggregator.py" --full
    ```
    That is what they published, what meetings said, what is already
    queued. Use it: "you posted about X on Tuesday, so this one should
@@ -60,7 +61,7 @@ the context window, production effort, whether it is already covered.
 
 ```bash
 python3 - <<'EOF'
-import sys, os, json; sys.path.insert(0, os.path.expanduser("~/.claude/skills/content-pipeline/scripts"))
+import sys, os, json; sys.path.insert(0, os.environ["S"])
 from db import get_connection
 from writer import write_developed_idea
 idea = {
@@ -96,7 +97,7 @@ EOF
 Then write `content/concepts/{id}-{slug}.md` with the whole concept, and:
 
 ```bash
-python3 ~/.claude/skills/content-pipeline/scripts/generate_pipeline.py
+python3 "$S/generate_pipeline.py"
 ```
 
 Report: concept number, the doc path, title or hook, channel, format,

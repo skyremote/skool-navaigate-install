@@ -7,11 +7,11 @@ outputs/daily-brief/ in their project.
 
 Run it from the project folder (or set AIOS_WORKSPACE):
 
-    python3 ~/.claude/skills/daily-brief/scripts/daily_brief.py --test        # print, save nothing
-    python3 ~/.claude/skills/daily-brief/scripts/daily_brief.py               # yesterday, saved
-    python3 ~/.claude/skills/daily-brief/scripts/daily_brief.py --date 2026-08-28
-    python3 ~/.claude/skills/daily-brief/scripts/daily_brief.py --preset solo
-    python3 ~/.claude/skills/daily-brief/scripts/daily_brief.py --model gpt-5.4-mini
+    python3 <scripts folder next to SKILL.md>/daily_brief.py --test        # print, save nothing
+    python3 <scripts folder next to SKILL.md>/daily_brief.py               # yesterday, saved
+    python3 <scripts folder next to SKILL.md>/daily_brief.py --date 2026-08-28
+    python3 <scripts folder next to SKILL.md>/daily_brief.py --preset solo
+    python3 <scripts folder next to SKILL.md>/daily_brief.py --model gpt-5.4-mini
 """
 
 from __future__ import annotations

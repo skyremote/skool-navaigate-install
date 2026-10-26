@@ -41,7 +41,7 @@ body:    {"user_id": "daniel", "arguments": { ... }}
 ## CLI (unchanged)
 
 ```bash
-S=~/.claude/skills/web-scraping/scripts/sources/reddit.py
+S="<the scripts/ folder next to the web-scrape SKILL.md>/sources/reddit.py"
 
 # Search r/all or one subreddit
 python3 $S search "RAG evaluation pipeline" --subreddit MachineLearning --time year --limit 15

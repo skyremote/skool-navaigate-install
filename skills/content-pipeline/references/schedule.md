@@ -4,6 +4,7 @@ Pick developed ideas, give them dates, work out when each has to be made.
 Optional push to Notion. They pick; nothing is scheduled on their behalf.
 
 All commands run from their project folder.
+`$S` below is the `scripts/` folder next to this SKILL.md. Set it once: `export S="<that folder>"`.
 
 ## Load
 
@@ -11,7 +12,7 @@ All commands run from their project folder.
 2. The pipeline:
    ```bash
    python3 - <<'EOF'
-   import sys, os; sys.path.insert(0, os.path.expanduser("~/.claude/skills/content-pipeline/scripts"))
+   import sys, os; sys.path.insert(0, os.environ["S"])
    from db import get_connection
    conn = get_connection()
    developed = conn.execute("""
@@ -58,7 +59,7 @@ publish, title, channel, format. Ask: "Does this work?" Wait.
 
 ```bash
 python3 - <<'EOF'
-import sys, os; sys.path.insert(0, os.path.expanduser("~/.claude/skills/content-pipeline/scripts"))
+import sys, os; sys.path.insert(0, os.environ["S"])
 from db import get_connection
 from writer import update_status
 conn = get_connection()
@@ -72,7 +73,7 @@ Notion, only if `NOTION_API_TOKEN` is set and they say yes:
 
 ```bash
 python3 - <<'EOF'
-import sys, os; sys.path.insert(0, os.path.expanduser("~/.claude/skills/content-pipeline/scripts"))
+import sys, os; sys.path.insert(0, os.environ["S"])
 from db import get_connection
 from notion_sync import push_idea_to_notion
 conn = get_connection()
@@ -87,7 +88,7 @@ conn.close()
 EOF
 ```
 
-Then `python3 ~/.claude/skills/content-pipeline/scripts/generate_pipeline.py`
+Then `python3 "$S/generate_pipeline.py"`
 and report: how many scheduled, the next make-by date and what it is.
 
 ## `schedule review`
