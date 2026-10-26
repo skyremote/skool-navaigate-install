@@ -114,10 +114,64 @@
       }
     },
     {
+      "name": "shelf-content-pipeline",
+      "source": "./plugins/shelf-content-pipeline",
+      "version": "2.0.0",
+      "description": "The shelf: capture content ideas, develop each against your strategy, and schedule them with a make-by date, in one local file you can open.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-daily-brief",
+      "source": "./plugins/shelf-daily-brief",
+      "version": "2.0.0",
+      "description": "The shelf: a morning brief you will actually read: your numbers, yesterday's meetings and Slack, and what needs attention, written by one model call and saved to your project.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
       "name": "shelf-decks",
       "source": "./plugins/shelf-decks",
+      "version": "2.0.1",
+      "description": "The shelf: decks in your own brand. One spec renders an animated HTML deck to review, a matching editable PowerPoint and a PDF.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-deep-research",
+      "source": "./plugins/shelf-deep-research",
       "version": "2.0.0",
-      "description": "The shelf: a deck in your own brand. HTML first, every slide reviewed, then an editable PowerPoint and a PDF.",
+      "description": "The shelf: run a multi-source research pass: scope the question, recon the sources, read them in parallel, run a critic pass, then write up with confidence labels.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-design-brain",
+      "source": "./plugins/shelf-design-brain",
+      "version": "2.0.0",
+      "description": "The shelf: query 1,119 sourced design fundamentals and get design critiques that cite the entry number and the named source.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-diagrams",
+      "source": "./plugins/shelf-diagrams",
+      "version": "2.0.0",
+      "description": "The shelf: describe a system in plain English and get a clean architecture, pipeline or funnel diagram drawn with D2 and checked by eye.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-exec-brief",
+      "source": "./plugins/shelf-exec-brief",
+      "version": "2.0.0",
+      "description": "The shelf: build a cream-paper A4 decision brief as one HTML file, with your own figures, ready to print to PDF.",
       "metadata": {
         "module": 12
       }
@@ -125,8 +179,35 @@
     {
       "name": "shelf-invoices",
       "source": "./plugins/shelf-invoices",
+      "version": "2.0.1",
+      "description": "The shelf: the invoice NavAIgate sends, in our house design, from your own company settings. Numbered, checked as a PDF, filed.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-podcasts",
+      "source": "./plugins/shelf-podcasts",
       "version": "2.0.0",
-      "description": "The shelf: invoices and credit notes as PDF from your own company details, numbered, filed and verified.",
+      "description": "The shelf: find the right podcast episodes, rank a shortlist, and pull the full transcripts of the ones you pick.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-thumbnails",
+      "source": "./plugins/shelf-thumbnails",
+      "version": "2.0.0",
+      "description": "The shelf: make four on-brand video thumbnail concepts from your own photos, then add the headline as a real text layer so it is spelled correctly.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-transcripts",
+      "source": "./plugins/shelf-transcripts",
+      "version": "2.0.0",
+      "description": "The shelf: pull the full words of a YouTube, TikTok, Instagram or X video, then extract decisions, objections and quotes from them.",
       "metadata": {
         "module": 12
       }
@@ -136,6 +217,24 @@
       "source": "./plugins/shelf-video",
       "version": "2.0.0",
       "description": "The shelf: edit a talking-head recording locally. Whisper transcript, filler words out, captions in, MP4 out.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-web-scrape",
+      "source": "./plugins/shelf-web-scrape",
+      "version": "2.0.0",
+      "description": "The shelf: search the web by meaning and read any page, including JavaScript-heavy ones, with your own Exa and Firecrawl keys.",
+      "metadata": {
+        "module": 12
+      }
+    },
+    {
+      "name": "shelf-writing-style",
+      "source": "./plugins/shelf-writing-style",
+      "version": "2.0.0",
+      "description": "The shelf: scrub AI slop out of a draft before you ship it: banned words, em dashes, wind-ups and model tells, keeping your names, numbers and claims.",
       "metadata": {
         "module": 12
       }

@@ -1,7 +1,272 @@
-#!/usr/bin/env python3
-"""shelf-decks: build a deck in your own brand. Runs from a plugin cache or a linked checkout."""
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from shelf_decks.cli import main
-raise SystemExit(main())
+#!/usr/bin/env node
+/* shelf-decks: one deck spec -> an animated HTML deck to review, a matching
+   editable PowerPoint, and a PDF, in your own brand.
+
+   shelf-decks check                      what is installed, what is missing
+   shelf-decks setup                      install the three Node packages (once)
+   shelf-decks init [--name ... ]         write or update your brand.json
+   shelf-decks brand                      show your brand and its contrast check
+   shelf-decks sample [folder]            copy the Northwind Bakery practice deck
+   shelf-decks new <folder>               start a deck in your brand from the sample spec
+   shelf-decks render <deck.js> [--pdf]   HTML + PPTX (new _vN each time; never overwrites)
+   shelf-decks shots <deck.html>          one PNG per slide + a contact sheet, for review
+   shelf-decks pdf <deck.html>            the PDF, from the HTML
+   shelf-decks builders                   the slide builders and when to use each */
+
+const fs = require("fs");
+const os = require("os");
+const path = require("path");
+const { spawnSync } = require("child_process");
+
+const ROOT = path.resolve(__dirname, "..");
+const VERSION = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8")).version;
+const DEPS = { "pptxgenjs": "^4.0.1", "puppeteer-core": "^24.0.0", "pdf-lib": "^1.17.1" };
+
+if (Number(process.versions.node.split(".")[0]) < 18) {
+  console.error(`shelf-decks needs Node 18 or newer (this is ${process.version}). Install it from https://nodejs.org/`);
+  process.exit(1);
+}
+
+// The Node packages live in the pack's own node_modules (a checkout) or in a
+// data folder that survives plugin updates (installed by `shelf-decks setup`).
+function dataDir() {
+  if (process.env.SHELF_DECKS_DATA) return path.resolve(process.env.SHELF_DECKS_DATA);
+  if (process.env.CLAUDE_PLUGIN_DATA) return path.resolve(process.env.CLAUDE_PLUGIN_DATA);
+  const xdg = process.env.XDG_DATA_HOME || path.join(os.homedir(), ".local", "share");
+  return path.join(xdg, "shelf-decks");
+}
+{
+  const extra = [path.join(ROOT, "node_modules"), path.join(dataDir(), "node_modules")];
+  process.env.NODE_PATH = [...extra, process.env.NODE_PATH].filter(Boolean).join(path.delimiter);
+  require("module").Module._initPaths();
+}
+
+const brandLib = require(path.join(ROOT, "engine", "brand.js"));
+
+function has(mod) { try { require.resolve(mod); return true; } catch (e) { return false; } }
+function needDeps(mods) {
+  const missing = mods.filter(m => !has(m));
+  if (missing.length) {
+    console.error(`Missing Node packages: ${missing.join(", ")}. Run: shelf-decks setup`);
+    process.exit(1);
+  }
+}
+function flags(args) {
+  const f = { _: [] };
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a.startsWith("--")) {
+      const k = a.slice(2);
+      if (i + 1 < args.length && !args[i + 1].startsWith("--") && !["pdf", "html-only", "pptx-only", "no-bake", "here", "jpeg"].includes(k)) f[k] = args[++i];
+      else f[k] = true;
+    } else f._.push(a);
+  }
+  return f;
+}
+const rel = (p) => { const r = path.relative(process.cwd(), p); return r && !r.startsWith("..") ? r : p; };
+
+/* ------------------------------------------------------------ commands -- */
+
+function cmdCheck() {
+  let ok = true;
+  const line = (good, text, fix) => { console.log(`${good ? "ok  " : "MISSING"}  ${text}${!good && fix ? `\n         fix: ${fix}` : ""}`); if (!good) ok = false; };
+  line(true, `node ${process.version}`);
+  for (const m of Object.keys(DEPS)) line(has(m), `node package ${m}`, "shelf-decks setup");
+  const chrome = require(path.join(ROOT, "engine", "capture.js")).findChrome();
+  line(!!chrome, chrome ? `browser for screenshots and PDF: ${chrome}` : "a Chrome, Edge, Brave or Chromium browser (for screenshots and the PDF)",
+    "install Google Chrome, or run: npx playwright install chromium, or set CHROME_PATH");
+  const brand = brandLib.findBrand(process.cwd());
+  if (brand) {
+    try { brandLib.loadBrand(brand); console.log(`ok    your brand: ${brand}`); }
+    catch (e) { line(false, `your brand: ${e.message}`, "shelf-decks init (or fix the file)"); }
+  } else {
+    console.log(`note  no brand.json yet; decks use the neutral editorial-light look. To add yours: shelf-decks init`);
+  }
+  console.log(ok ? "\nReady." : "\nFix the MISSING lines above, then run shelf-decks check again.");
+  return ok ? 0 : 1;
+}
+
+function cmdSetup() {
+  const dir = dataDir();
+  fs.mkdirSync(dir, { recursive: true });
+  const pkg = path.join(dir, "package.json");
+  if (!fs.existsSync(pkg)) fs.writeFileSync(pkg, JSON.stringify({ name: "shelf-decks-deps", private: true, dependencies: DEPS }, null, 2) + "\n");
+  console.log(`Installing ${Object.keys(DEPS).join(", ")} into ${dir} (no browser download; it uses your Chrome)...`);
+  const npm = process.platform === "win32" ? "npm.cmd" : "npm";
+  const r = spawnSync(npm, ["install", "--no-audit", "--no-fund", "--omit=dev", "--prefix", dir, ...Object.entries(DEPS).map(([k, v]) => `${k}@${v}`)],
+    { stdio: "inherit", env: Object.assign({}, process.env, { PUPPETEER_SKIP_DOWNLOAD: "1", npm_config_update_notifier: "false" }) });
+  if (r.error) { console.error(`Could not run npm: ${r.error.message}. Install Node.js (it includes npm) from https://nodejs.org/`); return 1; }
+  if (r.status !== 0) return r.status;
+  console.log("Done. Next: shelf-decks check");
+  return 0;
+}
+
+const INIT_KEYS = {
+  name: (b, v) => { b.label = v.toUpperCase(); },
+  label: (b, v) => { b.label = v; },
+  logo: (b, v, dir) => { b.logo = path.isAbsolute(v) ? v : path.relative(dir, path.resolve(v)); },
+  display: (b, v) => { (b.fonts = b.fonts || {}).display = v; },
+  body: (b, v) => { (b.fonts = b.fonts || {}).body = v; },
+  "fonts-href": (b, v) => { (b.fonts = b.fonts || {}).href = v; },
+  "display-pptx": (b, v) => { (b.fonts = b.fonts || {}).displayPptx = v; },
+  "body-pptx": (b, v) => { (b.fonts = b.fonts || {}).bodyPptx = v; },
+  "image-style": (b, v) => { b.imageStyle = v; },
+};
+function cmdInit(f) {
+  const file = f.out ? path.resolve(f.out) : f.here ? path.resolve("brand.json") : brandLib.defaultBrandPath();
+  const dir = path.dirname(file);
+  fs.mkdirSync(dir, { recursive: true });
+  const existed = fs.existsSync(file);
+  const b = existed ? JSON.parse(fs.readFileSync(file, "utf8")) : { label: "", colours: {}, fonts: {}, logo: "", imageStyle: "" };
+  const { COLOUR_KEYS } = require(path.join(ROOT, "engine", "profiles.js"));
+  for (const [k, v] of Object.entries(f)) {
+    if (k === "_" || k === "out" || k === "here") continue;
+    if (INIT_KEYS[k]) INIT_KEYS[k](b, String(v), dir);
+    else if (COLOUR_KEYS.includes(k)) (b.colours = b.colours || {})[k] = String(v).replace(/^#/, "").toUpperCase();
+    else { console.error(`Unknown setting --${k}. Settings: ${Object.keys(INIT_KEYS).map(x => "--" + x).join(" ")} and colours ${COLOUR_KEYS.map(x => "--" + x).join(" ")}`); return 2; }
+  }
+  if (b.fonts && (b.fonts.display || b.fonts.body) && !b.fonts.href) {
+    const fams = [...new Set([b.fonts.display, b.fonts.body].filter(Boolean))];
+    b.fonts.href = "https://fonts.googleapis.com/css2?" + fams.map(n => `family=${n.replace(/ /g, "+")}:wght@400;600;700`).join("&") + "&display=swap";
+  }
+  // Validate before saving, so a bad colour never replaces a good file.
+  try { require(path.join(ROOT, "engine", "profiles.js")).memberProfile(b); }
+  catch (e) { console.error(`Not saved: ${e.message}`); return 1; }
+  fs.writeFileSync(file, JSON.stringify(b, null, 2) + "\n");
+  console.log(`${existed ? "Updated" : "Wrote"} ${file}`);
+  return cmdBrand(file);
+}
+
+function cmdBrand(file) {
+  file = file || brandLib.findBrand(process.cwd());
+  if (!file) { console.log("No brand.json yet. Run: shelf-decks init --name \"Your Company\" --accent 1F6F5C"); return 1; }
+  const P = brandLib.loadBrand(file);
+  console.log(`brand: ${file}`);
+  console.log(`  label: ${P.label || "(none)"}   display font: ${P.htmlDisplay}   body font: ${P.htmlFont}`);
+  console.log(`  accent #${P.accent}  accentD #${P.accentD}  ink #${P.ink}  bg #${P.bg}  slate #${P.slate}`);
+  console.log(`  logo: ${P.logo ? (fs.existsSync(P.logo) ? P.logo : P.logo + "  (NOT FOUND)") : "(none)"}`);
+  console.log(`  image style: ${P.imageStyle || "(none set; add one with --image-style \"...\")"}`);
+  let bad = 0;
+  for (const r of brandLib.contrastReport(P)) {
+    if (!r.ok) bad++;
+    console.log(`  ${r.ok ? "ok " : "LOW"} ${String(r.ratio).padEnd(5)} (needs ${r.min})  ${r.label}`);
+  }
+  if (bad) console.log(`  ${bad} colour pair(s) are too low to read. Darken the text colour or lighten the ground, then run init again.`);
+  return 0;
+}
+
+function copyDir(src, dst, skip = () => false) {
+  fs.mkdirSync(dst, { recursive: true });
+  for (const e of fs.readdirSync(src, { withFileTypes: true })) {
+    if (skip(e.name)) continue;
+    const s = path.join(src, e.name), d = path.join(dst, e.name);
+    if (e.isDirectory()) copyDir(s, d, skip); else fs.copyFileSync(s, d);
+  }
+}
+const SAMPLE = path.join(ROOT, "samples", "northwind");
+const generated = (n) => /_v\d+\.(html|pptx|pdf)$/.test(n) || ["revealjs", "brand", ".crop", "review"].includes(n) || n.endsWith(".baked.png");
+
+function refuseExisting(dir) {
+  if (fs.existsSync(dir) && fs.readdirSync(dir).length) {
+    console.error(`${dir} already exists and is not empty. Pick a new folder name; shelf-decks never overwrites.`);
+    return true;
+  }
+  return false;
+}
+function cmdSample(f) {
+  const dir = path.resolve(f._[0] || "northwind-sample");
+  if (refuseExisting(dir)) return 1;
+  copyDir(SAMPLE, dir, generated);
+  console.log(`Sample deck: ${rel(path.join(dir, "deck.js"))} (fictional Northwind Bakery, with its own brand.json)`);
+  console.log(`Next: shelf-decks render ${rel(path.join(dir, "deck.js"))}`);
+  return 0;
+}
+function cmdNew(f) {
+  if (!f._[0]) { console.error("Usage: shelf-decks new <folder>"); return 2; }
+  const dir = path.resolve(f._[0]);
+  if (refuseExisting(dir)) return 1;
+  copyDir(SAMPLE, dir, (n) => generated(n) || n === "brand.json" || n === "logo.png");
+  const name = path.basename(dir).replace(/[^A-Za-z0-9_-]+/g, "_");
+  const specFile = path.join(dir, "deck.js");
+  let spec = fs.readFileSync(specFile, "utf8");
+  spec = spec.replace(/profile:\s*"[^"]*"/, `profile: "member"`).replace(/name:\s*"[^"]*"/, `name: "${name}"`)
+             .replace(/^\/\* Northwind[\s\S]*?\*\/\n/, `/* ${name}: started from the Northwind sample. Replace every slide's words with yours,\n   keep the builders that fit your story, and change the rest. Fictional numbers must go. */\n`);
+  fs.writeFileSync(specFile, spec);
+  const brand = brandLib.findBrand(dir);
+  console.log(`Started ${rel(specFile)} (${brand ? "your brand: " + brand : "no brand.json yet: run shelf-decks init, or it renders in editorial-light"})`);
+  console.log(`Next: edit the slides, then shelf-decks render ${rel(specFile)}`);
+  return 0;
+}
+
+async function cmdRender(f) {
+  if (!f._[0]) { console.error("Usage: shelf-decks render <deck.js> [--html-only|--pptx-only] [--pdf] [--no-bake]"); return 2; }
+  needDeps(f["html-only"] ? [] : ["pptxgenjs"]);
+  const { renderDeck } = require(path.join(ROOT, "engine", "render.js"));
+  const r = await renderDeck(f._[0], { htmlOnly: !!f["html-only"], pptxOnly: !!f["pptx-only"], bake: !f["no-bake"] });
+  console.log(`Profile: ${r.profile}${r.brandFile ? ` (${r.brandFile})` : ""}`);
+  if (r.html) console.log(`HTML:  ${rel(r.html)}  (${r.slides} slides; open it, press T for the talk track)`);
+  if (r.pptx) console.log(`PPTX:  ${rel(r.pptx)}`);
+  for (const w of r.warnings) console.warn(`WARNING: ${w}`);
+  if (f.pdf && r.html) return cmdPdf({ _: [r.html] });
+  if (r.html) console.log(`Next: shelf-decks shots ${rel(r.html)}   (look at every slide before you send anything)`);
+  return 0;
+}
+
+async function cmdShots(f) {
+  const html = f._[0];
+  if (!html || !fs.existsSync(html)) { console.error("Usage: shelf-decks shots <deck_vN.html> [--out folder]"); return 2; }
+  needDeps(["puppeteer-core"]);
+  const cap = require(path.join(ROOT, "engine", "capture.js"));
+  if (!cap.findChrome()) { console.error(cap.NO_CHROME); return 1; }
+  const out = path.resolve(f.out || path.join(path.dirname(html), "review", path.basename(html, ".html")));
+  if (refuseExisting(out)) return 1;
+  const r = await cap.shots(html, out, { wait: f.wait });
+  console.log(`Slides: ${rel(out)}/slide-01.png ... slide-${String(r.files.length).padStart(2, "0")}.png (1920x1080)`);
+  console.log(`Contact sheet: ${rel(r.sheet)}`);
+  console.log("Now look at every slide at full size: crowding, words that do not fit, repeated layouts, sources on charts.");
+  return 0;
+}
+
+async function cmdPdf(f) {
+  const html = f._[0];
+  if (!html || !fs.existsSync(html)) { console.error("Usage: shelf-decks pdf <deck_vN.html> [--out file.pdf]"); return 2; }
+  needDeps(["puppeteer-core", "pdf-lib"]);
+  const cap = require(path.join(ROOT, "engine", "capture.js"));
+  if (!cap.findChrome()) { console.error(cap.NO_CHROME); return 1; }
+  const out = path.resolve(f.out || html.replace(/\.html$/i, ".pdf"));
+  if (fs.existsSync(out)) { console.error(`${out} already exists; shelf-decks never overwrites. Render a new version, or pass --out <new name>.pdf`); return 1; }
+  const r = await cap.pdf(html, out, { wait: f.wait, jpeg: !!f.jpeg });
+  console.log(`PDF:   ${rel(r.file)}  (${r.pages} pages; send this one outside, it looks the same everywhere)`);
+  return 0;
+}
+
+function cmdBuilders() {
+  const md = fs.readFileSync(path.join(ROOT, "skills", "shelf-decks", "references", "builders.md"), "utf8");
+  const start = md.indexOf("| Builder");
+  console.log(md.slice(start, md.indexOf("\n\n", start)));
+  return 0;
+}
+
+const HELP = fs.readFileSync(__filename, "utf8").split("*/")[0].split("\n").slice(1).map(l => l.replace(/^\s{0,3}/, "")).join("\n");
+
+async function main() {
+  const [cmd, ...rest] = process.argv.slice(2);
+  const f = flags(rest);
+  switch (cmd) {
+    case "--version": case "-V": case "version": console.log(`shelf-decks ${VERSION}`); return 0;
+    case undefined: case "-h": case "--help": case "help": console.log(HELP.trim()); return 0;
+    case "check": return cmdCheck();
+    case "setup": return cmdSetup();
+    case "init": return cmdInit(f);
+    case "brand": return cmdBrand(f._[0] && path.resolve(f._[0]));
+    case "sample": return cmdSample(f);
+    case "new": return cmdNew(f);
+    case "render": return cmdRender(f);
+    case "shots": return cmdShots(f);
+    case "pdf": return cmdPdf(f);
+    case "builders": return cmdBuilders();
+    default: console.error(`Unknown command "${cmd}". Run: shelf-decks --help`); return 2;
+  }
+}
+
+main().then(code => process.exit(code || 0)).catch(e => { console.error(`ERROR: ${e.message}`); process.exit(1); });

@@ -1,0 +1,22 @@
+{
+  "name": "shelf-diagrams",
+  "version": "2.0.0",
+  "description": "Describe a system in plain English and get a clean architecture, pipeline or funnel diagram drawn with D2 and checked by eye.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "diagrams",
+    "d2",
+    "architecture",
+    "flowcharts",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

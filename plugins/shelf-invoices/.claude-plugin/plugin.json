@@ -1,7 +1,7 @@
 {
   "name": "shelf-invoices",
-  "version": "2.0.0",
-  "description": "Create, number and file invoices and credit notes as PDF from your own company details, with VAT handled line by line.",
+  "version": "2.0.1",
+  "description": "The invoice NavAIgate sends, in our house design, made from your own company settings: numbered from your books, checked as a PDF and filed by year and month.",
   "author": {
     "name": "skyremote"
   },
@@ -10,12 +10,21 @@
     "invoices",
     "vat",
     "pdf",
-    "bookkeeping",
+    "docx",
     "aios"
   ],
   "dependencies": [
     "aios"
   ],
+  "userConfig": {
+    "books_folder": {
+      "type": "string",
+      "title": "Your invoices folder (optional)",
+      "description": "The folder that holds your company.json, drafts and filed invoices, for example ~/Documents/Invoices. Leave blank to use the folder `shelf-invoices init` remembers.",
+      "required": false,
+      "default": ""
+    }
+  },
   "metadata": {
     "module": 12
   }

@@ -1,0 +1,22 @@
+{
+  "name": "shelf-design-brain",
+  "version": "2.0.0",
+  "description": "Query 1,119 sourced design fundamentals and get design critiques that cite the entry number and the named source.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "design",
+    "critique",
+    "typography",
+    "accessibility",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}

@@ -1,7 +1,320 @@
 #!/usr/bin/env python3
-"""shelf-invoices: create, number and file invoices. Runs from a plugin cache or a linked checkout."""
+"""shelf-invoices: the house invoice, made from your own company settings.
+
+  shelf-invoices init <books folder>        set up your books folder and company.json (once)
+  shelf-invoices company check|show         are your settings complete?
+  shelf-invoices next-number [--code NW]    the highest number used + 1
+  shelf-invoices make <spec.json>           draft .docx + PDF + preview, never overwriting
+  shelf-invoices file <number>              file the approved draft under <year>/<month>/
+  shelf-invoices sample <folder>            practice books for the fictional Acme Studio Ltd
+
+Every command takes --books <folder>. Without it: $SHELF_INVOICES_BOOKS, then the plugin's books_folder setting,
+then the folder `init` remembered.
+"""
+import argparse
+import json
+import os
+import shutil
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from shelf_invoices.cli import main
-raise SystemExit(main())
+
+PACK = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PACK / "scripts"))
+import generate_invoice as gi  # noqa: E402
+
+VERSION = "2.0.1"
+
+
+class Stop(Exception):
+    pass
+
+
+# ---------------------------------------------------------------- the books folder
+
+def config_file():
+    base = os.environ.get("AIOS_CONFIG_DIR", "").strip()
+    return (Path(base) if base else Path.home() / ".config" / "aios") / "shelf-invoices.json"
+
+
+def remember(books):
+    f = config_file()
+    f.parent.mkdir(parents=True, exist_ok=True)
+    f.write_text(json.dumps({"books": str(Path(books).resolve())}, indent=2) + "\n")
+
+
+def resolve_books(explicit):
+    for value in (explicit, os.environ.get("SHELF_INVOICES_BOOKS"),
+                  os.environ.get("CLAUDE_PLUGIN_OPTION_BOOKS_FOLDER"),
+                  os.environ.get("CLAUDE_PLUGIN_OPTION_books_folder")):
+        if value and str(value).strip():
+            return Path(os.path.expanduser(str(value).strip())).resolve()
+    f = config_file()
+    if f.exists():
+        value = json.loads(f.read_text()).get("books", "")
+        if value:
+            return Path(os.path.expanduser(value))
+    raise Stop("No books folder yet. Run: shelf-invoices init ~/Documents/Invoices")
+
+
+def company_for(books):
+    path = books / "company.json"
+    if not path.exists():
+        raise Stop("No company.json in %s. Run: shelf-invoices init %s" % (books, books))
+    return gi.load_company(path)
+
+
+def blank_company():
+    c = {k: v for k, v in gi.COMPANY_DEFAULTS.items()}
+    c["vat_wording"] = gi.DEFAULT_VAT_WORDING
+    return c
+
+
+# ---------------------------------------------------------------- commands
+
+def cmd_init(a):
+    books = Path(os.path.expanduser(a.folder)).resolve()
+    target = books / "company.json"
+    if target.exists():
+        print("Already set up: %s (left as it is)." % target)
+    else:
+        (books / "drafts").mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps(blank_company(), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        print("Books folder: %s" % books)
+        print("Wrote %s with empty fields." % target)
+    (books / "drafts").mkdir(parents=True, exist_ok=True)
+    if not a.not_default:
+        remember(books)
+        print("This is now your default books folder.")
+    print("Next: fill in company.json from your own paperwork, put your logo (PNG) at %s," % (books / "logo.png"))
+    print("then run: shelf-invoices company check")
+    return 0
+
+
+def cmd_company(a):
+    books = resolve_books(a.books)
+    c = company_for(books)
+    if a.action == "show":
+        print(json.dumps({k: v for k, v in c.items() if not k.startswith("_")}, indent=2, ensure_ascii=False))
+        return 0
+    missing, warnings = gi.check_company(c)
+    print("Settings: %s" % (books / "company.json"))
+    for w in warnings:
+        print("  note: " + w)
+    soffice = gi.find_soffice()
+    print("  LibreOffice: %s" % (soffice or "not found (install LibreOffice for the PDF)"))
+    if missing:
+        print("Missing before you can invoice: " + "; ".join(missing))
+        return 1
+    print("Company details complete.")
+    return 0
+
+
+def cmd_next(a):
+    books = resolve_books(a.books)
+    c = company_for(books)
+    number, highest = gi.next_number(books, c, a.code or "")
+    series = gi.number_series(c, a.code or "")
+    if highest is None:
+        print("%s  (no %s numbers used yet in %s)" % (number, series + "N" * int(c.get("number_digits") or 3), books))
+    else:
+        print("%s  (highest used: %s%0*d)" % (number, series, int(c.get("number_digits") or 3), highest))
+    return 0
+
+
+def free_version(folder, stem):
+    n = 1
+    while any((folder / ("%s_v%d%s" % (stem, n, ext))).exists() for ext in (".docx", ".pdf", ".spec.json")):
+        n += 1
+    return folder / ("%s_v%d" % (stem, n))
+
+
+def filed_paths(books, number):
+    return sorted(p for p in books.glob("[0-9][0-9][0-9][0-9]/[0-9][0-9]/%s.*" % number))
+
+
+def cmd_make(a):
+    books = resolve_books(a.books)
+    c = company_for(books)
+    missing, warnings = gi.check_company(c)
+    if missing:
+        raise Stop("Your company settings are incomplete: %s. Run: shelf-invoices company check" % "; ".join(missing))
+    spec_path = Path(a.spec)
+    try:
+        spec = json.loads(spec_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as e:
+        raise Stop("Cannot read %s: %s" % (spec_path, e))
+    number_note = ""
+    if not spec.get("invoice_number"):
+        spec["invoice_number"], highest = gi.next_number(books, c, spec.get("client_code", ""))
+        number_note = " (the next free number%s)" % (
+            ", highest used before: %s%0*d" % (gi.number_series(c, spec.get("client_code", "")),
+                                               int(c.get("number_digits") or 3), highest) if highest else "")
+    number = spec["invoice_number"]
+    if filed_paths(books, number):
+        raise Stop("%s is already filed (%s). A filed invoice is never changed: use a new number."
+                   % (number, filed_paths(books, number)[0]))
+    values, items, totals = gi.build(c, spec)
+
+    if a.out:
+        out = Path(a.out)
+        if out.exists():
+            raise Stop("Refusing to overwrite %s." % out)
+    else:
+        out = free_version(books / "drafts", number).with_suffix(".docx")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    lp = gi.logo_path(c)
+    logo = lp.read_bytes() if lp and lp.exists() else None
+    problems = gi.fill_docx(values, items, out, logo)
+    spec_copy = out.with_name(out.stem + ".spec.json")
+    if not spec_copy.exists():
+        spec_copy.write_text(json.dumps(spec, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    sym = totals["symbol"]
+    print("Invoice %s%s" % (number, number_note))
+    print("  %s · %s · net %s · VAT %s (%s) · total %s%s" % (
+        values["client_name"], totals["currency"], gi.money(totals["net"]), gi.money(totals["vat"]),
+        totals["vat_mode"], sym, gi.money(totals["gross"])))
+    print("  docx:    %s" % out)
+    pdf = None
+    if not a.no_pdf:
+        pdf = gi.render_pdf(out)
+        if pdf:
+            pages = gi.pdf_pages(pdf)
+            print("  pdf:     %s (%d page%s)" % (pdf, pages, "" if pages == 1 else "s"))
+            if pages != 1:
+                problems.append("the PDF has %d pages; the house invoice is one page (shorten the descriptions)"
+                                % pages)
+            png = gi.preview_png(pdf)
+            if png:
+                print("  preview: %s" % png)
+        else:
+            print("  pdf:     not made. Install LibreOffice for the PDF (https://www.libreoffice.org).")
+    for w in warnings:
+        print("  note: " + w)
+    if not spec.get("po_number"):
+        print("  note: no purchase order number. If the client gave you one, add po_number and make it again.")
+    if not spec.get("service_date"):
+        print("  note: no service date. Most tax rules want the date or period of the work on the invoice.")
+    if problems:
+        for prob in problems:
+            print("CHECK FAILED: " + prob)
+        return 1
+    print("Checks: every field filled, no other currency's sign%s." % (", one page" if pdf else ""))
+    print("Next: open the PDF and look at it. When it is right, file it: shelf-invoices file %s" % number)
+    return 0
+
+
+def latest_draft(books, number):
+    drafts = sorted((books / "drafts").glob("%s_v*.docx" % number),
+                    key=lambda p: int(p.stem.rsplit("_v", 1)[1]) if p.stem.rsplit("_v", 1)[1].isdigit() else 0)
+    if not drafts:
+        raise Stop("No draft for %s in %s." % (number, books / "drafts"))
+    return drafts[-1]
+
+
+def cmd_file(a):
+    books = resolve_books(a.books)
+    number = Path(a.number).name.split("_v")[0].split(".")[0]
+    if filed_paths(books, number):
+        raise Stop("%s is already filed: %s" % (number, filed_paths(books, number)[0]))
+    docx = latest_draft(books, number)
+    pdf, spec = docx.with_suffix(".pdf"), docx.with_name(docx.stem + ".spec.json")
+    if not pdf.exists():
+        raise Stop("No PDF for %s yet. Install LibreOffice and run make again, so you can look at it first." % docx.name)
+    date = gi.parse_date(json.loads(spec.read_text(encoding="utf-8")).get("date")) if spec.exists() else None
+    if date is None:
+        raise Stop("No saved spec beside %s, so the invoice date is unknown." % docx.name)
+    folder = books / ("%04d" % date.year) / ("%02d" % date.month)
+    folder.mkdir(parents=True, exist_ok=True)
+    for src, ext in ((pdf, ".pdf"), (docx, ".docx"), (spec, ".spec.json")):
+        if src.exists():
+            dest = folder / (number + ext)
+            if dest.exists():
+                raise Stop("Refusing to overwrite %s." % dest)
+            shutil.copy2(src, dest)
+    print("Filed %s (from %s) in %s" % (number, docx.stem, folder))
+    print("  send this file: %s" % (folder / (number + ".pdf")))
+    return 0
+
+
+def cmd_sample(a):
+    books = Path(os.path.expanduser(a.folder)).resolve()
+    if (books / "company.json").exists():
+        raise Stop("%s already has a company.json. Choose an empty folder for the practice books." % books)
+    src = PACK / "assets" / "sample"
+    (books / "drafts").mkdir(parents=True, exist_ok=True)
+    (books / "examples").mkdir(exist_ok=True)
+    company = json.loads((src / "company.json").read_text(encoding="utf-8"))
+    company["_sample"] = True
+    (books / "company.json").write_text(json.dumps(company, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    shutil.copy2(src / "acme-studio-logo.png", books / "logo.png")
+    for spec in sorted((src / "examples").glob("*.json")):
+        shutil.copy2(spec, books / "examples" / spec.name)
+    # One earlier invoice, already filed, so next-number has something to count from.
+    c = gi.load_company(books / "company.json")
+    earlier = json.loads((src / "filed" / "ACME-001.spec.json").read_text(encoding="utf-8"))
+    d = gi.parse_date(earlier["date"])
+    folder = books / ("%04d" % d.year) / ("%02d" % d.month)
+    folder.mkdir(parents=True, exist_ok=True)
+    values, items, _ = gi.build(c, earlier)
+    gi.fill_docx(values, items, folder / "ACME-001.docx", (books / "logo.png").read_bytes())
+    (folder / "ACME-001.spec.json").write_text(json.dumps(earlier, indent=2, ensure_ascii=False) + "\n",
+                                               encoding="utf-8")
+    print("Sample books for the fictional Acme Studio Ltd: %s" % books)
+    print("  company.json and logo.png: sample settings, every ID and bank detail marked SAMPLE")
+    print("  examples/: %s" % ", ".join(p.name for p in sorted((books / "examples").glob("*.json"))))
+    print("  %s: ACME-001, an earlier invoice already filed" % folder.relative_to(books))
+    print("Try: shelf-invoices next-number --books %s" % books)
+    print("     shelf-invoices make %s --books %s" % (books / "examples" / "contoso-workshop.json", books))
+    return 0
+
+
+def main(argv=None):
+    p = argparse.ArgumentParser(prog="shelf-invoices", description="The house invoice, from your own settings.")
+    p.add_argument("--version", action="version", version="shelf-invoices " + VERSION)
+    sub = p.add_subparsers(dest="cmd")
+
+    s = sub.add_parser("init", help="set up your books folder and company.json")
+    s.add_argument("folder")
+    s.add_argument("--not-default", action="store_true", help="do not make this your default books folder")
+    s.set_defaults(fn=cmd_init)
+
+    s = sub.add_parser("company", help="check or show your company settings")
+    s.add_argument("action", choices=["check", "show"])
+    s.add_argument("--books")
+    s.set_defaults(fn=cmd_company)
+
+    s = sub.add_parser("next-number", help="the highest invoice number used + 1")
+    s.add_argument("--code", help="optional client code, numbered as its own series (PREFIX-CODE-NNN)")
+    s.add_argument("--books")
+    s.set_defaults(fn=cmd_next)
+
+    s = sub.add_parser("make", help="make the draft .docx, PDF and preview from a spec")
+    s.add_argument("spec")
+    s.add_argument("--books")
+    s.add_argument("--out", help="write here instead of drafts/<number>_vN.docx (never overwrites)")
+    s.add_argument("--no-pdf", action="store_true")
+    s.set_defaults(fn=cmd_make)
+
+    s = sub.add_parser("file", help="file the approved draft under <year>/<month>/")
+    s.add_argument("number")
+    s.add_argument("--books")
+    s.set_defaults(fn=cmd_file)
+
+    s = sub.add_parser("sample", help="practice books for the fictional Acme Studio Ltd")
+    s.add_argument("folder")
+    s.set_defaults(fn=cmd_sample)
+
+    a = p.parse_args(argv)
+    if not getattr(a, "fn", None):
+        p.print_help()
+        return 0
+    try:
+        return a.fn(a)
+    except (Stop, gi.InvoiceError) as e:
+        print("Stopped: %s" % e, file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

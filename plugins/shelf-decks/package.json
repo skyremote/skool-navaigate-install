@@ -1,0 +1,22 @@
+{
+  "name": "shelf-decks",
+  "version": "2.0.1",
+  "private": true,
+  "description": "One deck spec renders an animated reveal.js HTML deck for review, a matching editable PPTX and a PDF, in the member's own brand.",
+  "license": "MIT",
+  "type": "commonjs",
+  "bin": {
+    "shelf-decks": "bin/shelf-decks"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test ../../tests/shelf-decks/*.test.js"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "pptxgenjs": "^4.0.1",
+    "puppeteer-core": "^24.0.0"
+  }
+}

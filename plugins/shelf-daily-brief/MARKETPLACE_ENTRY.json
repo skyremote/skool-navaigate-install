@@ -1,0 +1,6 @@
+{
+  "name": "shelf-daily-brief",
+  "source": "./plugins/shelf-daily-brief",
+  "version": "2.0.0",
+  "description": "The shelf: a morning brief you will actually read: your numbers, yesterday's meetings and Slack, and what needs attention, written by one model call and saved to your project."
+}

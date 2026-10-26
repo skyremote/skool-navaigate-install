@@ -1,0 +1,6 @@
+{
+  "name": "shelf-diagrams",
+  "source": "./plugins/shelf-diagrams",
+  "version": "2.0.0",
+  "description": "The shelf: describe a system in plain English and get a clean architecture, pipeline or funnel diagram drawn with D2 and checked by eye."
+}

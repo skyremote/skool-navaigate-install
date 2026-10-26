@@ -1,0 +1,22 @@
+{
+  "name": "shelf-content-pipeline",
+  "version": "2.0.0",
+  "description": "Capture content ideas, develop each against your strategy, and schedule them with a make-by date, in one local file you can open.",
+  "author": {
+    "name": "skyremote"
+  },
+  "license": "MIT",
+  "keywords": [
+    "content",
+    "planning",
+    "pipeline",
+    "sqlite",
+    "aios"
+  ],
+  "dependencies": [
+    "aios"
+  ],
+  "metadata": {
+    "module": 12
+  }
+}
