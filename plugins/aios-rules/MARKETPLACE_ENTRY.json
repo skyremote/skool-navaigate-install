@@ -1,0 +1,6 @@
+{
+  "name": "aios-rules",
+  "source": "./plugins/aios-rules",
+  "version": "2.0.0",
+  "description": "Module 2: your folder map, one short AGENTS.md, path-scoped rules, a budget check and a monthly audit."
+}
