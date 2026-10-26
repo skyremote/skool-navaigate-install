@@ -1,0 +1,9 @@
+{
+  "name": "tools-social",
+  "source": "./plugins/tools-social",
+  "version": "2.0.0",
+  "description": "Tools: one source to every platform on your own Blotato, with a release gate. Nothing posts without your go.",
+  "metadata": {
+    "module": 12
+  }
+}
