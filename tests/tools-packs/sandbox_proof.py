@@ -5,7 +5,7 @@ It copies this checkout to /tmp, adds every tools pack's MARKETPLACE_ENTRY.json 
 shared-file change), then installs the pack with HOME=/tmp/aios2-sandbox-tools/<pack> in Claude Code and for
 Codex and Cursor, and runs the pack's own steps from tests/<pack>/sandbox_steps.py. Every command, its output and
 its exit code go to $AIOS2_PROOF_DIR/<pack>/sandbox_v1.md (build evidence is course material, kept out of Git).
-Nothing touches the real ~/.claude, ~/.codex or ~/.cursor. It stops if a NavMotion render is running.
+Nothing touches the real ~/.claude, ~/.codex or ~/.cursor. It pauses while the 1-minute load average is above 60.
 
 Usage: AIOS2_PROOF_DIR=<folder> python3 tests/tools-packs/sandbox_proof.py tools-meetings
 """
@@ -16,6 +16,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -23,11 +24,9 @@ BASE = Path('/tmp/aios2-sandbox-tools')
 PROOF = Path(os.environ.get('AIOS2_PROOF_DIR') or '/tmp/aios2-tool-packs/proof')
 
 
-def render_running():
-    out = subprocess.run(['ps', '-axo', 'command'], capture_output=True, text=True).stdout
-    # Renders only (the render stage or the shared render lock); VHS recording ("cut") is light and does not block.
-    return [l for l in out.splitlines() if 'nm.py run' in l and 'grep' not in l
-            and (' render ' in l + ' ' or 'with_render_lock' in l)]
+def load_too_high(limit=60.0):
+    """Ruled 26 October 2026: run one sandbox at a time, and pause only while the 1-minute load average is above 60."""
+    return os.getloadavg()[0] > limit
 
 
 def prepare_checkout(checkout):
@@ -110,10 +109,9 @@ def common(r, pack):
 
 def main():
     pack = sys.argv[1]
-    busy = render_running()
-    if busy:
-        print('A NavMotion render is running; wait and try again:\n' + '\n'.join(busy))
-        return 3
+    while load_too_high():
+        print('Load average above 60; waiting a minute.', flush=True)
+        time.sleep(60)
     home, checkout = BASE / pack, BASE / (pack + '-checkout')
     if home.exists():
         shutil.rmtree(home)
