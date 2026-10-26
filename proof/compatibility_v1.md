@@ -1,5 +1,7 @@
 # Claude Code compatibility evidence v1
 
+Historical phase-1 evidence for ffddffb; superseded by the v2 review-fix proof.
+
 Tested with Claude Code 2.1.310. All writes use a separate empty /tmp HOME.
 
 ```sh
@@ -38,7 +40,7 @@ claude plugin list --json
     "scope": "user",
     "enabled": true,
     "installPath": "/tmp/aios-dependency-proof_v1/.claude/plugins/cache/navaigate-aios/aios-brain/2.0.0",
-    "readFromFolder": "/Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/plugins/aios-brain",
+    "readFromFolder": "<worktree>/plugins/aios-brain",
     "folderVersion": "2.0.0",
     "installedAt": "2026-10-26T07:33:19.489Z",
     "lastUpdated": "2026-10-26T07:33:19.489Z",
@@ -63,7 +65,7 @@ claude plugin list --json
     "scope": "user",
     "enabled": true,
     "installPath": "/tmp/aios-dependency-proof_v1/.claude/plugins/cache/navaigate-aios/aios/2.0.0",
-    "readFromFolder": "/Users/sky/.bb/plugins/environment-git-worktree/host-data/worktrees/thr_a8ducu6yie-1/skool-navaigate-install/plugins/aios",
+    "readFromFolder": "<worktree>/plugins/aios",
     "folderVersion": "2.0.0",
     "installedAt": "2026-10-26T07:33:19.494Z",
     "lastUpdated": "2026-10-26T07:33:19.494Z",

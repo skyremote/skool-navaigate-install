@@ -9,6 +9,12 @@
   },
   "plugins": [
     {
+      "name": "skool-navaigate-install",
+      "source": "./",
+      "version": "0.1.0",
+      "description": "First-generation community skills: fixes-only support until 26 April 2027."
+    },
+    {
       "name": "aios",
       "source": "./plugins/aios",
       "version": "2.0.0",

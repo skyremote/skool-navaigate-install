@@ -11,13 +11,18 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 from . import db
+from .errors import InputError
+from .privacy import subprocess_env
 
 
 def canonical_url(url):
-    parsed = urllib.parse.urlsplit(url)
+    try:
+        parsed = urllib.parse.urlsplit(url)
+    except ValueError:
+        raise InputError('Use a valid HTTPS YouTube video URL') from None
     host = (parsed.hostname or '').lower()
     if parsed.scheme != 'https' or parsed.username:
-        raise ValueError('Use an HTTPS YouTube video URL')
+        raise InputError('Use an HTTPS YouTube video URL')
     if host in ('youtube.com','www.youtube.com','m.youtube.com'):
         video = urllib.parse.parse_qs(parsed.query).get('v',[''])[0]
         if parsed.path.startswith(('/shorts/','/embed/')):
@@ -25,9 +30,9 @@ def canonical_url(url):
     elif host == 'youtu.be':
         video = parsed.path.strip('/')
     else:
-        raise ValueError('Phase 1 supports YouTube video URLs')
+        raise InputError('Phase 1 supports YouTube video URLs')
     if not re.fullmatch(r'[A-Za-z0-9_-]{11}',video):
-        raise ValueError('Use one YouTube video URL, not a channel or playlist')
+        raise InputError('Use one YouTube video URL, not a channel or playlist')
     return 'https://www.youtube.com/watch?v='+video,video
 
 
@@ -38,7 +43,7 @@ def captions(url):
     with tempfile.TemporaryDirectory(prefix='aios-captions-') as folder:
         proc = subprocess.run([binary,'--ignore-config','--skip-download','--no-playlist','--write-subs',
             '--write-auto-subs','--sub-langs','en.*,en','--sub-format','json3','--dump-single-json',
-            '-o',str(Path(folder)/'video.%(ext)s'),'--',url],capture_output=True,text=True,timeout=120)
+            '-o',str(Path(folder)/'video.%(ext)s'),'--',url],capture_output=True,text=True,timeout=120,env=subprocess_env())
         paths = sorted(Path(folder).glob('*.json3'))
         # Read the caption output as well as checking the exit code.
         if proc.returncode or not paths:
@@ -86,7 +91,7 @@ def supadata(url,key):
 def add(conn,url,config,refresh=False):
     url,video = canonical_url(url)
     ref = 'youtube:'+video
-    old = conn.execute('SELECT ref FROM items WHERE ref=?',(ref,)).fetchone()
+    old = conn.execute('SELECT ref,updated FROM items WHERE ref=?',(ref,)).fetchone()
     if old and not refresh:
         return {'ref':ref,'stored':False,'note':'Already captured; use brain read '+ref}
     try:
@@ -101,7 +106,7 @@ def add(conn,url,config,refresh=False):
     now = time.time()
     item = {'ref':ref,'source':'youtube','device':db.device(conn),'path':None,
             'file_hash':hashlib.sha256(body.encode()).hexdigest(),'modified':now,'latest':now,
-            'updated':now,'title':title,'url':url,'digest':None}
+            'updated':db.next_version(old['updated'] if old else 0),'title':title,'url':url,'digest':None}
     # Small chunks make search hits useful without cutting up the stored transcript.
     chunks = textwrap.wrap(body,width=1800,break_long_words=False,break_on_hyphens=False)
     documents = [{'id':f'{ref}:{i:08d}','ref':ref,'kind':'transcript','role':'transcript','body':p,'ts':now} for i,p in enumerate(chunks)]

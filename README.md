@@ -4,9 +4,12 @@ Start with **aios**. Check what you have, follow the next module, and install on
 pack when you need it. Phase 1 includes **aios** and **aios-brain**.
 
 This is an unpublished review branch. No release or marketplace update has been
-made. The old bundle is preserved in `legacy/v1/` and git history; it is not
-loaded by the 2.0 marketplace. Existing installations are not migrated by this
-checkout. See [ROADMAP.md](ROADMAP.md) for the twelve modules and every old skill.
+made. The first-generation (v1) bundle stays at its original `skills/`, `lessons/`,
+`references/` and `templates/` paths, with the `skool-navaigate-install` catalogue
+entry retained. A v1 member can pull this branch without breaking their skill
+links. **V1 receives fixes-only support for six months, until 26 April 2027.**
+No member is migrated automatically. The old manifest retains its original
+0.1.0 version; “v1” describes that generation. See [ROADMAP.md](ROADMAP.md) for the twelve modules and every old skill.
 
 ## Claude Code: local review install
 
@@ -50,8 +53,9 @@ It does not write Claude Code configuration. The brain command is linked to
 
 For the brain it merges an `aios-brain` MCP server into `~/.codex/config.toml`
 and `~/.cursor/mcp.json`, backing up each file first. Other server entries stay.
-It refuses conflicting skills, commands or custom Codex brain tables, and never
-silently replaces them. Review the reported paths if it stops. Restart the
+It refuses conflicting skills, commands, custom Codex brain tables and
+symlinked config files, preserving dotfiles links. It locks its config edits and
+re-reads both files before writing, stopping if another process changed them. Review the reported paths if it stops. Restart the
 harness to load the links and server.
 
 ## Your first memory
@@ -72,14 +76,21 @@ Capture reads top-level user and assistant turns from Claude Code JSONL, Codex
 current/archived JSONL and Cursor agent-transcript JSONL or role-labelled TXT.
 Cursor history stored only in its native application database needs a transcript
 export first. Tool payloads, sub-agent forks and harness instructions are excluded.
-Only new or changed files are imported; changed sessions replace their indexed
-messages atomically. Partial or malformed files remain pending and are reported.
+Capture honours `CLAUDE_CONFIG_DIR` and `CODEX_HOME`. Only new or changed files
+are imported; changed sessions replace messages atomically and retain any saved
+digest and title. Refresh a saved digest explicitly after the session changes.
+A malformed interior line remains an error. If only the final line is cut off
+and the file has been idle for five minutes, valid turns are saved with a warning.
+Files are hashed and parsed as streams; unchanged health checks use a stored
+fingerprint without parsing the transcript again.
 
 `status` checks file hashes and actual messages, shows newest stored/session
 messages and file modification times separately, and reports failures. It exits
-**1** when unhealthy. An empty fresh brain is labelled as having no captured
-history; it does not prove capture works. Claude Code deletes session files
-after 30 days, so run capture regularly. A recent job timestamp proves nothing
+**1** when unhealthy, including an installed harness with zero sessions in its
+configured folders. Fresh append-only changes to an already captured active
+session have a two-minute grace window; continued writes cannot restart that
+window. Claude Code defaults to 30-day session retention; the health check reads
+`cleanupPeriodDays` and warns at about two-thirds of it, with days left. A recent job timestamp proves nothing
 about whether text was stored.
 
 ## Optional: your second machine
@@ -90,8 +101,10 @@ For Claude Code's MCP tools, configure optional `turso_url` and sensitive
 keychain value. Shell installs do not open the enable-time configuration dialog;
 leave both options blank to stay local.
 
-The MCP server receives these values in its environment; search, read and media
-calls exchange captured data when configured. **Terminal commands** in any
+The MCP server receives these values in its environment for tools that need
+configuration. **Search and read always use the local database**, even offline
+or if remote credentials are invalid. Sync runs only during capture or an
+explicit `brain sync`. **Terminal commands** in any
 harness use exported environment variables or this private file:
 
 ```sh
@@ -117,12 +130,57 @@ brain sync
 brain status
 ```
 
-Capture also syncs when shell configuration is present. There is no scheduler
+Capture also syncs when shell configuration is present. Sync first reads paged
+`ref`, `updated` and `sha256` metadata, then fetches only changed payloads in
+bounded chunks. A remote failure never prevents local search/read. There is no scheduler
 in phase 1: run capture/sync on each machine when needed. HTTP transactions,
 message-before-hash ordering, full payload read-back and local/primary content
 comparison replace CLI success markers and embedded-replica heartbeats.
-FTS indexes remain local; Turso stores session/media/digest bundles. This is a
-small initial sync design which reads the remote catalogue on each sync.
+FTS indexes remain local; Turso stores session/media/digest bundles. The local index is not sent to Turso; remote catalogue pages contain only
+small metadata rows.
+
+
+## Existing v1 member: guided, optional move
+
+Run `/aios` to detect old skill links and review the choice. Continue v1 if you
+prefer; its paths and marketplace ID remain available until 26 April 2027.
+For a reviewed Codex/Cursor move, explicitly run:
+
+```sh
+./install.sh aios --migrate-v1
+./install.sh aios-brain
+```
+
+The first command preserves the three conflicting v1 start links under
+`~/.local/share/aios/v1-backups/` before linking the new start skill. It does not
+delete anything, touch the Claude v1 skill, or change the other v1 tools. Without
+the flag a conflict stops the installer. With no arguments, `./install.sh` still
+runs the v1 installer. Claude Code can install the new namespaced plugins beside
+the old `skool-navaigate-install` plugin.
+
+## Credential handling and clearing failures
+
+**Common credentials are redacted before storage, indexing, recall or sync:**
+provider key prefixes, JWTs, bearer values, private-key blocks and credential
+assignments such as `api_key=…` or `password: …`. This is best-effort pattern
+matching, not a guarantee for every arbitrary secret. Avoid pasting credentials
+into chats. Known process credential values are redacted too; existing local
+text from the earlier build is scrubbed on upgrade. yt-dlp receives no brain or
+API credentials; Claude digest subprocesses receive only the environment needed
+for the member's own subscription, never the Turso or Supadata credentials.
+Whitespace/control characters in token input are rejected without echoing them.
+
+Invalid refs and URLs are input errors, not permanent health failures. Failures
+for session files that no longer exist are removed from the failure list.
+Review and explicitly acknowledge an old operational failure with:
+
+```sh
+brain failures list
+brain failures clear --scope sync
+```
+
+`--all` can acknowledge the entire failure list. It never deletes captured data
+or makes a still-missing session or an unhealthy remote connection pass health.
 
 ## Optional: video captions and digests
 
@@ -162,7 +220,7 @@ claude plugin eval plugins/aios-brain --trust-plugin --no-publish
 Run evals under an isolated HOME using your own subscription login. The three
 cases compare against a no-plugin baseline. No real MCP servers start in these
 advice cases. The proof records an authentication block separately from scores.
-See `proof/sandbox-run_v1.md`, `proof/checks_v1.md`, `proof/eval-results_v1.md` and
+See `proof/sandbox-run_v2.md`, `proof/checks_v2.md`, `proof/eval-results_v1.md` and
 `proof/compatibility_v1.md` for actual results and limitations.
 
 To repeat the fictional local proof in a **fresh** sandbox:
@@ -175,7 +233,7 @@ This helper hard-codes `/tmp/aios-member-sandbox`; move a previous sandbox aside
 before rerunning. It never uses your real harness configuration.
 
 Ordered tutorial clips, real terminal stills and VHS tapes are in `video/`.
-`video/SHOTLIST_v1.md` gives each command, view and narration sentence.
+`video/SHOTLIST_v2.md` gives each command, view and narration sentence.
 These are raw materials for later 3–10 minute landscape NavMotion tutorials
 narrated in Daniel's voice; this phase does not make those finished films.
 Nothing has been pushed, tagged, submitted or published.

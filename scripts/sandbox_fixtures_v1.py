@@ -16,8 +16,8 @@ def write(home):
         {'type':'response_item','timestamp':stamp,'payload':{'type':'message','role':'user','content':[{'type':'input_text','text':'For the fictional Orchard order, use recyclable boxes.'}]}},
         {'type':'response_item','timestamp':stamp,'payload':{'type':'message','role':'assistant','content':[{'type':'output_text','text':'Orchard packaging is recyclable cardboard. Delivery is Friday.'}]}}],
       '.cursor/projects/fictional/agent-transcripts/fictional-cursor.jsonl':[
-        {'role':'user','timestamp':stamp,'message':{'content':'<timestamp>Monday</timestamp><user_query>Which colour for the fictional Juniper page?</user_query>'}},
-        {'role':'assistant','timestamp':stamp,'message':{'content':'Juniper uses a navy heading and a cream background.'}}]
+        {'role':'user','message':{'content':[{'type':'text','text':'<timestamp>Monday, Oct 26, 2026, 11:00 AM (UTC+1)</timestamp>\n<user_query>Which colour for the fictional Juniper page?</user_query>'}]}},
+        {'role':'assistant','message':{'content':[{'type':'text','text':'Juniper uses a navy heading and a cream background.'}]}},{'type':'turn_ended','status':'success'}]
     }
     for relative,events in sessions.items():
         path = home/relative

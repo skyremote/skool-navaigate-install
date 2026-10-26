@@ -26,7 +26,7 @@ class SandboxCase(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory(prefix='aios-test-',dir='/tmp')
         self.home = Path(self.tmp.name)
         self.env = patch.dict(os.environ,{'HOME':str(self.home),'AIOS_BRAIN_TURSO_URL':'','AIOS_BRAIN_TURSO_TOKEN':'',
-                 'CLAUDE_PLUGIN_OPTION_TURSO_URL':'','CLAUDE_PLUGIN_OPTION_TURSO_TOKEN':'','SUPADATA_API_KEY':''})
+                 'CLAUDE_PLUGIN_OPTION_TURSO_URL':'','CLAUDE_PLUGIN_OPTION_TURSO_TOKEN':'','SUPADATA_API_KEY':'','CLAUDE_CONFIG_DIR':'','CODEX_HOME':''})
         self.env.start()
         self.conn = db.connect(create=True)
     def tearDown(self):
@@ -66,8 +66,12 @@ class BrainCase(SandboxCase):
         with self.path().open('a') as f:
             f.write('{"partial":')
         result = capture.capture(self.conn)
-        self.assertEqual(len(result['failures']),1)
+        self.assertEqual(result['failures'],[])
+        self.assertIn(self.path().name,result['active_files'])
         self.assertEqual(self.conn.execute('SELECT file_hash FROM items WHERE source="claude"').fetchone()[0],before)
+        self.assertTrue(status.status(self.conn)['healthy'])
+        old=time.time()-capture.CRASH_TAIL_SECONDS-1
+        os.utime(self.path(),(old,old))
         self.assertFalse(status.status(self.conn)['healthy'])
 
     def test_failure_recovers_only_after_success(self):
@@ -111,7 +115,7 @@ class BrainCase(SandboxCase):
         sid,messages = capture.parse('cursor',Path('export.txt'),b'user:\nQuestion about a delivery\n\nassistant:\nDelivery is Friday\n',123)
         self.assertEqual(len(messages),2)
         self.assertEqual(messages[1][1],'Delivery is Friday')
-        self.assertEqual(capture.clean('Useful answer\n[Tool call] Shell\nnoise-only-needle'),'Useful answer')
+        self.assertEqual(capture.clean('Useful answer\n[Tool call] Shell\nnoise-only-needle','cursor',text_export=True),'Useful answer')
 
     def test_status_pending_new_file_and_newest_message(self):
         write(self.home)
@@ -289,6 +293,8 @@ class FakePrimary:
     def __init__(self):
         self.conn = sqlite3.connect(':memory:')
         self.conn.row_factory = sqlite3.Row
+    def __del__(self):
+        self.conn.close()
     def transaction(self,statements):
         with self.conn:
             for sql,args in statements:
@@ -349,7 +355,7 @@ class InstallerTests(unittest.TestCase):
             existing = home/'.codex/skills/aios'
             existing.mkdir(parents=True)
             (existing/'SKILL.md').write_text('Member-owned skill')
-            env = dict(os.environ,HOME=temp)
+            env = dict(os.environ,HOME=temp,CODEX_HOME=str(home/'.codex'),CLAUDE_CONFIG_DIR=str(home/'.claude'))
             for pack in ['aios','aios-brain']:
                 proc = subprocess.run([str(ROOT/'install.sh'),pack],env=env,text=True,capture_output=True)
                 self.assertEqual(proc.returncode,1)
@@ -382,7 +388,7 @@ class InstallerTests(unittest.TestCase):
             cursor = {'mcpServers':{'other':{'command':'other'}},'unrelated':True}
             (home/'.codex/config.toml').write_text(toml)
             (home/'.cursor/mcp.json').write_text(json.dumps(cursor))
-            env = dict(os.environ,HOME=temp)
+            env = dict(os.environ,HOME=temp,CODEX_HOME=str(home/'.codex'),CLAUDE_CONFIG_DIR=str(home/'.claude'))
             for pack in ['aios','aios-brain','aios-brain']:
                 proc = subprocess.run([str(ROOT/'install.sh'),pack],env=env,text=True,capture_output=True)
                 self.assertEqual(proc.returncode,0,proc.stderr)

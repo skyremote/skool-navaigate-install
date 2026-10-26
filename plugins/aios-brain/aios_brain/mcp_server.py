@@ -2,6 +2,8 @@
 import json
 import sys
 from . import config, db, media, search
+from .errors import InputError
+from .privacy import redact
 
 TOOLS = [
  {'name':'brain_search','description':'Search your captured messages, digests and video captions using BM25 and recency. Returns refs for brain_read.',
@@ -28,22 +30,22 @@ def call(name,args):
         if ('minimum' in spec and value<spec['minimum']) or ('maximum' in spec and value>spec['maximum']):
             raise ValueError('Argument out of range: '+key)
     with db.database() as conn:
-        from .cli import sync_if_configured
-        values = config.load()
-        if name in ('brain_search','brain_read'):
-            sync_if_configured(conn,values)
         if name=='brain_search':
             return {'hits':search.search(conn,**args)}
         if name=='brain_read':
             return search.read(conn,**args)
-        scope = 'media:'+args['url']
+        values=config.load()
+        canonical,_=media.canonical_url(args['url'])
+        scope = 'media:'+canonical
         try:
             result = media.add(conn,config=values,**args)
             db.clear_failure(conn,scope)
+        except InputError:
+            raise
         except (ValueError,OSError):
             db.failure(conn,scope,'media failed; retry after fixing its reported cause')
             raise
-        result['sync'] = sync_if_configured(conn,values)
+        result['sync'] = {'note':'Run brain sync to exchange data; recall stays local'}
         return result
 
 
@@ -71,7 +73,7 @@ def serve():
                     value = call(params.get('name'),params.get('arguments',{}))
                     result = {'content':[{'type':'text','text':json.dumps(value,ensure_ascii=False)}]}
                 except Exception as exc:
-                    result = {'isError':True,'content':[{'type':'text','text':str(exc)}]}
+                    result = {'isError':True,'content':[{'type':'text','text':redact(str(exc))}]}
             else:
                 print(json.dumps({'jsonrpc':'2.0','id':request['id'],'error':{'code':-32601,'message':'Method not found'}}),flush=True)
                 continue
