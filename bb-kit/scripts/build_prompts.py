@@ -35,7 +35,7 @@ INSTALL = (
 )
 
 RULES = (
-    "Ground rules: work only in this folder unless a step names another one. Never delete or overwrite my files: "
+    "For this task only: work only in this folder unless a step names another one. Never delete or overwrite my files: "
     "if a file already exists, keep it and tell me. Never print or ask for a key, token or password. Show real "
     "command output, never a guess. If a step fails, show the error, fix that one cause if you can, and run the "
     "check again. If a step below must write outside this folder (for example to Claude's settings, `~/.local` or a "
