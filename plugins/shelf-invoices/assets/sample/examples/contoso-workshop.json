@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-26",
+  "title": "AI workshop delivery",
+  "subtitle": "Berlin · 20–22 October 2026",
+  "client_name": "Contoso GmbH",
+  "client_address": "Musterstraße 1, 10115 Berlin, Germany",
+  "client_vat_id": "DE000000000 (SAMPLE)",
+  "requester": "Jana Weber",
+  "po_number": "PO-7781",
+  "currency": "EUR",
+  "intro": "Our invoice for the three-day AI workshop for your team.",
+  "items": [
+    {
+      "title": "Workshop delivery",
+      "description": "Three days on site in Berlin: preparation, delivery and a short handover",
+      "quantity": 3,
+      "unit": "days",
+      "unit_price": 1200
+    }
+  ],
+  "service_date": "20–22 October 2026",
+  "vat": "reverse_charge_eu",
+  "payment_days": 14
+}

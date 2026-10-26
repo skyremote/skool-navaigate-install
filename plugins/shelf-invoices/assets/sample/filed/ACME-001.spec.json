@@ -1,0 +1,17 @@
+{
+  "invoice_number": "ACME-001",
+  "date": "2026-09-30",
+  "title": "Website refresh",
+  "subtitle": "September 2026",
+  "client_name": "Northwind Bakery Ltd",
+  "client_address": "22 Harbour Road, Bristol BS8 4RU, United Kingdom",
+  "requester": "Sam Lee",
+  "po_number": "NW-0031",
+  "currency": "GBP",
+  "items": [
+    {"title": "Website refresh", "description": "New home page and menu page", "amount": 1800}
+  ],
+  "service_date": "September 2026",
+  "vat": "standard",
+  "payment_days": 14
+}
