@@ -22,9 +22,9 @@ Map the request to one command, run it, and report the result line. Nothing else
 | `/stack drop voice` | `"$PS" drop voice` |
 | `/stack set prove ship` | `"$PS" set prove ship` |
 | `/stack clear` | `"$PS" clear` |
-| any of the above "for this thread only" | add `--thread` |
+| any of the above "for my next prompt only" | add `--thread` |
 | "what would it inject for X" | `"$PS" preview "X"` |
 
-Scopes: the project stack is the default for every thread in this repo or folder. A thread stack (`--thread`, or the bb picker) replaces it for this thread only. `+id` or `-id` typed in a prompt changes that one prompt and is not saved.
+Scopes: the project stack is the default for every thread in this repo or folder. A thread stack (`--thread`, or the bb panel ticks) replaces it for the next prompt in this thread only, then clears itself. `+id` or `-id` typed in a prompt changes that one prompt and is not saved.
 
 If an id is unknown, run `"$PS" list` and suggest the nearest entry. To add a new entry, edit `stack.json` beside `bin/`: id, aliases, label, card (one paragraph), skill, brief_fields.

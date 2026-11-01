@@ -27,6 +27,8 @@ try:
     text = pstack.render(inline, manifest, by_name, scope)
     if text:
         print(text)
+    if scope.startswith("thread"):
+        pstack.consume_thread(data.get("session_id"))  # one prompt only
 except SystemExit:
     raise
 except Exception:

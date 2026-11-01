@@ -6,7 +6,8 @@ and the bb picker. Stdlib only.
 Stack files live in ~/.claude/prompt-stack/ (override with PROMPT_STACK_HOME):
   projects/<key>.json  the project default, keyed by the repo root (or cwd)
   threads/<id>.json    a thread override: BB_THREAD_ID, else the Claude session id
-A thread file, if present, replaces the project stack for that thread.
+A thread file, if present, replaces the project stack for that thread, for ONE
+prompt: the hook deletes it once it has injected it (the bb panel unticks itself).
 Inline +id / -id in a prompt changes that prompt only.
 """
 import hashlib
@@ -117,7 +118,18 @@ def render(stack, data, by_name, scope):
     for f in sorted(dict.fromkeys(fields), key=lambda f: order.index(f) if f in order else len(order)):
         seen.append(f)
     out.append("")
-    out.append("Before any other output, rewrite the request as a Brief block, one line per field: "
+    out.append("Before any other output, write this exact line in bold: Brief (stack: " + ", ".join(e["id"] for e in entries) + ")")
+    out.append("Under it, rewrite the request as a Brief block, one line per field: "
                + " / ".join(seen)
                + ". Fill each field from the cards above and the request. If a field cannot be filled, write 'unknown' and say what would settle it. Then invoke the listed skills and do the work.")
     return "\n".join(out)
+
+
+def consume_thread(session_id=None):
+    """Delete the thread stack after one prompt has used it."""
+    tf = thread_file(session_id)
+    if tf:
+        try:
+            tf.unlink()
+        except OSError:
+            pass

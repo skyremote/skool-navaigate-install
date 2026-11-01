@@ -3,7 +3,7 @@
 
   prompt-stack list                      every entry you can stack
   prompt-stack show [--json]             the stack this thread will use, and where it comes from
-  prompt-stack add <ids...> [--thread]   add to the project stack (or this thread only)
+  prompt-stack add <ids...> [--thread]   add to the project stack (or, with --thread, the next prompt in this thread only)
   prompt-stack drop <ids...> [--thread]
   prompt-stack set <ids...> [--thread]   replace the whole stack
   prompt-stack clear [--thread]          empty it (--thread removes the thread override)
