@@ -316,3 +316,28 @@ before rerunning. It never uses your real harness configuration.
 Step-by-step tutorial videos for each module are in the Skool classroom.
 
 MIT.
+
+## Prompt stack
+
+Stack the skills you want, and a hook prints their cards beside every prompt.
+Your agent then opens with a short Brief (Objective, Surface, Answer key,
+Comparison and so on) and works from that, so "done" means something was
+actually checked.
+
+- `/stack add prove spec` sets the stack for this project. Add `--thread` for this thread only.
+- `/stack` shows what is stacked and `/stack list` shows everything you can stack
+  (prove, spec, audit, maintain, voice, design, ship).
+- Type `+audit` or `-spec` inside a prompt to change that one prompt only.
+- `PROMPT_STACK=off` silences the hook. Slash-command prompts are never injected.
+- Your own entries go in `stack.json` (id, aliases, card, skill, brief_fields).
+
+`./install.sh` links the `/stack` command and registers the hook in
+`~/.claude/settings.json`. It backs the file up first, keeps any hooks you
+already have and can be rerun safely. The plugin install alone does not add
+the hook, so run `./install.sh` once as well.
+
+The verifier idea and the `create-prove-it`, `maintain-prove-it` and
+`audit-prove-it` skills come from Ray Amjad ("Verification is the new code
+review"), vendored unchanged under MIT. Each folder keeps its `LICENSE` and
+`SOURCE.md`.
+
