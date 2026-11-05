@@ -119,7 +119,9 @@ class BrainCase(SandboxCase):
                 self.assertTrue({r.rsplit(':',1)[-1] for r in refs}>={'aaaa-old','bbbb-new'})
                 self.assertTrue(search.search(self.conn,'Quayside'))
                 self.assertEqual(capture.capture(self.conn)['failures'],[])
-                self.assertNotIn('not captured',json.dumps(status.status(self.conn)))
+                health=status.status(self.conn)
+                self.assertEqual((health['failures'],health['pending_files']),([],[]))
+                self.assertFalse([p for p in health['problems'] if '.jsonl' in p or 'not captured' in p])
 
     def test_true_copy_of_claude_chat_is_still_a_duplicate(self):
         lines=[('aaaa-old','user','Plan the Harbour launch.'),('aaaa-old','assistant','Harbour plan drafted.')]
