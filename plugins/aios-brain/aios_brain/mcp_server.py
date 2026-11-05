@@ -62,7 +62,7 @@ def serve():
             if method=='initialize':
                 asked = request.get('params',{}).get('protocolVersion')
                 version = asked if asked in ('2024-11-05','2025-03-26','2025-06-18') else '2025-06-18'
-                result = {'protocolVersion':version,'capabilities':{'tools':{}},'serverInfo':{'name':'aios-brain','version':'2.0.0'}}
+                result = {'protocolVersion':version,'capabilities':{'tools':{}},'serverInfo':{'name':'aios-brain','version':'2.0.1'}}
             elif method=='ping':
                 result = {}
             elif method=='tools/list':

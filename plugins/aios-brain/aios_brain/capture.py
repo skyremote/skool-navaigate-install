@@ -158,6 +158,7 @@ class Session:
         self.sid,self.meta_seen,self.subagent=path.stem,False,False
         self.warnings=[]
         self.latest=0
+        self.ids=set()
 
     def turns(self,lines):
         if self.source=='cursor' and self.path.suffix=='.txt':
@@ -210,6 +211,8 @@ class Session:
             elif self.source=='claude':
                 if event.get('isSidechain'):
                     continue
+                if event.get('sessionId'):
+                    self.ids.add(event['sessionId'])
                 if not self.meta_seen and event.get('sessionId'):
                     self.sid,self.meta_seen=event['sessionId'],True
                 msg=event.get('message')
@@ -248,6 +251,34 @@ def stored_turns(conn,ref):
     return (tuple(row) for row in conn.execute("SELECT role,body,ts FROM documents WHERE ref=? AND kind='message' ORDER BY id",(ref,)))
 
 
+def claude_identity(conn,session,path,messages,local):
+    """Claude names every chat file after its own session ID. A resumed or forked chat
+    copies the older chat's lines, IDs included, into a new file, so its first ID belongs
+    to the older chat. Such a file keeps its own name as its identity. Only a true copy,
+    with the same messages as the stored chat, still counts as a duplicate."""
+    if session.source!='claude' or session.sid==path.stem:
+        return session.sid
+    if path.stem in session.ids:
+        return path.stem
+    owner=path.with_name(session.sid+path.suffix)
+    if owner.exists():
+        # The older chat's own file sits beside this one.
+        other=Session('claude',owner,owner.stat().st_mtime)
+        with owner.open('rb') as stream:
+            theirs=list(other.turns(stream))
+        return session.sid if message_hash(theirs)==message_hash(messages) else path.stem
+    clash=conn.execute('SELECT path FROM items WHERE ref=?',(f'claude:{local}:{session.sid}',)).fetchone()
+    if clash and clash['path'] and clash['path']!=str(path) and Path(clash['path']).exists():
+        if message_hash(messages)!=message_hash(stored_turns(conn,f'claude:{local}:{session.sid}')):
+            return path.stem
+    return session.sid
+
+
+def legacy_claude_key(source,path,ref):
+    """2.0.0 keyed a resumed Claude chat by the older chat's ID; the file name says otherwise."""
+    return source=='claude' and bool(path) and Path(path).stem!=ref.rsplit(':',1)[-1]
+
+
 def save_state(conn,path,ref,stat,digest,turn_hash,warnings):
     with conn:
         conn.execute('INSERT OR REPLACE INTO file_state VALUES(?,?,?,?,?,?,?)',
@@ -271,7 +302,7 @@ def capture(conn):
             digest,stat=fingerprint(path)
             old=conn.execute('SELECT * FROM items WHERE device=? AND path=?',(local,str(path))).fetchone()
             cache=conn.execute('SELECT * FROM file_state WHERE path=?',(str(path),)).fetchone()
-            if old and cache and old['file_hash']==digest and cache['message_hash']==message_hash(stored_turns(conn,old['ref'])):
+            if old and cache and not legacy_claude_key(source,path,old['ref']) and old['file_hash']==digest and cache['message_hash']==message_hash(stored_turns(conn,old['ref'])):
                 result['unchanged']+=1
                 warnings=json.loads(cache['warnings'])
                 result['warnings'].extend(warnings)
@@ -287,11 +318,18 @@ def capture(conn):
                 result['skipped_subagents']+=1
                 db.clear_failure(conn,scope)
                 continue
+            session.sid=claude_identity(conn,session,path,messages,local)
             ref=f'{source}:{local}:{session.sid}'
             if old and old['ref']!=ref:
-                raise ValueError('Session identity changed in place; preserve the old file and investigate')
+                if not (legacy_claude_key(source,path,old['ref']) and session.sid==path.stem):
+                    raise ValueError('Session identity changed in place; preserve the old file and investigate')
+                # Release the older chat's ref; its own file reclaims it on capture.
+                with conn:
+                    conn.execute('UPDATE items SET path=NULL WHERE ref=?',(old['ref'],))
+                old=None
             duplicate=conn.execute('SELECT path FROM items WHERE ref=?',(ref,)).fetchone()
-            if duplicate and duplicate['path']!=str(path) and duplicate['path'] and Path(duplicate['path']).exists() and old is None:
+            if (duplicate and duplicate['path']!=str(path) and duplicate['path'] and Path(duplicate['path']).exists()
+                    and old is None and not legacy_claude_key(source,duplicate['path'],ref)):
                 raise ValueError('Duplicate session identity in two files; keep one session copy')
             previous=db.bundle(conn,ref) if duplicate else None
             docs=[{'id':f'{ref}:{n:08d}','kind':'message','role':role,'body':body,'ts':ts}

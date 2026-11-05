@@ -1,4 +1,4 @@
-# aios-brain 2.0.0
+# aios-brain 2.0.1
 
 Your own session memory. Depends on aios. Requires Python 3.9+ with SQLite FTS5.
 Local SQLite by default; no account, API key or network request is needed.

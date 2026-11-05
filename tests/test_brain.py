@@ -94,6 +94,59 @@ class BrainCase(SandboxCase):
             db.put_item(self.conn,value['item'],broken)
         self.assertEqual(db.serialise(db.bundle(self.conn,value['item']['ref'])),old)
 
+    def claude_chat(self,name,lines):
+        folder=self.home/'.claude/projects/resumed'
+        folder.mkdir(parents=True,exist_ok=True)
+        path=folder/(name+'.jsonl')
+        path.write_text(''.join(json.dumps({'type':role,'sessionId':sid,'timestamp':f'2026-11-0{n%9+1}T10:00:00Z',
+            'message':{'role':role,'content':[{'type':'text','text':text}]}})+'\n' for n,(sid,role,text) in enumerate(lines)))
+        return path
+
+    def resumed_pair(self,own_id_in_new_lines=True):
+        old=[('aaaa-old','user','Plan the Harbour launch.'),('aaaa-old','assistant','Harbour plan drafted.')]
+        self.claude_chat('aaaa-old',old)
+        later='bbbb-new' if own_id_in_new_lines else 'aaaa-old'
+        return self.claude_chat('bbbb-new',old+[(later,'user','Resume: add the Quayside budget.'),(later,'assistant','Quayside budget is 4100.')])
+
+    def test_resumed_claude_chat_is_its_own_session(self):
+        for own_id in (True,False):
+            with self.subTest(own_id_in_new_lines=own_id):
+                self.conn.execute('DELETE FROM items'); self.conn.commit()
+                self.resumed_pair(own_id)
+                result=capture.capture(self.conn)
+                self.assertEqual(result['failures'],[])
+                refs={r[0] for r in self.conn.execute("SELECT ref FROM items WHERE source='claude'")}
+                self.assertTrue({r.rsplit(':',1)[-1] for r in refs}>={'aaaa-old','bbbb-new'})
+                self.assertTrue(search.search(self.conn,'Quayside'))
+                self.assertEqual(capture.capture(self.conn)['failures'],[])
+                self.assertNotIn('not captured',json.dumps(status.status(self.conn)))
+
+    def test_true_copy_of_claude_chat_is_still_a_duplicate(self):
+        lines=[('aaaa-old','user','Plan the Harbour launch.'),('aaaa-old','assistant','Harbour plan drafted.')]
+        self.claude_chat('aaaa-old',lines)
+        self.claude_chat('copy-of-old',lines)
+        capture.capture(self.conn)
+        result=capture.capture(self.conn)  # The chat's own file always keeps the ref.
+        self.assertEqual(len(result['failures']),1)
+        self.assertIn('copy-of-old.jsonl: Duplicate session identity',result['failures'][0])
+        self.assertTrue(self.conn.execute("SELECT path FROM items WHERE ref LIKE '%:aaaa-old'").fetchone()[0].endswith('aaaa-old.jsonl'))
+
+    def test_resumed_chat_saved_under_older_id_by_2_0_0_is_rekeyed(self):
+        self.resumed_pair()
+        original=self.home/'.claude/projects/resumed/aaaa-old.jsonl'
+        hidden=original.with_suffix('.hold')
+        original.rename(hidden)
+        with patch.object(capture,'claude_identity',lambda conn,session,*a:session.sid):
+            capture.capture(self.conn)
+        self.assertEqual(self.conn.execute("SELECT path FROM items WHERE ref LIKE '%:aaaa-old'").fetchone()[0][-14:],'bbbb-new.jsonl')
+        hidden.rename(original)
+        result=capture.capture(self.conn)
+        self.assertEqual(result['failures'],[])
+        paths=dict(self.conn.execute("SELECT substr(ref,-8),path FROM items WHERE source='claude'").fetchall())
+        self.assertTrue(paths['aaaa-old'].endswith('aaaa-old.jsonl'))
+        self.assertTrue(paths['bbbb-new'].endswith('bbbb-new.jsonl'))
+        self.assertEqual(capture.capture(self.conn)['failures'],[])
+
     def test_harness_noise_and_tools_absent(self):
         self.fixtures()
         self.assertFalse(search.search(self.conn,'harness only needle'))
